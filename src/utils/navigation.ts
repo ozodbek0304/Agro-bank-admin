@@ -16,7 +16,7 @@ export const adminNavigation: NavigationTypes[] = [
         childrens: []
     },
     {
-        name: "To'lovlar",
+        name: "Arizalar",
         icon: QrCode,
         path: '/payments',
         childrens: []
@@ -50,7 +50,7 @@ export const ceoNavigation: NavigationTypes[] = [
         childrens: []
     },
     {
-        name: "To'lovlar",
+        name: "Arizalar",
         icon: QrCode,
         path: '/payments',
         childrens: []

@@ -1,25 +1,23 @@
 import { setOpenCreate } from '@/store/payments/payments';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { Button, Modal, Select, TextInput } from '@gravity-ui/uikit';
+import { Button, Modal, Select, TextArea, TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
-import { reverseAmount, useDebounce } from '@/utils/helpers';
 import toast from 'react-hot-toast';
 import { useCreatePaymentMutation, useGetPaymentsQuery } from '@/store/payments/paymentsApi';
-import AmountInput from '@/components/elements/AmountInput';
 import { ProviderDto } from '@/interfaces/payments';
-import { useGetOrdersQuery } from '@/store/orders/ordersApi';
-import { useState } from 'react';
+import { useGetUsersQuery } from '@/store/user/userApi';
+
+
+
 
 
 const CreatePaymentModal = () => {
-    const { openCreate } = useAppSelector(state => state.payments)
+    const { openCreate } = useAppSelector(state => state.payments);
+        const { data:dataEmployee } = useGetUsersQuery({}, { refetchOnMountOrArgChange: true })
     const { refetch } = useGetPaymentsQuery('')
     const dispatch = useAppDispatch()
-    const [search, setSearch] = useState('')
-    const searchVal = useDebounce(search, 800)
-    const { data } = useGetOrdersQuery({ search: searchVal })
 
     const [createPayment, { isLoading }] = useCreatePaymentMutation()
 
@@ -29,20 +27,24 @@ const CreatePaymentModal = () => {
 
     const formik = useFormik({
         initialValues: {
-            user_id: '',
-            order_tao_bao: '',
-            amount: '',
-            provider: ''
+            latitude: '41.22222',
+            longitude: '69.33333',
+            payment_amount: '',
+            payment_date: '',
+            comment: '',
+            employee: '',
+            telegram_id: '',
         },
         validationSchema: Yup.object({
-            user_id: Yup.string().required("Maydonni to'ldiring"),
-            order_tao_bao: Yup.string().required("Maydonni to'ldiring"),
-            amount: Yup.string().required("Maydonni to'ldiring"),
-            provider: Yup.string<ProviderDto>().required("Maydonni to'ldiring"),
+            payment_amount: Yup.string().required("Maydonni to'ldiring"),
+            comment: Yup.string().required("Maydonni to'ldiring"),
+            employee: Yup.string().required("Maydonni to'ldiring"),
+            telegram_id: Yup.string<ProviderDto>().required("Maydonni to'ldiring"),
+            payment_date: Yup.string<ProviderDto>().required("Maydonni to'ldiring"),
         }),
         onSubmit: async (values) => {
             try {
-                await createPayment({ ...values, amount: reverseAmount(values.amount), status: 'approved' }).unwrap();
+                // await createPayment({ ...values }).unwrap();
                 closeModal()
                 toast.success("Adminstrator muvaffaqiyatli yaratildi")
                 formik.resetForm()
@@ -53,73 +55,53 @@ const CreatePaymentModal = () => {
         }
     })
 
-    const handleChangeId = async (v: string) => {
-        formik.setFieldValue('user_id', v)
-        setSearch(v)
-    }
-
     return (
         <div>
             <Modal open={openCreate} onClose={closeModal}>
                 <div className='create-admin-modal'>
-                    <h4>
+                    <h5>
                         To'lov yaratish
-                    </h4>
+                    </h5>
                     <form onSubmit={formik.handleSubmit} className="create-admin-form mt-3 d-flex flex-column gap-2">
-                        <TextInput
-                            placeholder="Foydalanuvchi ID"
-                            size='l'
-                            name='user_id'
-                            onChange={e => handleChangeId(e.target.value)}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.user_id}
-                            errorMessage={formik.errors.user_id}
-                            error={!!formik.errors.user_id && formik.touched.user_id}
-                        />
 
-                        <Select
-                            label="Trek kodi"
+                    <Select
+                            placeholder={"Xodim"}
                             filterable={true}
-                            options={data?.results ? data.results.map(el => ({ value: el.tao_bao, content: el.tao_bao })) : []}
+                            options={dataEmployee?.results ? dataEmployee.results.map(el => ({ value: el.mfo, content: el.mfo })) : []}
                             size='l'
-                            name='order_tao_bao'
+                            name='employee'
                             onBlur={formik.handleBlur}
-                            onUpdate={(e) => formik.setFieldValue('order_tao_bao', e[0])}
-                            value={[formik.values.order_tao_bao]}
-                            error={!!formik.errors.order_tao_bao && formik.touched.order_tao_bao}
+                            onUpdate={(e) => formik.setFieldValue('employee', e[0])}
+                            value={[formik.values.employee]}
+                            error={!!formik.errors.employee && formik.touched.employee}
                             view='clear'
                         />
 
-                        <AmountInput
-                            placeholder="Summa"
+                        <TextInput
+                            placeholder="To'lov summasi"
                             size='l'
-                            name='amount'
-                            onChange={formik.handleChange}
+                            name='payment_amount'
                             onBlur={formik.handleBlur}
-                            value={formik.values.amount}
-                            errorMessage={formik.errors.amount}
-                            error={!!formik.errors.amount && formik.touched.amount}
+                            value={formik.values.payment_amount}
+                            errorMessage={formik.errors.payment_amount}
+                            error={!!formik.errors.payment_amount && formik.touched.payment_amount}
                         />
+                        {/* <DatePicker size='l'/>
 
-
-                        <Select
-                            label="To'lov usuli"
-                            options={[
-                                { value: 'cache', content: 'Naqd' },
-                                { value: 'by_card', content: 'Karta' },
-                                { value: 'click', content: "Click" },
-                                { value: 'payme', content: 'Payme' },
-                            ]}
+                             <TextArea
+                            placeholder="Izoh"
                             size='l'
-                            name='provider'
+                            rows={5}
+                            name='comment'
                             onBlur={formik.handleBlur}
-                            onUpdate={(e) => formik.setFieldValue('provider', e[0])}
-                            value={[formik.values.provider]}
-                            error={!!formik.errors.provider && formik.touched.provider}
-                            view='clear'
-                        />
+                            value={formik.values.comment}
+                            errorMessage={formik.errors.comment}
+                            error={!!formik.errors.comment && formik.touched.comment}
+                        /> */}
 
-                        <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-4'>Yaratish</Button>
+
+ 
+                        <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-2'>Yaratish</Button>
 
                     </form>
                 </div>

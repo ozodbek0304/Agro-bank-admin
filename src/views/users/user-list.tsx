@@ -8,12 +8,18 @@ import { formatDateTime } from '@/utils/helpers';
 import { setUserData } from '@/store/user/user';
 import TableLoader from '@/components/elements/TableLoader';
 import UserPagination from './user-pagination';
+import MapComponents from './map-container';
+import { useState } from 'react';
 
+
+const defaultCenter = { lat: 39.20501415, lng: 66.48657689750529 };
 
 const UsersList = () => {
     const { queryParams } = useAppSelector(state => state.user)
     const { data, isFetching, isError } = useGetUsersQuery(queryParams, { refetchOnMountOrArgChange: true })
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+    const [curretnLocation, setCurrentLocation] = useState<any>(null);
+    const [mapPosition, setMapPosition] = useState(defaultCenter);
 
     const MyTable = withTableActions(Table);
 
@@ -75,9 +81,15 @@ const UsersList = () => {
         ];
     };
 
+
     return (
         <div style={{ width: '100%', overflowX: 'auto' }}>
             <div style={{ minWidth: '660px' }}>
+            {/* <MapComponents
+             setCurrentLocation={setCurrentLocation}
+             setMapPosition={setMapPosition}
+             mapPosition={mapPosition}
+                        /> */}
                 {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions} />}
                 {!isFetching && <UserPagination total={data?.count} />}
             </div>
