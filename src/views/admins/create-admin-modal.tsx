@@ -4,16 +4,13 @@ import { Button, Modal, Select, TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
-import PhoneInput from '@/components/elements/phoneInput';
-import { useCreateAdminMutation, useGetAdminsQuery } from '@/store/admins/adminsApi';
+import { useCreateAdminMutation } from '@/store/admins/adminsApi';
 import PasswordInput from '@/components/elements/passwordInput';
-import { reversePhone } from '@/utils/helpers';
 import toast from 'react-hot-toast';
 
 
 const CreateAdminModal = () => {
     const { openCreate } = useAppSelector(state => state.admins)
-    const { refetch } = useGetAdminsQuery('')
     const dispatch = useAppDispatch()
 
     const [createAdmin, { isLoading }] = useCreateAdminMutation()
@@ -25,23 +22,22 @@ const CreateAdminModal = () => {
     const formik = useFormik({
         initialValues: {
             full_name: '',
-            phone: '',
+            username: '',
             location: 'uz',
             password: ''
         },
         validationSchema: Yup.object({
             full_name: Yup.string().required("Maydonni to'ldiring"),
-            phone: Yup.string().required("Maydonni to'ldiring"),
-            location: Yup.string().required("Variantlardan birini tanlang"),
+            username: Yup.string().required("Maydonni to'ldiring"),
+            // location: Yup.string().required("Variantlardan birini tanlang"),
             password: Yup.string().required("Maydonni to'ldiring"),
         }),
         onSubmit: async (values) => {
             try {
-                await createAdmin({ ...values, phone: reversePhone(values.phone) }).unwrap();
+                await createAdmin({ ...values }).unwrap();
                 closeModal()
                 toast.success("Adminstrator muvaffaqiyatli yaratildi")
                 formik.resetForm()
-                refetch();
             } catch (error: any) {
                 formik.setErrors(error?.data?.detail)
             }
@@ -68,15 +64,15 @@ const CreateAdminModal = () => {
                         />
 
 
-                        <PhoneInput
-                            placeholder="To'liq ism"
+                        <TextInput
+                            placeholder="Login"
                             size='l'
-                            name='phone'
+                            name='username'
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            value={formik.values.phone}
-                            errorMessage={formik.errors.phone}
-                            error={!!formik.errors.phone && formik.touched.phone}
+                            value={formik.values.username}
+                            errorMessage={formik.errors.username}
+                            error={!!formik.errors.username && formik.touched.username}
                         />
 
                         <PasswordInput
@@ -91,7 +87,7 @@ const CreateAdminModal = () => {
                         />
 
 
-                        <Select
+                        {/* <Select
                             label='Ombor'
                             options={[
                                 { value: 'uz', content: "O'zbekiston", text: '/uzbekistan.png' },
@@ -108,7 +104,7 @@ const CreateAdminModal = () => {
                             value={[formik.values.location]}
                             error={!!formik.errors.location && formik.touched.location}
                             view='clear'
-                        />
+                        /> */}
 
                         <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-4'>Yaratish</Button>
 

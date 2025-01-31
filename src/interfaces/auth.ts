@@ -5,7 +5,7 @@ export interface AppAuthTypes {
 }
 
 export interface LoginProps {
-    phone: string
+    username: string
     password: string
 }
 

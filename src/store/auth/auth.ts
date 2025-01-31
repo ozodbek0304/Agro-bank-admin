@@ -16,7 +16,7 @@ export const appAuthSlice = createSlice({
     reducers: {
         loginSuccess: (state, action) => {
             state.isLogin = true
-            state.token = action.payload?.access_token
+            state.token = action.payload?.access
             if (action.payload?.is_superuser) {
                 state.role = 'superuser'
                 localStorage.setItem('role', 'superuser')
@@ -25,7 +25,7 @@ export const appAuthSlice = createSlice({
                 localStorage.setItem('role', 'admin')
             }
             localStorage.setItem('isLogin', 'true')
-            localStorage.setItem('token', action.payload?.access_token)
+            localStorage.setItem('token', action.payload?.access)
 
             if (action.payload?.is_superuser) {
                 window.location.replace('/dashboard')

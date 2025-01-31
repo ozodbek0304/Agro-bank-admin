@@ -29,7 +29,7 @@ export default function Header({ }: Props) {
             </Button>
 
             <div className="header-actions">
-                {localStorage.getItem('phone')}
+                {localStorage.getItem('username')}
                 <ThemeToggler />
                 <LogoutBtn />
             </div>

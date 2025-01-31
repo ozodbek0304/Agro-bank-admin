@@ -1,13 +1,11 @@
 import { setAdminData } from '@/store/admins/admins';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { Button, Modal, Select, TextInput } from '@gravity-ui/uikit';
+import { Button, Modal,TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
-import PhoneInput from '@/components/elements/phoneInput';
-import { useGetAdminsQuery, useUpdateAdminMutation } from '@/store/admins/adminsApi';
+import { useUpdateAdminMutation } from '@/store/admins/adminsApi';
 import PasswordInput from '@/components/elements/passwordInput';
-import { formatPhone, reversePhone } from '@/utils/helpers';
 import PageLoader from '@/components/elements/Loader';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
@@ -15,7 +13,6 @@ import toast from 'react-hot-toast';
 
 const EditAdminModal = () => {
     const { adminData } = useAppSelector(state => state.admins)
-    const { refetch } = useGetAdminsQuery('')
     const dispatch = useAppDispatch()
 
     const [updateAdmin, { isLoading }] = useUpdateAdminMutation()
@@ -28,24 +25,21 @@ const EditAdminModal = () => {
     const formik = useFormik({
         initialValues: {
             full_name: '',
-            phone: '',
-            location: '',
+            username: '',
             password: ''
         },
         validationSchema: Yup.object({
             full_name: Yup.string().required("Maydonni to'ldiring"),
-            phone: Yup.string().required("Maydonni to'ldiring"),
-            location: Yup.string().required("Variantlardan birini tanlang"),
+            username: Yup.string().required("Maydonni to'ldiring"),
             password: Yup.string(),
         }),
 
         onSubmit: async (values) => {
             try {
-                await updateAdmin({ id: adminData?.id, ...values, phone: reversePhone(values.phone) }).unwrap();
+                await updateAdmin({ id: adminData?.id, ...values}).unwrap();
                 closeModal()
                 toast.success("O'zgarishlar muvaffaqiyatli saqlandi")
                 formik.resetForm()
-                refetch();
             } catch (error: any) {
                 formik.setErrors(error?.data?.detail)
             }
@@ -56,8 +50,7 @@ const EditAdminModal = () => {
         if (adminData) {
             formik.setValues({
                 full_name: adminData?.full_name,
-                phone: formatPhone(adminData?.phone),
-                location: adminData?.location,
+                username: (adminData?.username),
                 password: ''
             })
         }
@@ -84,18 +77,18 @@ const EditAdminModal = () => {
                         />
 
 
-                        {formik.values.phone && <PhoneInput
-                            placeholder="To'liq ism"
+                        <TextInput
+                            placeholder="Login"
                             size='l'
-                            name='phone'
+                            name='username'
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            value={formik.values.phone}
-                            errorMessage={formik.errors.phone}
-                            error={!!formik.errors.phone && formik.touched.phone}
-                        />}
+                            value={formik.values.username}
+                            errorMessage={formik.errors.username}
+                            error={!!formik.errors.username && formik.touched.username}
+                        />
 
-                        <Select
+                        {/* <Select
                             label='Ombor'
                             options={[
                                 { value: 'uz', content: "O'zbekiston", text: '/uzbekistan.png' },
@@ -112,7 +105,7 @@ const EditAdminModal = () => {
                             value={[formik.values?.location]}
                             error={!!formik.errors.location && formik.touched.location}
                             view='clear'
-                        />
+                        /> */}
 
 
                         <PasswordInput

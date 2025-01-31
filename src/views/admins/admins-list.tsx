@@ -1,7 +1,6 @@
 import ErrorBox from '@/components/elements/ErrorBox';
 import { AdminItemType } from '@/interfaces/admins';
 import { useGetAdminsQuery } from '@/store/admins/adminsApi';
-import { formatPhone } from '@/utils/helpers';
 import { Table, TableColumnConfig, withTableActions } from '@gravity-ui/uikit';
 import { PencilToSquare, TrashBin } from '@gravity-ui/icons';
 import { useAppDispatch } from '@/store/store';
@@ -31,20 +30,19 @@ const AdminsList = () => {
             width: '30%',
         },
         {
-            id: 'phone',
-            name: "Telefon raqam",
+            id: 'username',
+            name: "Login",
             width: '30%',
-            template(item) {
-                return formatPhone(item.phone)
-            },
         },
         {
             id: 'location',
-            name: 'Ombor',
+            name: 'Viloyat',
             width: '30%',
             template: (location) => location.location === 'uz' ? <img src='/uzbekistan.png' alt='uzbekistan flag' height={24} /> : <img src='/china.png' alt='china flag' height={24} />,
         }
     ];
+
+     
 
     const getRowActions: any = () => {
         return [
@@ -65,7 +63,7 @@ const AdminsList = () => {
     return (
         <div style={{ width: '100%', overflowX: 'auto' }}>
             <div style={{ minWidth: '660px' }}>
-                {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l' data={data} columns={columns} getRowActions={getRowActions} />}
+                {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions} />}
             </div>
         </div>
     );

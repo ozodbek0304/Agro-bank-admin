@@ -1,8 +1,7 @@
 import block from 'bem-cn-lite';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { Button } from '@gravity-ui/uikit';
-import PhoneInput from '@/components/elements/phoneInput';
+import { Button, TextInput } from '@gravity-ui/uikit';
 import PasswordInput from '@/components/elements/passwordInput';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -23,24 +22,24 @@ export default function LoginForm({ }: Props) {
     const navigation = useNavigate();
 
     const validationSchema = Yup.object({
-        phone: Yup.string().required('Telefon raqam kiriting'),
+        username: Yup.string().required('Login kiriting'),
         password: Yup.string().required('Parol kiriting'),
     });
 
     const initialValues: LoginProps = {
-        phone: '',
+        username: '',
         password: '',
     };
 
     const formik = useFormik({
         initialValues,
         validationSchema,
-        onSubmit: async ({ phone, password }) => {
-            const resp: any = await handleLogin({ phone: reversePhone(phone), password })
+        onSubmit: async ({ username, password }) => {
+            const resp: any = await handleLogin({  username, password })
             if (resp?.error) {
                 formik.setErrors(resp?.error.data?.detail)
             } else {
-                localStorage.setItem('phone', phone)
+                localStorage.setItem('username', username)
                 dispatch(loginSuccess(resp.data));
                 navigation('/');
             }
@@ -49,14 +48,14 @@ export default function LoginForm({ }: Props) {
 
     return (
         <form className={b()} onSubmit={formik.handleSubmit}>
-            <PhoneInput
-                placeholder="Telefon raqam"
-                error={!!formik.errors.phone && formik.touched.phone}
-                errorMessage={formik.errors.phone}
-                name="phone"
+            <TextInput
+                placeholder="Login"
+                error={!!formik.errors.username && formik.touched.username}
+                errorMessage={formik.errors.username}
+                name="username"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.phone}
+                value={formik.values.username}
                 size="l"
                 autoComplete="off"
             />

@@ -1,18 +1,20 @@
 // @ts-nocheck
 
-import { AdminItemType } from '@/interfaces/admins'
+import { AdminData, AdminItemType } from '@/interfaces/admins'
 import httpBaseQuery from '@/utils/http'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const adminsApi = createApi({
     reducerPath: 'adminsApi',
     baseQuery: httpBaseQuery(),
+    tagTypes:["admin-list"],
     endpoints: (builder) => ({
-        getAdmins: builder.query<AdminItemType[], string>({
+        getAdmins: builder.query<AdminData, string>({
             query: () => ({
                 url: 'admin-list/',
                 method: 'get',
             }),
+            providesTags:["admin-list"]
         }),
         createAdmin: builder.mutation<AdminItemType, AdminItemType>({
             query: (data) => ({
@@ -20,6 +22,7 @@ export const adminsApi = createApi({
                 method: 'post',
                 data
             }),
+            invalidatesTags:["admin-list"]
         }),
         updateAdmin: builder.mutation<AdminItemType, AdminItemType>({
             query: (data) => ({
@@ -27,12 +30,14 @@ export const adminsApi = createApi({
                 method: 'patch',
                 data
             }),
+            invalidatesTags:["admin-list"]
         }),
         deleteAdmin: builder.mutation<AdminItemType, number>({
             query: (id) => ({
                 url: `admin-archive/${id}/`,
                 method: 'patch'
             }),
+            invalidatesTags:["admin-list"]
         }),
     })
 })
