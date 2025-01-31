@@ -35,15 +35,19 @@ const EditAdminModal = () => {
         }),
 
         onSubmit: async (values) => {
-            const data:any = {
-                username:values?.username,
-                 full_name:values?.full_name,
-                 ...(values?.password && {
-                    password:values?.password
-                 })
-            }
+            const formData = new FormData()
+             if (values?.full_name) {
+                formData.append('full_name', values?.full_name)  
+             }
+             if (values?.username) {
+                formData.append('username', values?.username)  
+             }
+             if (values?.password) {
+                formData.append('password', values?.password)  
+             }
+
             try {
-                await updateAdmin({ id: adminData?.id, ...data}).unwrap();
+                await updateAdmin({ id: adminData?.id, formData}).unwrap();
                 closeModal()
                 toast.success("O'zgarishlar muvaffaqiyatli saqlandi")
                 formik.resetForm()
@@ -79,9 +83,9 @@ const EditAdminModal = () => {
         <div>
             <Modal open={!!adminData} onClose={closeModal}>
                 <div className='create-admin-modal'>
-                    <h4>
+                    <h5>
                         Adminstatorni tahrirlash
-                    </h4>
+                    </h5>
                     {adminData ? <form onSubmit={formik.handleSubmit} className="create-admin-form mt-3 d-flex flex-column gap-2">
                         <TextInput
                             placeholder="To'liq ism"
@@ -110,7 +114,7 @@ const EditAdminModal = () => {
                             label='Ombor'
                             options={[
                                 { value: 'uz', content: "O'zbekiston", text: '/uzbekistan.png' },
-                                { value: 'china', content: 'Xitoy', text: '/china.png' },
+                                { value: 'china', content: 'Agro Bank', text: '/china.png' },
                             ]}
                             renderOption={(op) => <div>
                                 <img src={op.text} alt='uzbekistan flag' height={20} className='me-2' />
@@ -137,7 +141,7 @@ const EditAdminModal = () => {
                             error={!!formik.errors.password && formik.touched.password}
                         />
 
-                        <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-4'>Saqlash</Button>
+                        <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-2'>Saqlash</Button>
 
                     </form> : <PageLoader loading />}
                 </div>

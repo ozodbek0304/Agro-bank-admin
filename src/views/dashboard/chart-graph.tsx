@@ -10,7 +10,7 @@ export default function StatsPaymentMethods({ data }) {
                 width: 450, // Increase the chart width
                 type: 'pie',
             },
-            labels: ['Xitoy omborida', 'Yuborishga tayyor', 'UZB ga yuborilgan', 'UZB omborida', 'Topshirilgan'],
+            labels: ['Agro Bank omborida', 'Yuborishga tayyor', 'UZB ga yuborilgan', 'UZB omborida', 'Topshirilgan'],
             responsive: [{
                 breakpoint: 576,
                 options: {

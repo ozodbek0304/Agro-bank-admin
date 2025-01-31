@@ -4,9 +4,8 @@ import { PencilToSquare } from '@gravity-ui/icons';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { useGetUsersQuery } from '@/store/user/userApi';
 import { UserItemType } from '@/interfaces/user';
-import { formatDateTime, formatPhone } from '@/utils/helpers';
+import { formatDateTime } from '@/utils/helpers';
 import { setUserData } from '@/store/user/user';
-import { useNavigate } from 'react-router-dom';
 import TableLoader from '@/components/elements/TableLoader';
 import UserPagination from './user-pagination';
 
@@ -15,7 +14,6 @@ const UsersList = () => {
     const { queryParams } = useAppSelector(state => state.user)
     const { data, isFetching, isError } = useGetUsersQuery(queryParams, { refetchOnMountOrArgChange: true })
     const dispatch = useAppDispatch()
-    const push = useNavigate()
 
     const MyTable = withTableActions(Table);
 
@@ -30,40 +28,41 @@ const UsersList = () => {
             },
         },
         {
-            id: 'full_name',
-            name: "To'liq ismi",
+            id: 'mfo',
+            name: "MFO",
+            width: '25%',
+        },
+        {
+            id: 'tab_number',
+            name: "Tab Number",
             width: '19%',
         },
         {
-            id: 'username',
-            name: "Telefon raqam",
-            width: '19%',
-            template(item) {
-                if (item.username?.split('').includes('@')) {
-                    return item.username
-                } else {
-                    return formatPhone(item.username)
-                }
-            },
-        },
-        {
-            id: 'user_id',
-            name: "Buyurtmachi ID",
-            width: '19%',
-        },
-        {
-            id: 'order_count',
-            name: "Buyurtmalar soni",
+            id: 'crm_id',
+            name: "CRM ID",
             width: '19%',
         },
         {
             id: 'created_at',
-            name: "Ro'yxatdan o'tgan sana",
+            name: "Yaratilgan sanasi",
             width: '19%',
             template(item) {
                 return formatDateTime(item.created_at)
             },
         },
+        {
+            id: 'status',
+            name: "Holati",
+            width: '20%',
+            template(item) {
+                return (
+                    item?.status ? 
+                    <span className='text-success'>{"Aktiv" }</span> : 
+                    <span className='text-danger'>{"Aktiv Emas"}</span>
+                )
+            },
+        },
+        
     ];
 
     const getRowActions = () => {
@@ -79,7 +78,7 @@ const UsersList = () => {
     return (
         <div style={{ width: '100%', overflowX: 'auto' }}>
             <div style={{ minWidth: '660px' }}>
-                {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l' onRowClick={(item) => push(`/users/${item?.user_id}`)} data={data?.results} columns={columns} getRowActions={getRowActions} />}
+                {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions} />}
                 {!isFetching && <UserPagination total={data?.count} />}
             </div>
         </div>

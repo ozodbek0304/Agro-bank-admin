@@ -6,6 +6,7 @@ import { PencilToSquare, TrashBin } from '@gravity-ui/icons';
 import { useAppDispatch } from '@/store/store';
 import { setAdminData, setDeleteId } from '@/store/admins/admins';
 import TableLoader from '@/components/elements/TableLoader';
+import { formatDateTime } from '@/utils/helpers';
 
 
 const AdminsList = () => {
@@ -35,10 +36,18 @@ const AdminsList = () => {
             width: '30%',
         },
         {
+                    id: 'created_at',
+                    name: "Yaratilgan sanasi",
+                    width: '19%',
+                    template(item) {
+                        return formatDateTime(item.created_at)
+                    },
+                },
+        {
             id: 'location',
             name: 'Viloyat',
             width: '30%',
-            template: (location) => location.location === 'uz' ? <img src='/uzbekistan.png' alt='uzbekistan flag' height={24} /> : <img src='/china.png' alt='china flag' height={24} />,
+            template: () =><img src='/uzbekistan.png' alt='uzbekistan flag' height={24} />,
         }
     ];
 

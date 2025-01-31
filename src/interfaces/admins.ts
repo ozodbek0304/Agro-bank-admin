@@ -2,8 +2,8 @@ export interface AdminItemType {
     id?: any
     full_name: string
     username: string
-    location?: string
     password: string
+    created_at?:Date
 }
 
 export interface AdminData {

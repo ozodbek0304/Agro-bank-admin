@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export const filterKeys = {
-    ARRIVED_WHEREHOUSE: "Xitoy omborida",
+    ARRIVED_WHEREHOUSE: "Agro Bank omborida",
     WAITING_FOR_PAYMENT: "To'lov qilingan",
     TO_COUNTRY: "UZB ga yuborildi",
     IN_COUNTRY_WAREHOUSE: "UZB ga yetib keldi",

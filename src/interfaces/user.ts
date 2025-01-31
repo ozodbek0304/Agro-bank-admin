@@ -1,14 +1,18 @@
 export interface UserItemType {
     id?: any
-    full_name: string
-    username: string
-    order_count: number
-    created_at: Date
-    user_id: string
+    mfo: string,
+    crm_id: string,
+    tab_number: string,
+    telegram_id: string,
+    created_at?:Date;
+    status:boolean;
 }
 
 export interface CreateUserDto {
-    username: string
+    mfo: string,
+    crm_id: string,
+    tab_number: string,
+    telegram_id: string,
 }
 
 export interface UpdateUserDto {

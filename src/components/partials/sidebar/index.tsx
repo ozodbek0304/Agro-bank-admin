@@ -23,8 +23,8 @@ export default function Sidebar({ }: Props) {
         <div className={`sidebar ${menuType === 'collepse' ? 'sidebar-close' : ''}`}>
             <div className="sidebar-top">
                 <div>
-                    <img src="/logo.png" alt="" height={30} />
-                    {menuType === 'collepse' ? '' : <Text className='ms-2'>Express Delivery</Text>}
+                    {/* <img src="/logo.png" alt="" height={30} /> */}
+                    {menuType === 'collepse' ? '' : <Text className='ms-2'>AGRO BANK</Text>}
                 </div>
                 {isMobile && <Button view='flat' size="l" onClick={toggleMenu}>
                     <Icon data={ChevronsLeft} size={22} />

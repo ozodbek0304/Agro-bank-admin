@@ -1,18 +1,15 @@
 import { setOpenCreate } from '@/store/user/user';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { Button, Modal } from '@gravity-ui/uikit';
+import { Button, Modal, TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
-import PhoneInput from '@/components/elements/phoneInput';
-import { reversePhone } from '@/utils/helpers';
-import { useCreateUserMutation, useGetUsersQuery } from '@/store/user/userApi';
+import { useCreateUserMutation } from '@/store/user/userApi';
 import toast from 'react-hot-toast';
 
 
 const CreateUserModal = () => {
-    const { openCreate, queryParams } = useAppSelector(state => state.user)
-    const { refetch } = useGetUsersQuery(queryParams)
+    const { openCreate } = useAppSelector(state => state.user)
     const dispatch = useAppDispatch()
 
     const [createUser, { isLoading }] = useCreateUserMutation()
@@ -23,20 +20,36 @@ const CreateUserModal = () => {
 
     const formik = useFormik({
         initialValues: {
-            username: '',
+            mfo: '',
+            tab_number: '',
+            crm_id: '',
+            telegram_id: '',
         },
         validationSchema: Yup.object({
-            username: Yup.string().required("Maydonni to'ldiring"),
+            mfo: Yup.string().required("Maydonni to'ldiring"),
+            tab_number: Yup.string().required("Maydonni to'ldiring"),
+            crm_id: Yup.string().required("Maydonni to'ldiring"),
+            telegram_id: Yup.string().required("Maydonni to'ldiring"),
         }),
         onSubmit: async (values) => {
             try {
-                await createUser({ ...values, username: reversePhone(values.username) }).unwrap();
+                await createUser({ ...values }).unwrap();
                 closeModal()
                 formik.resetForm()
                 toast.success('Foydalanuvchi muvaffaqiyatli yaratildi')
-                refetch();
-            } catch (error: any) {
-                formik.setFieldError('username', error?.data?.detail)
+            }catch (error: any) {
+                if (error?.data) {
+                    const errors = error?.data;
+                    const formikErrors: Record<string, string> = {};
+        
+                    Object.keys(errors).forEach(key => {
+                        formikErrors[key] = errors[key];
+                    });
+        
+                    formik.setErrors(formikErrors);
+                } else {
+                    toast.error("Xatolik yuz berdi.");
+                }
             }
         }
     })
@@ -45,22 +58,59 @@ const CreateUserModal = () => {
         <div>
             <Modal open={openCreate} onClose={closeModal}>
                 <div className='create-admin-modal'>
-                    <h4>
-                        Foydalanuvchi yaratish
-                    </h4>
+                    <h5>
+                        Xodim yaratish
+                    </h5>
                     <form onSubmit={formik.handleSubmit} className="create-admin-form mt-3 d-flex flex-column gap-2">
-                        <PhoneInput
+                        <TextInput
                             size='l'
-                            name='username'
+                            name='tab_number'
+                             placeholder='Tab Number'
                             type='text'
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            value={formik.values.username}
-                            errorMessage={formik.errors.username}
-                            error={!!formik.errors.username && formik.touched.username}
+                            value={formik.values.tab_number}
+                            errorMessage={formik.errors.tab_number}
+                            error={!!formik.errors.tab_number && formik.touched.tab_number}
+                        />
+                         <TextInput
+                            size='l'
+                            name='mfo'
+                             placeholder='MFO'
+                            type='text'
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.mfo}
+                            errorMessage={formik.errors.mfo}
+                            error={!!formik.errors.mfo && formik.touched.mfo}
                         />
 
-                        <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-4'>Yaratish</Button>
+<TextInput
+                            size='l'
+                            name='crm_id'
+                             placeholder='CRM ID'
+                            type='text'
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.crm_id}
+                            errorMessage={formik.errors.crm_id}
+                            error={!!formik.errors.crm_id && formik.touched.crm_id}
+                        />
+
+<TextInput
+                            size='l'
+                            name='telegram_id'
+                             placeholder='Telegram ID'
+                            type='text'
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.telegram_id}
+                            errorMessage={formik.errors.telegram_id}
+                            error={!!formik.errors.telegram_id && formik.touched.telegram_id}
+                        />
+
+
+                        <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-2'>Yaratish</Button>
 
                     </form>
                 </div>

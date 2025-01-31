@@ -1,93 +1,171 @@
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { Button, Loader, Modal } from '@gravity-ui/uikit';
+import { Button, Modal, Select, TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
-import PhoneInput from '@/components/elements/phoneInput';
-import { formatPhone, reversePhone } from '@/utils/helpers';
 import PageLoader from '@/components/elements/Loader';
-import { useEffect, useState } from 'react';
-import { useGetUsersQuery, useUpdateUserMutation } from '@/store/user/userApi';
+import { useEffect } from 'react';
+import {  useUpdateUserMutation } from '@/store/user/userApi';
 import { setUserData } from '@/store/user/user';
 import toast from 'react-hot-toast';
 
 
 const EditUserModal = () => {
     const { userData, queryParams } = useAppSelector(state => state.user)
-    const { refetch } = useGetUsersQuery(queryParams)
     const dispatch = useAppDispatch()
 
-    const [view, setView] = useState<any>(false)
 
     const [updateUser, { isLoading }] = useUpdateUserMutation()
 
     const closeModal = () => {
         formik.resetForm()
-        toast.success("O'zgarishlar muvaffaqiyatli saqlandi")
-        setView(false)
-        setView(false)
         dispatch(setUserData(null))
     }
 
     const formik = useFormik({
         initialValues: {
-            full_name: '',
-            username: ''
+            mfo: '',
+            tab_number: '',
+            crm_id: '',
+            telegram_id: '',
+            status:"",
         },
         validationSchema: Yup.object({
-            username: Yup.string().required("Maydonni to'ldiring")
+             mfo: Yup.string().required("Maydonni to'ldiring"),
+             tab_number: Yup.string().required("Maydonni to'ldiring"),
+            crm_id: Yup.string().required("Maydonni to'ldiring"),
+            telegram_id: Yup.string().required("Maydonni to'ldiring"),
         }),
 
         onSubmit: async (values) => {
             const formData = new FormData()
-
-            formData.append('username', reversePhone(values.username))
+             if (values?.mfo) {
+                formData.append('mfo', values?.mfo)  
+             }
+             if (values?.tab_number) {
+                formData.append('tab_number', values?.tab_number)  
+             }
+             if (values?.crm_id) {
+                formData.append('crm_id', values?.crm_id)  
+             }
+             if (values?.telegram_id) {
+                formData.append('telegram_id', values?.telegram_id)  
+             }
+             if (values?.status) {
+                formData.append('status', values?.status)  
+             }
 
             try {
-                await updateUser({ user_id: userData.user_id, data: formData }).unwrap();
+                await updateUser({ user_id: userData.id, data: formData }).unwrap();
                 closeModal()
                 formik.resetForm()
-                refetch();
-            } catch (error: any) {
-                formik.setErrors(error?.data?.detail)
+            }catch (error: any) {
+                if (error?.data) {
+                    const errors = error?.data;
+                    const formikErrors: Record<string, string> = {};
+        
+                    Object.keys(errors).forEach(key => {
+                        formikErrors[key] = errors[key];
+                    });
+        
+                    formik.setErrors(formikErrors);
+                } else {
+                    toast.error("Xatolik yuz berdi.");
+                }
             }
         }
     })
 
     useEffect(() => {
         if (userData) {
-            formik.setFieldValue('username', formatPhone(userData?.username))
-            setTimeout(() => {
-                setView(true)
-            }, 500);
+            formik.setFieldValue('mfo', userData?.mfo)
+            formik.setFieldValue('tab_number', userData?.tab_number)
+            formik.setFieldValue('crm_id', userData?.crm_id)
+            formik.setFieldValue('telegram_id', userData?.telegram_id)
+            formik.setFieldValue('status', userData?.status)
         }
-    }, [userData])
+    }, [userData]);
+
+     
+
 
 
     return (
         <div>
             <Modal open={!!userData} onClose={closeModal}>
                 <div className='create-admin-modal'>
-                    <h4>
+                    <h5>
                         Foydalanuvchini tahrirlash
-                    </h4>
-                    {userData ? <form onSubmit={formik.handleSubmit} className="create-admin-form mt-3 d-flex flex-column gap-2">
-                        {view ? <PhoneInput
+                    </h5>
+                    {userData ?  <form onSubmit={formik.handleSubmit} className="create-admin-form mt-3 d-flex flex-column gap-2">
+                                            <TextInput
+                                                size='l'
+                                                name='tab_number'
+                                                 placeholder='Tab Number'
+                                                type='text'
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.tab_number}
+                                                errorMessage={formik.errors.tab_number}
+                                                error={!!formik.errors.tab_number && formik.touched.tab_number}
+                                            />
+                                             <TextInput
+                                                size='l'
+                                                name='mfo'
+                                                 placeholder='MFO'
+                                                type='text'
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.mfo}
+                                                errorMessage={formik.errors.mfo}
+                                                error={!!formik.errors.mfo && formik.touched.mfo}
+                                            />
+                    
+                    <TextInput
+                                                size='l'
+                                                name='crm_id'
+                                                 placeholder='CRM ID'
+                                                type='text'
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.crm_id}
+                                                errorMessage={formik.errors.crm_id}
+                                                error={!!formik.errors.crm_id && formik.touched.crm_id}
+                                            />
+                    
+                    <TextInput
+                                                size='l'
+                                                name='telegram_id'
+                                                 placeholder='Telegram ID'
+                                                type='text'
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.telegram_id}
+                                                errorMessage={formik.errors.telegram_id}
+                                                error={!!formik.errors.telegram_id && formik.touched.telegram_id}
+                                            />
+
+                            <Select
+                              options={[
+                                { value: 'true', content: "Aktiv" },
+                                { value: 'false', content: 'Aktiv Emas' },
+                            ]}
+                            renderOption={(op) => <div>
+                                {op.content}
+                            </div>}
                             size='l'
-                            name='username'
-                            type='text'
-                            onChange={formik.handleChange}
+                            name='status'
                             onBlur={formik.handleBlur}
-                            value={formik?.values?.username}
-                            errorMessage={formik?.errors?.username}
-                            error={!!formik?.errors?.username && formik?.touched?.username}
-                        /> : <div style={{ width: '100%', textAlign: 'center' }}>
-                            <Loader size='s' />
-                        </div>}
-
-                        <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-4'>Saqlash</Button>
-
-                    </form> : <PageLoader loading />}
+                            onUpdate={(e) => formik.setFieldValue('status', e[0])}
+                            value={[formik.values.status ? "Aktiv" : "Aktiv Emas"]}
+                            error={!!formik.errors.status && formik.touched.status}
+                            view='clear'
+                        />
+                    
+                    
+                                            <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-2'>Saqlash</Button>
+                    
+                                        </form> : <PageLoader loading />}
                 </div>
             </Modal>
         </div>

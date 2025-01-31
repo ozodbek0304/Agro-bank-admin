@@ -101,7 +101,7 @@ const CreateAdminModal = () => {
                             label='Ombor'
                             options={[
                                 { value: 'uz', content: "O'zbekiston", text: '/uzbekistan.png' },
-                                { value: 'china', content: 'Xitoy', text: '/china.png' },
+                                { value: 'china', content: 'Agro Bank', text: '/china.png' },
                             ]}
                             renderOption={(op) => <div>
                                 <img src={op.text} alt='uzbekistan flag' height={20} className='me-2' />
@@ -116,7 +116,7 @@ const CreateAdminModal = () => {
                             view='clear'
                         /> */}
 
-                        <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-4'>Yaratish</Button>
+                        <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-2'>Yaratish</Button>
 
                     </form>
                 </div>

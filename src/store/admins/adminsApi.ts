@@ -24,11 +24,11 @@ export const adminsApi = createApi({
             }),
             invalidatesTags:["admin-list"]
         }),
-        updateAdmin: builder.mutation<AdminItemType, AdminItemType>({
+        updateAdmin: builder.mutation<AdminItemType, any>({
             query: (data) => ({
                 url: `admin-update/${data.id}/`,
                 method: 'patch',
-                data:data
+                data
             }),
             invalidatesTags:["admin-list"]
         }),
