@@ -23,7 +23,6 @@ const CreateAdminModal = () => {
         initialValues: {
             full_name: '',
             username: '',
-            location: 'uz',
             password: ''
         },
         validationSchema: Yup.object({
@@ -39,7 +38,18 @@ const CreateAdminModal = () => {
                 toast.success("Adminstrator muvaffaqiyatli yaratildi")
                 formik.resetForm()
             } catch (error: any) {
-                formik.setErrors(error?.data?.detail)
+                if (error?.data) {
+                    const errors = error?.data;
+                    const formikErrors: Record<string, string> = {};
+        
+                    Object.keys(errors).forEach(key => {
+                        formikErrors[key] = errors[key];
+                    });
+        
+                    formik.setErrors(formikErrors);
+                } else {
+                    toast.error("Xatolik yuz berdi.");
+                }
             }
         }
     })

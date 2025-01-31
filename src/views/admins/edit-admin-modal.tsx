@@ -35,13 +35,31 @@ const EditAdminModal = () => {
         }),
 
         onSubmit: async (values) => {
+            const data:any = {
+                username:values?.username,
+                 full_name:values?.full_name,
+                 ...(values?.password && {
+                    password:values?.password
+                 })
+            }
             try {
-                await updateAdmin({ id: adminData?.id, ...values}).unwrap();
+                await updateAdmin({ id: adminData?.id, ...data}).unwrap();
                 closeModal()
                 toast.success("O'zgarishlar muvaffaqiyatli saqlandi")
                 formik.resetForm()
             } catch (error: any) {
-                formik.setErrors(error?.data?.detail)
+                if (error?.data) {
+                    const errors = error?.data;
+                    const formikErrors: Record<string, string> = {};
+        
+                    Object.keys(errors).forEach(key => {
+                        formikErrors[key] = errors[key];
+                    });
+        
+                    formik.setErrors(formikErrors);
+                } else {
+                    toast.error("Xatolik yuz berdi.");
+                }
             }
         }
     })

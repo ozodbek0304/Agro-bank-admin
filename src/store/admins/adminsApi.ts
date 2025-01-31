@@ -28,7 +28,7 @@ export const adminsApi = createApi({
             query: (data) => ({
                 url: `admin-update/${data.id}/`,
                 method: 'patch',
-                data
+                data:data
             }),
             invalidatesTags:["admin-list"]
         }),
