@@ -5,7 +5,7 @@ import { updateAdminParams } from "@/store/admins/admins";
 
 const UserPagination = ({ total }: { total: number }) => {
 
-    const { queryParams } = useAppSelector(state => state.user)
+    const { queryParams } = useAppSelector(state => state.admins)
     const dispatch = useAppDispatch()
 
     const handlePaginate = (value: string) => {

@@ -25,7 +25,7 @@ const AdminsList = () => {
             width: '5%',
             template(item, index) {
                 item
-                return index + 1
+                return queryParams.offset + index + 1
             },
         },
         {
@@ -51,10 +51,7 @@ const AdminsList = () => {
                    name: 'Viloyat',
                    width: '30%',
                    template: (item) =>(
-                       <div className='d-flex align-items-center gap-2'>
-                           <img src='/uzbekistan.png' alt='uzbekistan flag' height={24} />
-                           <span>{regionsTitle[item?.region]}</span>
-                       </div>
+                    <span>{regionsTitle[item?.region]}</span>
                    ),
                }
     ];

@@ -5,7 +5,7 @@ import { updateMfoParams } from "@/store/mfo/mfo";
 
 const UserPagination = ({ total }: { total: number }) => {
 
-    const { queryParams } = useAppSelector(state => state.user)
+    const { queryParams } = useAppSelector(state => state.mfos)
     const dispatch = useAppDispatch()
 
     const handlePaginate = (value: string) => {
@@ -17,6 +17,7 @@ const UserPagination = ({ total }: { total: number }) => {
         dispatch(updateMfoParams({ offset: (page - 1) * queryParams.limit, limit }))
     }
 
+     
 
     return (
         <div className='d-flex mt-3'>
