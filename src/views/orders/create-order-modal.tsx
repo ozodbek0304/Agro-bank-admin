@@ -16,7 +16,7 @@ const CreateOrderModal = () => {
     const { openCreate, queryParams } = useAppSelector(state => state.orders)
     const [search, setSearch] = useState('')
     const searchval = useDebounce(search, 1000)
-    const { refetch } = useGetOrdersQuery(queryParams, { refetchOnMountOrArgChange: true })
+    const { refetch } = useGetOrdersQuery(queryParams)
     const dispatch = useAppDispatch()
 
     const [users, setUsers] = useState([])

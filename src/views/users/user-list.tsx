@@ -16,7 +16,7 @@ const defaultCenter = { lat: 39.20501415, lng: 66.48657689750529 };
 
 const UsersList = () => {
     const { queryParams } = useAppSelector(state => state.user)
-    const { data, isFetching, isError } = useGetUsersQuery(queryParams, { refetchOnMountOrArgChange: true })
+    const { data, isFetching, isError } = useGetUsersQuery(queryParams)
     const dispatch = useAppDispatch();
     const [curretnLocation, setCurrentLocation] = useState<any>(null);
     const [mapPosition, setMapPosition] = useState(defaultCenter);

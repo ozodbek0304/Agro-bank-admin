@@ -15,7 +15,7 @@ import { updateOrderParams } from '@/store/orders/orders';
 const UserDetailMain = () => {
     const { id } = useParams()
     const { queryParams } = useAppSelector(state => state.orders)
-    const { data, isError, isFetching } = useGetOrdersQuery({ ...queryParams, search: id }, { refetchOnMountOrArgChange: true })
+    const { data, isError, isFetching } = useGetOrdersQuery({ ...queryParams, search: id })
     const dispatch = useAppDispatch()
 
     const MyTable: any = withTableActions(Table);

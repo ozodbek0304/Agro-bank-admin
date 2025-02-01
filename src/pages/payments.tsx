@@ -14,7 +14,7 @@ const PaymentsPage: React.FC = () => {
 
     return (
         <div>
-            <PageHeader title="Arizalar" >
+            <PageHeader title="Anketalar" >
                 <Button view='outlined-info' size={isMobile ? 's' : 'l'} onClick={() => dispatch(setOpenCreate(true))} >
                     <Icon data={Plus} size={18} />
                     Yangi yaratish

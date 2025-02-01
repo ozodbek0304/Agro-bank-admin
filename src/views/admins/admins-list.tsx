@@ -13,7 +13,7 @@ import UserPagination from './user-pagination';
 
 const AdminsList = () => {
      const { queryParams } = useAppSelector(state => state.admins)
-    const { data, isFetching, isError } = useGetAdminsQuery(queryParams, { refetchOnMountOrArgChange: true })
+    const { data, isFetching, isError } = useGetAdminsQuery(queryParams)
     const dispatch = useAppDispatch()
 
     const MyTable: any = withTableActions(Table);

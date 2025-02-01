@@ -1,34 +1,39 @@
 // @ts-nocheck
 
-import { CreatePaymentDto, PaymentItemType, UpdatePaymentDto } from '@/interfaces/payments'
+import { CreatePaymentDto, PaymentData, PaymentItemType, UpdatePaymentDto } from '@/interfaces/payments'
+import { UserParamsType } from '@/interfaces/user'
 import httpBaseQuery from '@/utils/http'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 export const paymentsApi = createApi({
     reducerPath: 'paymentsApi',
     baseQuery: httpBaseQuery(),
+    tagTypes:["blank-list"],
     endpoints: (builder) => ({
-        getPayments: builder.query<PaymentItemType[], string>({
+        getPayments: builder.query<PaymentData, UserParamsType>({
             query: () => ({
-                url: 'admin-all-payments/',
+                url: 'common/blank/',
                 method: 'get',
             }),
+            providesTags:["blank-list"]
         }),
         createPayment: builder.mutation<PaymentItemType, CreatePaymentDto>({
             query: (data) => ({
-                url: `admin-payments-create/`,
+                url: 'common/blank/',
                 method: 'post',
                 data
             }),
+            invalidatesTags:["blank-list"]
         }),
-        updateAdmin: builder.mutation<PaymentItemType, UpdatePaymentDto>({
+        updateAdmin: builder.mutation<PaymentItemType, any>({
             query: (data) => ({
-                url: `admin-update/${data.id}/`,
+                url: `common/blank/${data.id}/`,
                 method: 'patch',
                 data
             }),
+            invalidatesTags:["blank-list"]
         }),
     })
 })
 
-export const { useGetPaymentsQuery, useCreatePaymentMutation } = paymentsApi
+export const { useGetPaymentsQuery, useCreatePaymentMutation, useUpdateAdminMutation } = paymentsApi

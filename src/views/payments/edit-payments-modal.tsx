@@ -1,27 +1,29 @@
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { Button, Modal, Select, TextInput } from '@gravity-ui/uikit';
+import { Button, Modal, Select, TextArea, TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
-import { reverseAmount, useDebounce } from '@/utils/helpers';
 import toast from 'react-hot-toast';
-import { useCreatePaymentMutation, useGetPaymentsQuery } from '@/store/payments/paymentsApi';
-import AmountInput from '@/components/elements/AmountInput';
-import { ProviderDto } from '@/interfaces/payments';
-import { useGetOrdersQuery } from '@/store/orders/ordersApi';
-import { useEffect, useState } from 'react';
+import { useCreatePaymentMutation, useUpdateAdminMutation } from '@/store/payments/paymentsApi';
+import { useEffect} from 'react';
 import { setPaymentData } from '@/store/payments/payments';
+import { useGetUsersQuery } from '@/store/employee/employeApi';
+import PageLoader from '@/components/elements/Loader';
 
 
 const EditPaymentModal = () => {
     const { paymentData } = useAppSelector(state => state.payments)
-    const { refetch } = useGetPaymentsQuery('')
-    const dispatch = useAppDispatch()
-    const [search, setSearch] = useState('')
-    const searchVal = useDebounce(search, 800)
-    const { data } = useGetOrdersQuery({ search: searchVal })
+     const { data:dataEmployee, isSuccess} = useGetUsersQuery({})
+     const dispatch = useAppDispatch()
+ 
+     const selectOptions =isSuccess ? dataEmployee?.results?.map(item => ({
+         value: item.id,
+         content: item.mfo?.mfo_code,
+         text:item?.mfo?.region,
+     })):[];
 
-    const [createPayment, { isLoading }] = useCreatePaymentMutation()
+
+    const [updatePayment, { isLoading }] = useUpdateAdminMutation()
 
     const closeModal = () => {
         dispatch(setPaymentData(false))
@@ -29,45 +31,60 @@ const EditPaymentModal = () => {
 
     const formik = useFormik({
         initialValues: {
-            user_id: '',
-            order_tao_bao: '',
-            amount: 'none',
-            provider: ''
-        },
-        validationSchema: Yup.object({
-            user_id: Yup.string().required("Maydonni to'ldiring"),
-            order_tao_bao: Yup.string().required("Maydonni to'ldiring"),
-            amount: Yup.string().required("Maydonni to'ldiring"),
-            provider: Yup.string<ProviderDto>().required("Maydonni to'ldiring"),
-        }),
+                   latitude: '',
+                   longitude: '',
+                   payment_amount: '',
+                   payment_date: '',
+                   comment: '',
+                   employee: '',
+               },
+               validationSchema: Yup.object({
+                latitude: Yup.string().required("Maydonni to'ldiring"),
+                   payment_amount: Yup.string().required("Maydonni to'ldiring"),
+                   longitude: Yup.string().required("Maydonni to'ldiring"),
+                   comment: Yup.string().required("Maydonni to'ldiring"),
+                   employee: Yup.string().required("Maydonni to'ldiring"),
+                   payment_date: Yup.string().required("Maydonni to'ldiring"),
+               }),
+
         onSubmit: async (values) => {
             try {
-                await createPayment({ ...values, amount: reverseAmount(values.amount), status: 'approved' }).unwrap();
+                await updatePayment({id:paymentData?.id, values }).unwrap();
                 closeModal()
                 toast.success("Adminstrator muvaffaqiyatli yaratildi")
                 formik.resetForm()
-                refetch();
-            } catch (error: any) {
-                formik.setErrors(error?.data?.detail)
+            }catch (error: any) {
+                if (error?.data) {
+                    const errors = error?.data;
+                    if (errors?.error) {
+                        toast.error(errors?.error);
+                     }
+                    const formikErrors: Record<string, string> = {};
+        
+                    Object.keys(errors).forEach(key => {
+                        formikErrors[key] = errors[key];
+                    });
+        
+                    formik.setErrors(formikErrors);
+                } else {
+                    toast.error("Xatolik yuz berdi.");
+                }
             }
         }
     })
 
-    const handleChangeId = async (v: string) => {
-        formik.setFieldValue('user_id', v)
-        setSearch(v)
-    }
 
 
     useEffect(() => {
         if (paymentData) {
-            setSearch(paymentData.user_id)
             formik.setValues({
-                user_id: paymentData.user_id,
-                order_tao_bao: paymentData.order_tao_bao,
-                amount: paymentData.amount,
-                provider: paymentData?.provider
-            })
+                comment: paymentData.comment,
+                employee: paymentData.employee,
+                payment_amount: paymentData.payment_amount,
+                payment_date: String(paymentData.payment_date),
+                latitude: (paymentData.latitude),
+                longitude: (paymentData.longitude)
+      })
         }
     }, [paymentData])
 
@@ -75,66 +92,86 @@ const EditPaymentModal = () => {
         <div>
             <Modal open={!!paymentData} onClose={closeModal}>
                 <div className='create-admin-modal'>
-                    <h4>
-                        To'lovni tahrirlash
-                    </h4>
-                    <form onSubmit={formik.handleSubmit} className="create-admin-form mt-3 d-flex flex-column gap-2">
-                        <TextInput
-                            placeholder="Foydalanuvchi ID"
-                            size='l'
-                            name='user_id'
-                            onChange={e => handleChangeId(e.target.value)}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.user_id}
-                            errorMessage={formik.errors.user_id}
-                            error={!!formik.errors.user_id && formik.touched.user_id}
-                        />
+                    <h5>
+                        Anketa tahrirlash
+                    </h5>
+                   {paymentData ? <form onSubmit={formik.handleSubmit} className="create-admin-form mt-3 d-flex flex-column gap-2">
+                   
+                                       <Select
+                                               placeholder={"Xodim"}
+                                               filterable={true}
+                                               options={selectOptions}
+                                               renderOption={(op) => <div>
+                                                    {op.content} {" - "} {op.text}
+                                                 </div>}
+                                               size='l'
+                                               name='employee'
+                                               onBlur={formik.handleBlur}
+                                               onUpdate={(e) => formik.setFieldValue('employee', e[0])}
+                                               value={[formik.values.employee]}
+                                               error={!!formik.errors.employee && formik.touched.employee}
+                                               view='clear'
+                                           />
+                   
+                   
+                   
+                                           <TextInput
+                                               placeholder="To'lov summasi"
+                                               size='l'
+                                               name='payment_amount'
+                                               onBlur={formik.handleBlur}
+                                               value={formik.values.payment_amount}
+                                               errorMessage={formik.errors.payment_amount}
+                                               error={!!formik.errors.payment_amount && formik.touched.payment_amount}
+                                           />
 
-                        <Select
-                            label="Trek kodi"
-                            filterable={true}
-                            options={data?.results ? data.results.map(el => ({ value: el.tao_bao, content: el.tao_bao })) : []}
-                            size='l'
-                            name='order_tao_bao'
-                            onBlur={formik.handleBlur}
-                            onUpdate={(e) => formik.setFieldValue('order_tao_bao', e[0])}
-                            value={[formik.values.order_tao_bao]}
-                            error={!!formik.errors.order_tao_bao && formik.touched.order_tao_bao}
-                            view='clear'
-                        />
-
-                        {formik.values?.amount !== 'none' && <AmountInput
-                            placeholder="Summa"
-                            size='l'
-                            name='amount'
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.amount}
-                            errorMessage={formik.errors.amount}
-                            error={!!formik.errors.amount && formik.touched.amount}
-                        />}
-
-
-                        <Select
-                            label="To'lov usuli"
-                            options={[
-                                { value: 'cache', content: 'Naqd' },
-                                { value: 'by_card', content: 'Karta' },
-                                { value: 'click', content: "Click" },
-                                { value: 'payme', content: 'Payme' },
-                            ]}
-                            size='l'
-                            name='provider'
-                            onBlur={formik.handleBlur}
-                            onUpdate={(e) => formik.setFieldValue('provider', e[0])}
-                            value={[formik.values.provider]}
-                            error={!!formik.errors.provider && formik.touched.provider}
-                            view='clear'
-                        />
-
-                        <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-4'>Yaratish</Button>
-
-                    </form>
+                                           <TextInput
+                                               placeholder="Latitude"
+                                               size='l'
+                                               name='latitude'
+                                               onBlur={formik.handleBlur}
+                                               value={formik.values.latitude}
+                                               errorMessage={formik.errors.latitude}
+                                               error={!!formik.errors.latitude && formik.touched.latitude}
+                                           />
+                                           <TextInput
+                                               placeholder="Longitude"
+                                               size='l'
+                                               name='longitude'
+                                               onBlur={formik.handleBlur}
+                                               value={formik.values.longitude}
+                                               errorMessage={formik.errors.longitude}
+                                               error={!!formik.errors.longitude && formik.touched.longitude}
+                                           />
+                                           
+                                           <TextArea
+                                                rows={5}
+                                               placeholder="Izoh"
+                                               size='l'
+                                               name='comment'
+                                               onBlur={formik.handleBlur}
+                                               value={formik.values.comment}
+                                               errorMessage={formik.errors.comment}
+                                               error={!!formik.errors.comment && formik.touched.comment}
+                                           />
+                                           {/* <DatePicker size='l'/>
+                   
+                                                <TextArea
+                                               placeholder="Izoh"
+                                               size='l'
+                                               rows={5}
+                                               name='comment'
+                                               onBlur={formik.handleBlur}
+                                               value={formik.values.comment}
+                                               errorMessage={formik.errors.comment}
+                                               error={!!formik.errors.comment && formik.touched.comment}
+                                           /> */}
+                   
+                   
+                    
+                                           <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-2'>Saqlash</Button>
+                   
+                                       </form> : <PageLoader loading /> }
                 </div>
             </Modal>
         </div>

@@ -15,9 +15,14 @@ import { useGetUsersQuery } from '@/store/employee/employeApi';
 
 const CreatePaymentModal = () => {
     const { openCreate } = useAppSelector(state => state.payments);
-        const { data:dataEmployee } = useGetUsersQuery({}, { refetchOnMountOrArgChange: true })
-    const { refetch } = useGetPaymentsQuery('')
+        const { data:dataEmployee, isSuccess} = useGetUsersQuery({})
     const dispatch = useAppDispatch()
+
+    const selectOptions =isSuccess ? dataEmployee?.results?.map(item => ({
+        value: item.id,
+        content: item.mfo?.mfo_code,
+        text:item?.mfo?.region,
+    })):[];
 
     const [createPayment, { isLoading }] = useCreatePaymentMutation()
 
@@ -33,13 +38,11 @@ const CreatePaymentModal = () => {
             payment_date: '',
             comment: '',
             employee: '',
-            telegram_id: '',
         },
         validationSchema: Yup.object({
             payment_amount: Yup.string().required("Maydonni to'ldiring"),
             comment: Yup.string().required("Maydonni to'ldiring"),
             employee: Yup.string().required("Maydonni to'ldiring"),
-            telegram_id: Yup.string<ProviderDto>().required("Maydonni to'ldiring"),
             payment_date: Yup.string<ProviderDto>().required("Maydonni to'ldiring"),
         }),
         onSubmit: async (values) => {
@@ -48,7 +51,6 @@ const CreatePaymentModal = () => {
                 closeModal()
                 toast.success("Adminstrator muvaffaqiyatli yaratildi")
                 formik.resetForm()
-                refetch();
             } catch (error: any) {
                 formik.setErrors(error?.data?.detail)
             }
@@ -67,7 +69,10 @@ const CreatePaymentModal = () => {
                     <Select
                             placeholder={"Xodim"}
                             filterable={true}
-                            options={dataEmployee?.results ? dataEmployee.results.map(el => ({ value: el.mfo, content: el.mfo })) : []}
+                            options={selectOptions}
+                            renderOption={(op) => <div>
+                                 {op.content} {" - "} {op.text}
+                              </div>}
                             size='l'
                             name='employee'
                             onBlur={formik.handleBlur}
@@ -77,6 +82,8 @@ const CreatePaymentModal = () => {
                             view='clear'
                         />
 
+
+
                         <TextInput
                             placeholder="To'lov summasi"
                             size='l'
@@ -85,6 +92,25 @@ const CreatePaymentModal = () => {
                             value={formik.values.payment_amount}
                             errorMessage={formik.errors.payment_amount}
                             error={!!formik.errors.payment_amount && formik.touched.payment_amount}
+                        />
+                        <TextInput
+                            placeholder="To'lov summasi"
+                            size='l'
+                            name='payment_amount'
+                            onBlur={formik.handleBlur}
+                            value={formik.values.payment_amount}
+                            errorMessage={formik.errors.payment_amount}
+                            error={!!formik.errors.payment_amount && formik.touched.payment_amount}
+                        />
+                        <TextArea
+                             rows={5}
+                            placeholder="Izoh"
+                            size='l'
+                            name='comment'
+                            onBlur={formik.handleBlur}
+                            value={formik.values.comment}
+                            errorMessage={formik.errors.comment}
+                            error={!!formik.errors.comment && formik.touched.comment}
                         />
                         {/* <DatePicker size='l'/>
 

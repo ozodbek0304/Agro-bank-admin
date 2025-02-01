@@ -3,6 +3,7 @@ export interface UserItemType {
     mfo: {
         mfo_code?:string,
         id:number,
+        region?:string
     },
     crm_id: string,
     tab_number: string,

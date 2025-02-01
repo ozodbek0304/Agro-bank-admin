@@ -25,7 +25,7 @@ export const pageSizes = [
 
 const OrdersList = () => {
     const { queryParams } = useAppSelector(state => state.orders)
-    const { data, isError, isFetching, refetch } = useGetOrdersQuery(queryParams, { refetchOnMountOrArgChange: true })
+    const { data, isError, isFetching, refetch } = useGetOrdersQuery(queryParams)
     const [updateOrder] = useUpdateOrderMutation()
     const dispatch = useAppDispatch()
     const { isMobile } = useResponsive()

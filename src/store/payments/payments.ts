@@ -5,7 +5,12 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState: IPaymentsState = {
     openCreate: false,
     paymentData: null,
-    deleteId: null
+    deleteId: null,
+    queryParams: {
+        search: '',
+        limit: Number(localStorage.getItem('blankPageSize')) || 10,
+        offset: 0
+    },
 }
 
 export const paymentsSlice = createSlice({
@@ -20,6 +25,9 @@ export const paymentsSlice = createSlice({
         },
         setDeleteId: (state, action) => {
             state.deleteId = action.payload
+        },
+        updateBlankParams: (state, action) => {
+            state.queryParams = { ...state.queryParams, ...action.payload }
         }
     },
 })
@@ -27,7 +35,8 @@ export const paymentsSlice = createSlice({
 export const {
     setOpenCreate,
     setPaymentData,
-    setDeleteId
+    setDeleteId,
+    updateBlankParams
 } = paymentsSlice.actions
 
 

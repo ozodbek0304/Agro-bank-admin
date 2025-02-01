@@ -29,7 +29,7 @@ export const regionsTitle = {
 
 const MfoLists = () => {
       const { queryParams } = useAppSelector(state => state.mfos)
-    const { data, isFetching, isError } = useGetMfoQuery(queryParams, { refetchOnMountOrArgChange: true })
+    const { data, isFetching, isError } = useGetMfoQuery(queryParams)
     const dispatch = useAppDispatch()
 
     const MyTable: any = withTableActions(Table);
