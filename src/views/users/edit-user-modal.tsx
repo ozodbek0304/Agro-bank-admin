@@ -5,8 +5,8 @@ import './style.scss'
 import * as Yup from 'yup'
 import PageLoader from '@/components/elements/Loader';
 import { useEffect } from 'react';
-import {  useUpdateUserMutation } from '@/store/user/userApi';
-import { setUserData } from '@/store/user/user';
+import {  useUpdateUserMutation } from '@/store/employee/employeApi';
+import { setUserData } from '@/store/employee/employee';
 import toast from 'react-hot-toast';
 
 

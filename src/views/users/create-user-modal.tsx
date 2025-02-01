@@ -1,10 +1,10 @@
-import { setOpenCreate } from '@/store/user/user';
+import { setOpenCreate } from '@/store/employee/employee';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { Button, Modal, TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
-import { useCreateUserMutation } from '@/store/user/userApi';
+import { useCreateUserMutation } from '@/store/employee/employeApi';
 import toast from 'react-hot-toast';
 
 

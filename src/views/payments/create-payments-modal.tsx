@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import toast from 'react-hot-toast';
 import { useCreatePaymentMutation, useGetPaymentsQuery } from '@/store/payments/paymentsApi';
 import { ProviderDto } from '@/interfaces/payments';
-import { useGetUsersQuery } from '@/store/user/userApi';
+import { useGetUsersQuery } from '@/store/employee/employeApi';
 
 
 

@@ -4,9 +4,9 @@ import { ChartMixed, Persons, Box, GearDot, FaceAlien, QrCode } from '@gravity-u
 
 export const adminNavigation: NavigationTypes[] = [
     {
-        name: "Dashboard",
+        name: "MFO",
         icon: ChartMixed,
-        path: '/dashboard',
+        path: '/mfo',
         childrens: []
     },
     {
@@ -32,9 +32,9 @@ export const adminNavigation: NavigationTypes[] = [
 
 export const ceoNavigation: NavigationTypes[] = [
     {
-        name: "Dashboard",
+        name: "MFO",
         icon: ChartMixed,
-        path: '/dashboard',
+        path: '/mfo',
         childrens: []
     },
     {

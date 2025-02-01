@@ -28,7 +28,7 @@ export const appAuthSlice = createSlice({
             localStorage.setItem('token', action.payload?.access)
 
             if (action.payload?.is_superuser) {
-                window.location.replace('/dashboard')
+                window.location.replace('/mfo')
             } else {
                 window.location.replace('/orders')
             }
