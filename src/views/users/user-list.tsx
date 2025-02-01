@@ -36,22 +36,30 @@ const UsersList = () => {
         {
             id: 'mfo',
             name: "MFO",
-            width: '25%',
+            width: '18%',
+            template(item) {
+                return item?.mfo?.mfo_code
+            },
         },
         {
             id: 'tab_number',
             name: "Tab Number",
-            width: '19%',
+            width: '18%',
         },
         {
             id: 'crm_id',
             name: "CRM ID",
-            width: '19%',
+            width: '18%',
+        },
+        {
+            id: 'telegram_id',
+            name: "Telegram ID",
+            width: '15%',
         },
         {
             id: 'created_at',
-            name: "Yaratilgan sanasi",
-            width: '19%',
+            name: "Oxirgi foallik vaqti",
+            width: '15%',
             template(item) {
                 return formatDateTime(item.created_at)
             },
@@ -59,7 +67,7 @@ const UsersList = () => {
         {
             id: 'status',
             name: "Holati",
-            width: '20%',
+            width: '10%',
             template(item) {
                 return (
                     item?.status ? 

@@ -5,7 +5,12 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState: IAdminsState = {
     openCreate: false,
     adminData: null,
-    deleteId: null
+    deleteId: null,
+    queryParams: {
+        search: '',
+        limit: Number(localStorage.getItem('adminPageSize')) || 10,
+        offset: 0
+    }
 }
 
 export const appAdminsSlice = createSlice({
@@ -20,6 +25,9 @@ export const appAdminsSlice = createSlice({
         },
         setDeleteId: (state, action) => {
             state.deleteId = action.payload
+        },
+        updateAdminParams: (state, action) => {
+            state.queryParams = { ...state.queryParams, ...action.payload }
         }
     },
 })
@@ -27,7 +35,8 @@ export const appAdminsSlice = createSlice({
 export const {
     setOpenCreate,
     setAdminData,
-    setDeleteId
+    setDeleteId,
+    updateAdminParams
 } = appAdminsSlice.actions
 
 

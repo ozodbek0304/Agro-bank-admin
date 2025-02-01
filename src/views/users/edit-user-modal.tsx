@@ -8,12 +8,20 @@ import { useEffect } from 'react';
 import {  useUpdateUserMutation } from '@/store/employee/employeApi';
 import { setUserData } from '@/store/employee/employee';
 import toast from 'react-hot-toast';
+import { useGetMfoQuery } from '@/store/mfo/mfosApi';
 
 
 const EditUserModal = () => {
-    const { userData, queryParams } = useAppSelector(state => state.user)
+    const { userData } = useAppSelector(state => state.user)
     const dispatch = useAppDispatch()
 
+        const {data,isSuccess}= useGetMfoQuery({});
+    
+        const selectOptions =isSuccess ? data?.results?.map(item => ({
+            value: item.id,
+            content: item.mfo_code,
+            text:item?.region,
+        })):[];
 
     const [updateUser, { isLoading }] = useUpdateUserMutation()
 
@@ -58,10 +66,14 @@ const EditUserModal = () => {
             try {
                 await updateUser({ user_id: userData.id, data: formData }).unwrap();
                 closeModal()
-                formik.resetForm()
+                formik.resetForm();
             }catch (error: any) {
                 if (error?.data) {
                     const errors = error?.data;
+
+                     if (errors?.error) {
+                        toast.error(errors?.error);
+                     }
                     const formikErrors: Record<string, string> = {};
         
                     Object.keys(errors).forEach(key => {
@@ -78,7 +90,7 @@ const EditUserModal = () => {
 
     useEffect(() => {
         if (userData) {
-            formik.setFieldValue('mfo', userData?.mfo)
+            formik.setFieldValue('mfo', userData?.mfo?.id)
             formik.setFieldValue('tab_number', userData?.tab_number)
             formik.setFieldValue('crm_id', userData?.crm_id)
             formik.setFieldValue('telegram_id', userData?.telegram_id)
@@ -109,18 +121,22 @@ const EditUserModal = () => {
                                                 errorMessage={formik.errors.tab_number}
                                                 error={!!formik.errors.tab_number && formik.touched.tab_number}
                                             />
-                                             <TextInput
-                                                size='l'
-                                                name='mfo'
-                                                 placeholder='MFO'
-                                                type='text'
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.mfo}
-                                                errorMessage={formik.errors.mfo}
-                                                error={!!formik.errors.mfo && formik.touched.mfo}
-                                            />
-                    
+                                            <Select
+                                                    filterable={true}
+                                                     placeholder={"MFO"}
+                                                    options={selectOptions}
+                                                    renderOption={(op) => <div>
+                                                       {op.content} {" - "} {op.text}
+                                                    </div>}
+                                                    size='l'
+                                                    name='mfo'
+                                                    onBlur={formik.handleBlur}
+                                                    onUpdate={(e) => formik.setFieldValue('mfo', e[0])}
+                                                    value={[formik.values.mfo]}
+                                                    error={!!formik.errors.mfo && formik.touched.mfo}
+                                                    view='clear'
+                                                />
+                                      
                     <TextInput
                                                 size='l'
                                                 name='crm_id'

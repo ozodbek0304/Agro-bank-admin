@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import { AdminData, AdminItemType } from '@/interfaces/admins'
+import { UserParamsType } from '@/interfaces/user'
 import httpBaseQuery from '@/utils/http'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
@@ -9,7 +10,7 @@ export const adminsApi = createApi({
     baseQuery: httpBaseQuery(),
     tagTypes:["admin-list"],
     endpoints: (builder) => ({
-        getAdmins: builder.query<AdminData, string>({
+        getAdmins: builder.query<AdminData, UserParamsType>({
             query: () => ({
                 url: 'admin-list/',
                 method: 'get',

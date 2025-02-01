@@ -13,6 +13,7 @@ const initialState: IUserState = {
     }
 }
 
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,

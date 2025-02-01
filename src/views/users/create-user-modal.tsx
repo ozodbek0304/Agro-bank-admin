@@ -1,16 +1,25 @@
 import { setOpenCreate } from '@/store/employee/employee';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { Button, Modal, TextInput } from '@gravity-ui/uikit';
+import { Button, Modal, Select, TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
 import { useCreateUserMutation } from '@/store/employee/employeApi';
 import toast from 'react-hot-toast';
+import { useGetMfoQuery } from '@/store/mfo/mfosApi';
 
 
 const CreateUserModal = () => {
     const { openCreate } = useAppSelector(state => state.user)
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+    const {data,isSuccess}= useGetMfoQuery({});
+
+    const selectOptions =isSuccess ? data?.results?.map(item => ({
+        value: item.id,
+        content: item.mfo_code,
+        text:item?.region,
+    })):[];
+    
 
     const [createUser, { isLoading }] = useCreateUserMutation()
 
@@ -40,6 +49,9 @@ const CreateUserModal = () => {
             }catch (error: any) {
                 if (error?.data) {
                     const errors = error?.data;
+                    if (errors?.error) {
+                        toast.error(errors?.error);
+                     }
                     const formikErrors: Record<string, string> = {};
         
                     Object.keys(errors).forEach(key => {
@@ -73,17 +85,21 @@ const CreateUserModal = () => {
                             errorMessage={formik.errors.tab_number}
                             error={!!formik.errors.tab_number && formik.touched.tab_number}
                         />
-                         <TextInput
-                            size='l'
-                            name='mfo'
-                             placeholder='MFO'
-                            type='text'
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.mfo}
-                            errorMessage={formik.errors.mfo}
-                            error={!!formik.errors.mfo && formik.touched.mfo}
-                        />
+                         <Select
+                        filterable={true}
+                                                     placeholder={"MFO"}
+                                                    options={selectOptions}
+                                                    renderOption={(op) => <div>
+                                                       {op.content} {" - "} {op.text}
+                                                    </div>}
+                                                    size='l'
+                                                    name='mfo'
+                                                    onBlur={formik.handleBlur}
+                                                    onUpdate={(e) => formik.setFieldValue('mfo', e[0])}
+                                                    value={[formik.values.mfo]}
+                                                    error={!!formik.errors.mfo && formik.touched.mfo}
+                                                    view='clear'
+                                                />
 
 <TextInput
                             size='l'

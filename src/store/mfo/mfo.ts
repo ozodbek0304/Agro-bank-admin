@@ -1,15 +1,19 @@
 // ** Redux Imports
-import { IAdminsState } from '@/interfaces/admins'
+import { IMFOsState } from '@/interfaces/mfo'
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState: IAdminsState = {
+const initialState: IMFOsState = {
     openCreate: false,
     adminData: null,
-    deleteId: null
+    queryParams: {
+        search: '',
+        limit: Number(localStorage.getItem('mfoPageSize')) || 10,
+        offset: 0
+    },
 }
 
 export const appAdminsSlice = createSlice({
-    name: 'admins',
+    name: 'mfos',
     initialState,
     reducers: {
         setOpenCreate: (state, action) => {
@@ -18,16 +22,17 @@ export const appAdminsSlice = createSlice({
         setAdminData: (state, action) => {
             state.adminData = action.payload
         },
-        setDeleteId: (state, action) => {
-            state.deleteId = action.payload
+        updateMfoParams: (state, action) => {
+            state.queryParams = { ...state.queryParams, ...action.payload }
         }
+      
     },
 })
 
 export const {
     setOpenCreate,
     setAdminData,
-    setDeleteId
+    updateMfoParams,
 } = appAdminsSlice.actions
 
 

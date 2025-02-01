@@ -1,0 +1,13 @@
+.create-admin-modal {
+    display: flex;
+    flex-direction: column;
+    padding:  20px;
+    min-width: 360px;
+    max-width: 350px;
+}
+
+@media only screen and (max-width:576px) {
+    .create-admin-modal {
+        min-width: 300px;
+    }
+}

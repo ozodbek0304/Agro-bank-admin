@@ -1,45 +1,40 @@
 // @ts-nocheck
 
-import { AdminData, AdminItemType } from '@/interfaces/admins'
+import { MfoData, MfoItemType } from '@/interfaces/mfo'
+import { UserParamsType } from '@/interfaces/user'
 import httpBaseQuery from '@/utils/http'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-export const adminsApi = createApi({
-    reducerPath: 'adminsApi',
+export const mfosApi = createApi({
+    reducerPath: 'mfosApi',
     baseQuery: httpBaseQuery(),
-    tagTypes:["admin-list"],
+    tagTypes:["mfo-list"],
     endpoints: (builder) => ({
-        getAdmins: builder.query<AdminData, string>({
-            query: () => ({
-                url: 'admin-list/',
+        getMfo: builder.query<MfoData, UserParamsType>({
+            query: (params) => ({
+                url: 'common/mfo/',
                 method: 'get',
+                params,
             }),
-            providesTags:["admin-list"]
+            providesTags:["mfo-list"]
         }),
-        createAdmin: builder.mutation<AdminItemType, AdminItemType>({
+        createMfo: builder.mutation<MfoItemType, MfoItemType>({
             query: (data) => ({
-                url: `admin-create/`,
+                url: `common/mfo/`,
                 method: 'post',
                 data
             }),
-            invalidatesTags:["admin-list"]
+            invalidatesTags:["mfo-list"]
         }),
-        updateAdmin: builder.mutation<AdminItemType, any>({
+        updateMfo: builder.mutation<MfoItemType, any>({
             query: (data) => ({
-                url: `admin-update/${data.id}/`,
+                url: `common/mfo/${data.id}/`,
                 method: 'patch',
                 data
             }),
-            invalidatesTags:["admin-list"]
-        }),
-        deleteAdmin: builder.mutation<AdminItemType, number>({
-            query: (id) => ({
-                url: `admin-archive/${id}/`,
-                method: 'patch'
-            }),
-            invalidatesTags:["admin-list"]
+            invalidatesTags:["mfo-list"]
         }),
     })
 })
 
-export const { useCreateAdminMutation, useGetAdminsQuery, useUpdateAdminMutation, useDeleteAdminMutation } = adminsApi
+export const { useCreateMfoMutation, useGetMfoQuery, useUpdateMfoMutation } = mfosApi

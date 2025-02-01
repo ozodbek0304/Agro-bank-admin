@@ -1,6 +1,9 @@
 export interface UserItemType {
     id?: any
-    mfo: string,
+    mfo: {
+        mfo_code?:string,
+        id:number,
+    },
     crm_id: string,
     tab_number: string,
     telegram_id: string,

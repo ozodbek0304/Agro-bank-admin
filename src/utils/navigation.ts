@@ -24,7 +24,7 @@ export const adminNavigation: NavigationTypes[] = [
     {
         name: "Xodimlar",
         icon: Persons,
-        path: '/users',
+        path: '/employes',
         childrens: []
     }
 ]
@@ -58,7 +58,7 @@ export const ceoNavigation: NavigationTypes[] = [
     {
         name: "Xodimlar",
         icon: Persons,
-        path: '/users',
+        path: '/employes',
         childrens: []
     },
     {

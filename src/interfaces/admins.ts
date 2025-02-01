@@ -4,6 +4,7 @@ export interface AdminItemType {
     username: string
     password: string
     created_at?:Date
+    region:string
 }
 
 export interface AdminData {
@@ -15,5 +16,10 @@ export interface AdminData {
 export interface IAdminsState {
     openCreate: boolean
     adminData: null | AdminItemType
-    deleteId: number | null
+    deleteId: number | null,
+    queryParams: {
+        search?: string
+        limit?: number
+        offset?: number
+    }
 }

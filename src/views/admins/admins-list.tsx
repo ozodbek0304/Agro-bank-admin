@@ -3,14 +3,17 @@ import { AdminItemType } from '@/interfaces/admins';
 import { useGetAdminsQuery } from '@/store/admins/adminsApi';
 import { Table, TableColumnConfig, withTableActions } from '@gravity-ui/uikit';
 import { PencilToSquare, TrashBin } from '@gravity-ui/icons';
-import { useAppDispatch } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 import { setAdminData, setDeleteId } from '@/store/admins/admins';
 import TableLoader from '@/components/elements/TableLoader';
 import { formatDateTime } from '@/utils/helpers';
+import { regionsTitle } from '../mfo/mfos-list';
+import UserPagination from './user-pagination';
 
 
 const AdminsList = () => {
-    const { data, isFetching, isError } = useGetAdminsQuery(``, { refetchOnMountOrArgChange: true })
+     const { queryParams } = useAppSelector(state => state.admins)
+    const { data, isFetching, isError } = useGetAdminsQuery(queryParams, { refetchOnMountOrArgChange: true })
     const dispatch = useAppDispatch()
 
     const MyTable: any = withTableActions(Table);
@@ -43,12 +46,17 @@ const AdminsList = () => {
                         return formatDateTime(item.created_at)
                     },
                 },
-        {
-            id: 'location',
-            name: 'Viloyat',
-            width: '30%',
-            template: () =><img src='/uzbekistan.png' alt='uzbekistan flag' height={24} />,
-        }
+          {
+                   id: 'region',
+                   name: 'Viloyat',
+                   width: '30%',
+                   template: (item) =>(
+                       <div className='d-flex align-items-center gap-2'>
+                           <img src='/uzbekistan.png' alt='uzbekistan flag' height={24} />
+                           <span>{regionsTitle[item?.region]}</span>
+                       </div>
+                   ),
+               }
     ];
 
      
@@ -73,6 +81,7 @@ const AdminsList = () => {
         <div style={{ width: '100%', overflowX: 'auto' }}>
             <div style={{ minWidth: '660px' }}>
                 {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions} />}
+                {!isFetching && <UserPagination total={data?.count} />}
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 import { setAdminData } from '@/store/admins/admins';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { Button, Modal,TextInput } from '@gravity-ui/uikit';
+import { Button, Modal,Select,TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
@@ -9,6 +9,7 @@ import PasswordInput from '@/components/elements/passwordInput';
 import PageLoader from '@/components/elements/Loader';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { regionsData } from '../mfo/create-mfo-modal';
 
 
 const EditAdminModal = () => {
@@ -26,11 +27,13 @@ const EditAdminModal = () => {
         initialValues: {
             full_name: '',
             username: '',
-            password: ''
+            password: '',
+            region:''
         },
         validationSchema: Yup.object({
             full_name: Yup.string().required("Maydonni to'ldiring"),
             username: Yup.string().required("Maydonni to'ldiring"),
+            region: Yup.string().required("Maydonni to'ldiring"),
             password: Yup.string(),
         }),
 
@@ -38,6 +41,7 @@ const EditAdminModal = () => {
             const data:any = {
                 username:values?.username,
                  full_name:values?.full_name,
+                 region:values?.region,
                  ...(values?.password && {
                     password:values?.password
                  })
@@ -50,6 +54,9 @@ const EditAdminModal = () => {
             } catch (error: any) {
                 if (error?.data) {
                     const errors = error?.data;
+                    if (errors?.error) {
+                        toast.error(errors?.error);
+                     }
                     const formikErrors: Record<string, string> = {};
         
                     Object.keys(errors).forEach(key => {
@@ -69,7 +76,8 @@ const EditAdminModal = () => {
             formik.setValues({
                 full_name: adminData?.full_name,
                 username: (adminData?.username),
-                password: ''
+                region: (adminData?.region),
+                password: '',
             })
         }
     }, [adminData])
@@ -93,6 +101,20 @@ const EditAdminModal = () => {
                             errorMessage={formik.errors.full_name}
                             error={!!formik.errors.full_name && formik.touched.full_name}
                         />
+                         <Select
+                                                                             placeholder={"Viloyat nomi"}
+                                                                            options={regionsData}
+                                                                            renderOption={(op) => <div>
+                                                                                {op.content}
+                                                                            </div>}
+                                                                            size='l'
+                                                                            name='region'
+                                                                            onBlur={formik.handleBlur}
+                                                                            onUpdate={(e) => formik.setFieldValue('region', e[0])}
+                                                                            value={[formik.values.region]}
+                                                                            error={!!formik.errors.region && formik.touched.region}
+                                                                            view='clear'
+                                                                        />
 
 
                         <TextInput
@@ -105,26 +127,6 @@ const EditAdminModal = () => {
                             errorMessage={formik.errors.username}
                             error={!!formik.errors.username && formik.touched.username}
                         />
-
-                        {/* <Select
-                            label='Ombor'
-                            options={[
-                                { value: 'uz', content: "O'zbekiston", text: '/uzbekistan.png' },
-                                { value: 'china', content: 'Agro Bank', text: '/china.png' },
-                            ]}
-                            renderOption={(op) => <div>
-                                <img src={op.text} alt='uzbekistan flag' height={20} className='me-2' />
-                                {op.content}
-                            </div>}
-                            size='l'
-                            name='location'
-                            onBlur={formik.handleBlur}
-                            onUpdate={(e) => formik.setFieldValue('location', e[0])}
-                            value={[formik.values?.location]}
-                            error={!!formik.errors.location && formik.touched.location}
-                            view='clear'
-                        /> */}
-
 
                         <PasswordInput
                             placeholder="Parol"

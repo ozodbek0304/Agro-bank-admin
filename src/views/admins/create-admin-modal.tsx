@@ -7,6 +7,7 @@ import * as Yup from 'yup'
 import { useCreateAdminMutation } from '@/store/admins/adminsApi';
 import PasswordInput from '@/components/elements/passwordInput';
 import toast from 'react-hot-toast';
+import { regionsData } from '../mfo/create-mfo-modal';
 
 
 const CreateAdminModal = () => {
@@ -23,13 +24,14 @@ const CreateAdminModal = () => {
         initialValues: {
             full_name: '',
             username: '',
-            password: ''
+            password: '',
+            region:"",
         },
         validationSchema: Yup.object({
             full_name: Yup.string().required("Maydonni to'ldiring"),
             username: Yup.string().required("Maydonni to'ldiring"),
-            // location: Yup.string().required("Variantlardan birini tanlang"),
             password: Yup.string().required("Maydonni to'ldiring"),
+            region: Yup.string().required("Maydonni to'ldiring"),
         }),
         onSubmit: async (values) => {
             try {
@@ -40,6 +42,9 @@ const CreateAdminModal = () => {
             } catch (error: any) {
                 if (error?.data) {
                     const errors = error?.data;
+                    if (errors?.error) {
+                        toast.error(errors?.error);
+                     }
                     const formikErrors: Record<string, string> = {};
         
                     Object.keys(errors).forEach(key => {
@@ -72,6 +77,21 @@ const CreateAdminModal = () => {
                             errorMessage={formik.errors.full_name}
                             error={!!formik.errors.full_name && formik.touched.full_name}
                         />
+                        <Select
+                                                     placeholder={"Viloyat nomi"}
+                                                    options={regionsData}
+                                                    renderOption={(op) => <div>
+                                                        {op.content}
+                                                    </div>}
+                                                    size='l'
+                                                    name='region'
+                                                    onBlur={formik.handleBlur}
+                                                    onUpdate={(e) => formik.setFieldValue('region', e[0])}
+                                                    value={[formik.values.region]}
+                                                    error={!!formik.errors.region && formik.touched.region}
+                                                    view='clear'
+                                                />
+                        
 
 
                         <TextInput
@@ -95,27 +115,6 @@ const CreateAdminModal = () => {
                             errorMessage={formik.errors.password}
                             error={!!formik.errors.password && formik.touched.password}
                         />
-
-
-                        {/* <Select
-                            label='Ombor'
-                            options={[
-                                { value: 'uz', content: "O'zbekiston", text: '/uzbekistan.png' },
-                                { value: 'china', content: 'Agro Bank', text: '/china.png' },
-                            ]}
-                            renderOption={(op) => <div>
-                                <img src={op.text} alt='uzbekistan flag' height={20} className='me-2' />
-                                {op.content}
-                            </div>}
-                            size='l'
-                            name='location'
-                            onBlur={formik.handleBlur}
-                            onUpdate={(e) => formik.setFieldValue('location', e[0])}
-                            value={[formik.values.location]}
-                            error={!!formik.errors.location && formik.touched.location}
-                            view='clear'
-                        /> */}
-
                         <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-2'>Yaratish</Button>
 
                     </form>

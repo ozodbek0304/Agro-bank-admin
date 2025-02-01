@@ -5,6 +5,7 @@ import theme from './theme'
 import auth from './auth/auth'
 import { authApi } from './auth/authApi'
 import admins from './admins/admins'
+import mfos from './mfo/mfo'
 import { adminsApi } from './admins/adminsApi'
 import orders from './orders/orders'
 import { ordersApi } from './orders/ordersApi'
@@ -14,11 +15,13 @@ import user from './employee/employee'
 import { userApi } from './employee/employeApi'
 import payments from './payments/payments'
 import { paymentsApi } from './payments/paymentsApi'
+import { mfosApi } from './mfo/mfosApi'
 
 export const store = configureStore({
     reducer: {
         [authApi.reducerPath]: authApi.reducer,
         [adminsApi.reducerPath]: adminsApi.reducer,
+        [mfosApi.reducerPath]: mfosApi.reducer,
         [ordersApi.reducerPath]: ordersApi.reducer,
         [settingsApi.reducerPath]: settingsApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
@@ -29,11 +32,13 @@ export const store = configureStore({
         orders,
         settings,
         user,
-        payments
+        payments,
+        mfos,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
             authApi.middleware,
+            mfosApi.middleware,
             adminsApi.middleware,
             ordersApi.middleware,
             settingsApi.middleware,
