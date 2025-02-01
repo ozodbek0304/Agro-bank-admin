@@ -9,13 +9,13 @@ import mfos from './mfo/mfo'
 import { adminsApi } from './admins/adminsApi'
 import orders from './orders/orders'
 import { ordersApi } from './orders/ordersApi'
-import settings from './settings/settings'
-import { settingsApi } from './settings/settingsApi'
 import user from './employee/employee'
+import status from './status/status'
 import { userApi } from './employee/employeApi'
 import payments from './payments/payments'
 import { paymentsApi } from './payments/paymentsApi'
 import { mfosApi } from './mfo/mfosApi'
+import { statusApi } from './status/statusApi'
 
 export const store = configureStore({
     reducer: {
@@ -23,14 +23,14 @@ export const store = configureStore({
         [adminsApi.reducerPath]: adminsApi.reducer,
         [mfosApi.reducerPath]: mfosApi.reducer,
         [ordersApi.reducerPath]: ordersApi.reducer,
-        [settingsApi.reducerPath]: settingsApi.reducer,
+        [statusApi.reducerPath]: statusApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [paymentsApi.reducerPath]: paymentsApi.reducer,
         theme,
         auth,
         admins,
         orders,
-        settings,
+        status,
         user,
         payments,
         mfos,
@@ -41,7 +41,7 @@ export const store = configureStore({
             mfosApi.middleware,
             adminsApi.middleware,
             ordersApi.middleware,
-            settingsApi.middleware,
+            statusApi.middleware,
             userApi.middleware,
             paymentsApi.middleware,
         ),

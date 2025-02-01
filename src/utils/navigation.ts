@@ -62,9 +62,9 @@ export const ceoNavigation: NavigationTypes[] = [
         childrens: []
     },
     {
-        name: "Sozlamalar",
+        name: "Holatlar",
         icon: GearDot,
-        path: '/settings',
+        path: '/status',
         childrens: []
     },
 ]
