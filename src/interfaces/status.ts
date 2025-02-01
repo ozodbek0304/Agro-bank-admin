@@ -3,15 +3,16 @@ export interface StatusItemType {
     name:string;
     status_id:string;
     parent?:string;
+    children?:any[];
 }
 
 
 export interface IStatusState {
     openCreate: boolean
     userData: null | StatusItemType
-    deleteId: number | null
+    deleteId: any[];
     queryParams: {
-        parent?: string[]; 
+        parent?: string
         limit?: number
         offset?: number
     }

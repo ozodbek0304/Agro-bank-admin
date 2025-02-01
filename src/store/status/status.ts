@@ -1,14 +1,14 @@
 // ** Redux Imports
 import { IStatusState } from '@/interfaces/status'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState: IStatusState = {
     openCreate: false,
     userData: null,
-    deleteId: null,
+    deleteId: [],
     queryParams: {
-        parent: [], 
-        limit: Number(localStorage.getItem('statusPageSize')) || 10,
+        parent: '',
+        limit: Number(localStorage.getItem('statusPageSize')) || 0,
         offset: 0
     }
 }
@@ -24,28 +24,21 @@ export const statusSlice = createSlice({
         setUserData: (state, action) => {
             state.userData = action.payload
         },
-        setDeleteId: (state, action) => {
-            state.deleteId = action.payload
-        },
-        updateStatusParams: (state, action: PayloadAction<{ parent: { id: string } | null }>) => {
-            const newParent = action.payload?.parent?.id;
-            if (!newParent) return; 
-
-            const currentParents = state.queryParams.parent;
-
-            if (currentParents.includes(newParent)) {
-                state.queryParams.parent = currentParents.filter(id => id !== newParent);
-            } else {
-                state.queryParams.parent = [...currentParents, newParent];
+        updateStatusParams: (state, action) => {
+            const newQueryParams = { ...state.queryParams, ...action.payload };
+        
+            if (newQueryParams.parent === '') {
+                delete newQueryParams.parent;  
             }
+            state.queryParams = newQueryParams;
         }
+        
     },
 })
 
 export const {
     setOpenCreate,
     setUserData,
-    setDeleteId,
     updateStatusParams
 } = statusSlice.actions
 

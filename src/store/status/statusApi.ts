@@ -17,6 +17,15 @@ export const statusApi = createApi({
             }), 
             providesTags:["Status"]
         }),
+        getStatusSelect: builder.query<StatusResponseType, StatusParamsType>({
+            query: (params) => ({
+                url: 'common/blank/status/path/',
+                method: 'get',
+                params
+            }), 
+            providesTags:["Status"]
+        }),
+
         createStatus: builder.mutation<StatusItemType, any>({
             query: (data) => ({
                 url: `common/blank/status/`,
@@ -36,4 +45,4 @@ export const statusApi = createApi({
     })
 })
 
-export const {useCreateStatusMutation, useGetStatusQuery, useUpdateStatusMutation } = statusApi
+export const {useCreateStatusMutation, useGetStatusQuery, useUpdateStatusMutation, useGetStatusSelectQuery } = statusApi

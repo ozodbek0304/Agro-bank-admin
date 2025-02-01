@@ -2,43 +2,29 @@ import { Breadcrumbs, FirstDisplayedItemsCount, LastDisplayedItemsCount } from "
 import CreateStatusModal from "./create-status-modal";
 import EditStatusModal from "./edit-status-modal";
 import StatusLists from "./status-list";
-import { RootState, useAppSelector } from "@/store/store";
+import { useGetStatusSelectQuery } from "@/store/status/statusApi";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { updateStatusParams } from "@/store/status/status";
 
 const SettingsMain = () => {
-
-  const parentList = useAppSelector((state: RootState) => state.status.queryParams.parent);
- console.log(parentList);
+     const { queryParams } = useAppSelector(state => state.status)
+ const {data, isSuccess}= useGetStatusSelectQuery(queryParams);
+ const dispatch = useAppDispatch();
+ 
+ const selectOptions =isSuccess ? data?.results?.map(item => ({
+    text:item?.name,
+    action: () => {dispatch(updateStatusParams({ parent: item?.id }))}
+})):[];
  
 
     return (
         <div>
-          <Breadcrumbs
+     { data?.results?.length>0 && <Breadcrumbs
            className="my-3 text-primary"
-    items={[
-        {
-            text: 'Region',
-            action: () => {},
-        },
-        {
-            text: 'Country',
-            action: () => {},
-        },
-        {
-            text: 'City',
-            action: () => {},
-        },
-        {
-            text: 'District',
-            action: () => {},
-        },
-        {
-            text: 'Street',
-            action: () => {},
-        },
-    ]}
+    items={selectOptions}
     firstDisplayedItemsCount={FirstDisplayedItemsCount.One}
     lastDisplayedItemsCount={LastDisplayedItemsCount.One}
-/>
+/>}
           <StatusLists />
           <EditStatusModal/>
           <CreateStatusModal/>

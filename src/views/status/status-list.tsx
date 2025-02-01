@@ -30,12 +30,12 @@ const StatusLists = () => {
         {
             id: 'name',
             name: "Nomi",
-            width: '30%',
+            width: '50%',
         },
         {
             id: 'status_id',
             name: "Holat ID",
-            width: '30%',
+            width: '50%',
         },
     ];
 
@@ -49,20 +49,21 @@ const StatusLists = () => {
         ];
     };
 
-     console.log(queryParams);
      
-
-
     return (
         <div style={{ width: '100%', overflowX: 'auto' }}>
             <div style={{ minWidth: '660px' }}>
                 {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : 
                 <MyTable rowActionsSize='l' data={data?.results}
                  columns={columns} getRowActions={getRowActions}
-                 onRowClick={(item:any) => dispatch(updateStatusParams({parent:item}))}
-
+                 onRowClick={(item: any) => {
+                    if (item?.children) {
+                      dispatch(updateStatusParams({ parent: item?.id }));
+                    }
+                  }}
+                
                  />}
-                {!isFetching && <UserPagination total={data?.count} />}
+                {!isFetching && data?.count>10 && <UserPagination total={data?.count} />}
             </div>
         </div>
     );

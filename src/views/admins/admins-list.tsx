@@ -78,7 +78,7 @@ const AdminsList = () => {
         <div style={{ width: '100%', overflowX: 'auto' }}>
             <div style={{ minWidth: '660px' }}>
                 {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions} />}
-                {!isFetching && <UserPagination total={data?.count} />}
+                {!isFetching && data?.count>10 && <UserPagination total={data?.count} />}
             </div>
         </div>
     );
