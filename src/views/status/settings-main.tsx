@@ -11,15 +11,28 @@ const SettingsMain = () => {
  const {data, isSuccess}= useGetStatusSelectQuery(queryParams);
  const dispatch = useAppDispatch();
  
- const selectOptions =isSuccess ? data?.results?.map(item => ({
-    text:item?.name,
-    action: () => {dispatch(updateStatusParams({ parent: item?.id }))}
-})):[];
- 
+ const selectOptions = isSuccess && data?.length > 0 ? [
+    {
+      text: 'Barchasi',
+      action: () => {
+        dispatch(updateStatusParams({ parent: null }));
+      }
+    },
+    ...data?.map(item => ({
+      text: item?.name,
+      action: () => {
+        dispatch(updateStatusParams({ parent: item?.id }));
+      }
+    }))
+  ] : [];
+  
+  
+  
+
 
     return (
         <div>
-     { data?.results?.length>0 && <Breadcrumbs
+     { selectOptions?.length>0 && <Breadcrumbs
            className="my-3 text-primary"
     items={selectOptions}
     firstDisplayedItemsCount={FirstDisplayedItemsCount.One}

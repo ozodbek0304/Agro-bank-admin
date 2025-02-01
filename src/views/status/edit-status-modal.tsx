@@ -40,6 +40,8 @@ const EditStatusModal = () => {
                   status_id: Yup.string().required("Maydonni to'ldiring"),
               }),
         onSubmit: async (values) => {
+             console.log(values);
+             
          
             try {
                 await updateAdmin({ id: userData?.id, ...values}).unwrap();

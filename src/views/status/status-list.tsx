@@ -24,7 +24,12 @@ const StatusLists = () => {
             width: '5%',
             template(item, index) {
                 item
-                return queryParams.offset + index + 1
+                return (
+                    <div className='d-flex align-items-center gap-1'>
+                        <span>{queryParams.offset + index + 1}</span>
+                        {item?.children && <span style={{width:"10px", height:"10px", backgroundColor:"green", borderRadius:"50%", border:"none"}}></span>}
+                    </div>
+                )
             },
         },
         {
