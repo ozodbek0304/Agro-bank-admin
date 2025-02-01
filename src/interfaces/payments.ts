@@ -6,7 +6,7 @@ export interface PaymentItemType {
     telegram_id: string
     latitude: any
     longitude:any
-    status: 'pending' | 'approved' | 'rejected'
+    status: any,
     employee: any,
     comment: string,
     payment_date: Date,
@@ -21,7 +21,6 @@ export interface PaymentData {
 }
 
 export interface IPaymentsState {
-    openCreate: boolean
     paymentData: null | PaymentItemType
     deleteId: number | null,
     queryParams: {

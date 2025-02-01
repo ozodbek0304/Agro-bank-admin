@@ -3,7 +3,6 @@ import { IPaymentsState } from '@/interfaces/payments'
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState: IPaymentsState = {
-    openCreate: false,
     paymentData: null,
     deleteId: null,
     queryParams: {
@@ -17,9 +16,6 @@ export const paymentsSlice = createSlice({
     name: 'payments',
     initialState,
     reducers: {
-        setOpenCreate: (state, action) => {
-            state.openCreate = action.payload
-        },
         setPaymentData: (state, action) => {
             state.paymentData = action.payload
         },
@@ -33,7 +29,6 @@ export const paymentsSlice = createSlice({
 })
 
 export const {
-    setOpenCreate,
     setPaymentData,
     setDeleteId,
     updateBlankParams

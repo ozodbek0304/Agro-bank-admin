@@ -17,14 +17,6 @@ export const paymentsApi = createApi({
             }),
             providesTags:["blank-list"]
         }),
-        createPayment: builder.mutation<PaymentItemType, CreatePaymentDto>({
-            query: (data) => ({
-                url: 'common/blank/',
-                method: 'post',
-                data
-            }),
-            invalidatesTags:["blank-list"]
-        }),
         updateAdmin: builder.mutation<PaymentItemType, any>({
             query: (data) => ({
                 url: `common/blank/${data.id}/`,
@@ -36,4 +28,4 @@ export const paymentsApi = createApi({
     })
 })
 
-export const { useGetPaymentsQuery, useCreatePaymentMutation, useUpdateAdminMutation } = paymentsApi
+export const { useGetPaymentsQuery, useUpdateAdminMutation } = paymentsApi

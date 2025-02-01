@@ -13,7 +13,6 @@ import { useDispatch } from 'react-redux';
 import { setDeleteId, setPaymentData } from '@/store/payments/payments';
 import UserPagination from './user-pagination';
 import { Link } from 'react-router-dom';
-// import { setPaymentData } from '@/store/payments/payments';
 
 
 
@@ -91,7 +90,10 @@ const PaymentsList = () => {
         {
             id: 'status',
             name: 'Holati',
-            width: '10%',
+            width: '15%',
+            template(item) {
+                return (item.status?.name)
+            },
         },
         
     ];
