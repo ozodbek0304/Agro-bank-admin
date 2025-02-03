@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { Button, Modal,Select,TextInput } from '@gravity-ui/uikit';
+import { Button, Modal,TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
