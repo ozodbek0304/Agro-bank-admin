@@ -14,7 +14,7 @@ const AdminsPage: React.FC = () => {
 
     return (
         <div>
-            <PageHeader title='Adminstatorlar' >
+            <PageHeader title='Adminlar' >
                 <Button view='outlined-success' size={isMobile ? 's' : 'l'} onClick={() => dispatch(setOpenCreate(true))} >
                     <Icon data={Plus} size={18} />
                     Yangi yaratish

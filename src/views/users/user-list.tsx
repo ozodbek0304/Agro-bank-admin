@@ -8,14 +8,14 @@ import { formatDateTime } from '@/utils/helpers';
 import { setUserData } from '@/store/employee/employee';
 import TableLoader from '@/components/elements/TableLoader';
 import UserPagination from './user-pagination';
+import { useNavigate } from 'react-router-dom';
 
-
-// const defaultCenter = { lat: 39.20501415, lng: 66.48657689750529 };  
 
 const UsersList = () => {
     const { queryParams } = useAppSelector(state => state.user)
     const { data, isFetching, isError } = useGetUsersQuery(queryParams)
     const dispatch = useAppDispatch();
+    const navigate=useNavigate();
 
     const MyTable = withTableActions(Table);
 
@@ -89,12 +89,10 @@ const UsersList = () => {
     return (
         <div style={{ width: '100%', overflowX: 'auto' }}>
             <div style={{ minWidth: '1000px' }}>
-            {/* <MapComponents
-             setCurrentLocation={setCurrentLocation}
-             setMapPosition={setMapPosition}
-             mapPosition={mapPosition}
-                        /> */}
-                {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions} />}
+                {isError ? <ErrorBox /> : isFetching ? <TableLoader /> :
+                 <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions}
+                   onRowClick={(item)=>navigate(`/employes/${item?.id}`)}
+                 />}
                 {!isFetching && <UserPagination total={data?.count} />}
             </div>
         </div>

@@ -27,6 +27,7 @@ const SettingsMain = () => {
     }))
      ] : [];
 
+      
 
 
     return (
@@ -38,7 +39,7 @@ const SettingsMain = () => {
     lastDisplayedItemsCount={LastDisplayedItemsCount.One}
 />}
           <StatusLists  data={data}  isFetching={isFetching} isError={isError} />
-          <EditStatusModal data={data}  isSuccess={isSuccess}  />
+          <EditStatusModal  />
           <CreateStatusModal data={data}  isSuccess={isSuccess}  />
         </div>
     );

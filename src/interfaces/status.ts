@@ -4,6 +4,7 @@ export interface StatusItemType {
     status_id:string;
     parent?:string;
     children?:any[];
+    level:number;
 }
 
 

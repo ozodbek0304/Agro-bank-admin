@@ -8,24 +8,13 @@ import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useUpdateStatusMutation } from '@/store/status/statusApi';
 import { setUserData } from '@/store/status/status';
-import { StatusResponseType } from '@/interfaces/status';
 
 
-interface Props {
-    data:StatusResponseType,
-    isSuccess: boolean,
-}
-
-const EditStatusModal = ({data,isSuccess}:Props) => {
+const EditStatusModal = () => {
     const { userData } = useAppSelector(state => state.status)
     const dispatch = useAppDispatch();
 
-        
-    const selectOptions =isSuccess ? data?.results?.map(item => ({
-                value: item.id,
-                content: item.name,
-                text:item?.status_id,
-       })):[];
+
 
     const [updateAdmin, { isLoading }] = useUpdateStatusMutation()
 
@@ -38,16 +27,12 @@ const EditStatusModal = ({data,isSuccess}:Props) => {
       initialValues: {
                   name: '',
                   status_id: '',
-                  parent: ''
               },
               validationSchema: Yup.object({
                   name: Yup.string().required("Maydonni to'ldiring"),
                   status_id: Yup.string().required("Maydonni to'ldiring"),
               }),
         onSubmit: async (values) => {
-             console.log(values);
-             
-         
             try {
                 await updateAdmin({ id: userData?.id, ...values}).unwrap();
                 closeModal()
@@ -77,13 +62,11 @@ const EditStatusModal = ({data,isSuccess}:Props) => {
         if (userData) {
             formik.setValues({
                 name: userData?.name,
-                parent: (userData?.parent),
                 status_id: (userData?.status_id),
             })
         }
     }, [userData])
 
-     
 
     return (
         <div>
@@ -94,22 +77,6 @@ const EditStatusModal = ({data,isSuccess}:Props) => {
                     </h4>
                     {userData ?
                    <form onSubmit={formik.handleSubmit} className="create-admin-form mt-2 d-flex flex-column gap-2">
-                       
-                   <Select
-                        placeholder={"Holat "}
-                           options={selectOptions}
-                           renderOption={(op) => <div>
-                               {op.content}
-                           </div>}
-                           size='l'
-                           name='parent'
-                           onBlur={formik.handleBlur}
-                           onUpdate={(e) => formik.setFieldValue('parent', e[0])}
-                           value={[formik.values.parent]}
-                           error={!!formik.errors.parent && formik.touched.parent}
-                           view='clear'
-                       />
-
                        <TextInput
                            placeholder="Holat nomi"
                            size='l'

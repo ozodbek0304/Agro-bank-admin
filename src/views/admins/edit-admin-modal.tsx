@@ -88,7 +88,7 @@ const EditAdminModal = () => {
             <Modal open={!!adminData} onClose={closeModal}>
                 <div className='create-admin-modal'>
                     <h4>
-                        Adminstatorni tahrirlash
+                        Adminni tahrirlash
                     </h4>
                     {adminData ? <form onSubmit={formik.handleSubmit} className="create-admin-form mt-3 d-flex flex-column gap-2">
                         <TextInput

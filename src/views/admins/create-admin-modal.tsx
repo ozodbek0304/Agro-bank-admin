@@ -64,7 +64,7 @@ const CreateAdminModal = () => {
             <Modal open={openCreate} onClose={closeModal}>
                 <div className='create-admin-modal'>
                     <h4>
-                        Adminstator yaratish
+                        Admin yaratish
                     </h4>
                     <form onSubmit={formik.handleSubmit} className="create-admin-form mt-3 d-flex flex-column gap-2">
                         <TextInput

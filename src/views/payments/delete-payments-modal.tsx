@@ -25,7 +25,7 @@ const DeletePaymentModal = () => {
             <Modal open={!!deleteId} onClose={closeModal}>
                 <div className='create-admin-modal'>
                     <h5 className="text-center">
-                        Rostdan ham bu adminstatorni o'chirmoqchimisiz?
+                        Rostdan ham bu adminni o'chirmoqchimisiz?
                     </h5>
 
                     <div className="mt-3 mb-3 d-flex justify-content-evenly">

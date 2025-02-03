@@ -23,7 +23,7 @@ const StatusLists = ({data,isError, isFetching}:Props) => {
         {
             id: 'id',
             name: "#",
-            width: '8%',
+            width: '7%',
             template(item, index) {
                 item
                 return (
