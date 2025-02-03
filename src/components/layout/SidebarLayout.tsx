@@ -21,8 +21,8 @@ export const SidebarLayout: React.FC<AppProps> = ({ children }) => {
 
     if (pathname === '/' || pathname === '/login') {
         if (role === 'admin') {
-            window.location.href = '/orders'
-        } else window.location.href = '/mfo'
+            window.location.href = '/blanks'
+        } else window.location.href = '/employes'
     }
 
     return (

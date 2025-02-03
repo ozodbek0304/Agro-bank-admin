@@ -1,7 +1,14 @@
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { Pagination, PaginationProps, Select } from "@gravity-ui/uikit";
-import { pageSizes } from "../orders/orders-list";
 import { updateUserParams } from "@/store/employee/employee";
+
+export const pageSizes = [
+    { value: '10', content: '10' },
+    { value: '20', content: '20' },
+    { value: '50', content: '50' },
+    { value: '100', content: '100' },
+]
+
 
 const UserPagination = ({ total }: { total: number }) => {
 

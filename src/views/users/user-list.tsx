@@ -23,7 +23,7 @@ const UsersList = () => {
         {
             id: 'id',
             name: "#",
-            width: '5%',
+            width: '7%',
             template(item, index) {
                 item
                 return queryParams.offset + index + 1
@@ -88,7 +88,7 @@ const UsersList = () => {
 
     return (
         <div style={{ width: '100%', overflowX: 'auto' }}>
-            <div style={{ minWidth: '660px' }}>
+            <div style={{ minWidth: '1000px' }}>
             {/* <MapComponents
              setCurrentLocation={setCurrentLocation}
              setMapPosition={setMapPosition}

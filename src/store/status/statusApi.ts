@@ -14,7 +14,7 @@ export const statusApi = createApi({
                 url: 'common/blank/status/',
                 method: 'get',
                 params
-            }), 
+            }),
             providesTags:["Status"]
         }),
         getStatusSelect: builder.query<any, any>({
@@ -22,7 +22,7 @@ export const statusApi = createApi({
                 url: 'common/blank/status/path/',
                 method: 'get',
                 params
-            }), 
+            }),
             providesTags:["Status"]
         }),
 

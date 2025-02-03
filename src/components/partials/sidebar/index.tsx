@@ -1,6 +1,6 @@
 
 type Props = {}
-import { Button, Icon, Text } from '@gravity-ui/uikit'
+import { Button, Icon } from '@gravity-ui/uikit'
 import './style.scss'
 import Menu from './Menu'
 import { useAppDispatch, useAppSelector } from '@/store/store'
@@ -23,8 +23,8 @@ export default function Sidebar({ }: Props) {
         <div className={`sidebar ${menuType === 'collepse' ? 'sidebar-close' : ''}`}>
             <div className="sidebar-top">
                 <div>
-                    {/* <img src="/logo.png" alt="" height={30} /> */}
-                    {menuType === 'collepse' ? '' : <Text className='ms-2'>AGRO BANK</Text>}
+                   {menuType !== 'collepse' ? <img src="/logo.png" alt="AGROBANK"  style={{width:"100%", height:"50px", objectFit:"cover", margin:"0 auto"}}/>
+                    : <img src="/title.png" alt="AGROBANK"  style={{width:"100%", height:"40px", objectFit:"cover", margin:"0 auto"}}/> }
                 </div>
                 {isMobile && <Button view='flat' size="l" onClick={toggleMenu}>
                     <Icon data={ChevronsLeft} size={22} />

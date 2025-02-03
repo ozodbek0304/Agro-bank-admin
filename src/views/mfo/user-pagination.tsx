@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { Pagination, PaginationProps, Select } from "@gravity-ui/uikit";
-import { pageSizes } from "../orders/orders-list";
 import { updateMfoParams } from "@/store/mfo/mfo";
+import { pageSizes } from "../users/user-pagination";
 
 const UserPagination = ({ total }: { total: number }) => {
 

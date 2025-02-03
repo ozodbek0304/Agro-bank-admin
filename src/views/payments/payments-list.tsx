@@ -25,7 +25,7 @@ const PaymentsList = () => {
         {
             id: 'id',
             name: "#",
-            width: '5%',
+            width: '7%',
             template(item, index) {
                 item
                 return queryParams.offset + index + 1
@@ -113,7 +113,7 @@ const PaymentsList = () => {
 
     return (
         <div style={{ width: '100%', overflowX: 'auto' }}>
-            <div style={{ minWidth: '660px' }}>
+            <div style={{ minWidth: '1100px' }}>
                 {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions} />}
                 {!isFetching && data?.count>10 && <UserPagination total={data?.count} />}
             </div>

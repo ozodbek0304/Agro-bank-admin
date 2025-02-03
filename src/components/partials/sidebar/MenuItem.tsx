@@ -32,7 +32,7 @@ export default function MenuItem({ menuItem }: { menuItem: NavigationTypes }) {
                 <div tabIndex={0}>
                     <Button
                         size='l'
-                        view={isActive ? 'outlined-info' : 'flat-info'}
+                        view={isActive ? 'outlined-success' : 'flat-success'}
                         onClick={handleClick}
                     >
                         <Icon data={menuItem.icon} size={18} />
@@ -45,7 +45,7 @@ export default function MenuItem({ menuItem }: { menuItem: NavigationTypes }) {
     return (
         <Button
             size='l'
-            view={isActive ? 'outlined-info' : 'flat-info'}
+            view={isActive ? 'outlined-success' : 'flat-success'}
             width='max'
             className="menu-item"
             onClick={handleClick}
