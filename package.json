@@ -36,9 +36,10 @@
   },
   "dependencies": {
     "@gravity-ui/icons": "^2.6.0",
-    "@gravity-ui/uikit": "^5.17.0",
+    "@gravity-ui/uikit": "^6.42.0",
     "@react-google-maps/api": "^2.19.3",
     "@reduxjs/toolkit": "^2.2.5",
+    "antd": "^5.23.3",
     "axios": "^1.7.2",
     "bem-cn-lite": "^4.1.0",
     "formik": "^2.4.6",
@@ -61,17 +62,19 @@
     "@gravity-ui/prettier-config": "^1.1.0",
     "@gravity-ui/stylelint-config": "^4.0.0",
     "@gravity-ui/tsconfig": "^1.0.0",
+    "@types/antd": "^0.12.32",
     "@types/leaflet": "^1.9.12",
+    "@types/node": "^22.13.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@vitejs/plugin-react": "^4.2.0",
-    "esbuild-sass-plugin": "^2.16.0",
+    "esbuild-sass-plugin": "^2.16.1",
     "eslint": "^8.53.0",
     "husky": "^8.0.3",
     "sass": "^1.68.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
-    "vite-plugin-svgr": "^4.2.0"
+    "vite-plugin-svgr": "^4.3.0"
   },
   "browserslist": [
     "extends @gravity-ui/browserslist-config"
