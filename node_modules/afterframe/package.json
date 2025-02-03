@@ -1,0 +1,58 @@
+{
+  "name": "afterframe",
+  "amdName": "afterFrame",
+  "version": "1.0.2",
+  "description": "A simple method to invoke a function after the browser has rendered & painted a frame",
+  "main": "dist/afterframe.js",
+  "module": "dist/afterframe.module.js",
+  "unpkg": "dist/afterframe.umd.js",
+  "umd:main": "dist/afterframe.umd.js",
+  "source": "src/index.js",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "test": "tsc -p ./test/tsconfig.json && jest --ci --coverage",
+    "build": "microbundle build",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewiggins/afterframe.git"
+  },
+  "authors": [
+    "Andre Wiggins <https://github.com/andrewiggins>"
+  ],
+  "license": "MIT",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "bugs": {
+    "url": "https://github.com/andrewiggins/afterframe/issues"
+  },
+  "homepage": "https://github.com/andrewiggins/afterframe#readme",
+  "devDependencies": {
+    "@types/jest": "^27.0.1",
+    "@types/node": "^14.0.26",
+    "jest": "^27.0.6",
+    "jest-junit": "^12.2.0",
+    "microbundle": "^0.13.3",
+    "typescript": "^4.3.5"
+  },
+  "jest": {
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.jsx?$",
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "cobertura"
+    ],
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
+  },
+  "jest-junit": {
+    "outputDirectory": "./test-results/"
+  }
+}
