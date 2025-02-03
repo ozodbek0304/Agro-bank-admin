@@ -36,11 +36,7 @@
   },
   "dependencies": {
     "@gravity-ui/icons": "^2.6.0",
-<<<<<<< HEAD
     "@gravity-ui/uikit": "^5.31.2",
-=======
-    "@gravity-ui/uikit": "^6.42.0",
->>>>>>> 50b46519b4bcbf873742bef28061768a26eac61d
     "@react-google-maps/api": "^2.19.3",
     "@reduxjs/toolkit": "^2.2.5",
     "antd": "^5.23.3",
