@@ -7,8 +7,6 @@ import { authApi } from './auth/authApi'
 import admins from './admins/admins'
 import mfos from './mfo/mfo'
 import { adminsApi } from './admins/adminsApi'
-import orders from './orders/orders'
-import { ordersApi } from './orders/ordersApi'
 import user from './employee/employee'
 import status from './status/status'
 import { userApi } from './employee/employeApi'
@@ -22,14 +20,12 @@ export const store = configureStore({
         [authApi.reducerPath]: authApi.reducer,
         [adminsApi.reducerPath]: adminsApi.reducer,
         [mfosApi.reducerPath]: mfosApi.reducer,
-        [ordersApi.reducerPath]: ordersApi.reducer,
         [statusApi.reducerPath]: statusApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [paymentsApi.reducerPath]: paymentsApi.reducer,
         theme,
         auth,
         admins,
-        orders,
         status,
         user,
         payments,
@@ -40,7 +36,6 @@ export const store = configureStore({
             authApi.middleware,
             mfosApi.middleware,
             adminsApi.middleware,
-            ordersApi.middleware,
             statusApi.middleware,
             userApi.middleware,
             paymentsApi.middleware,

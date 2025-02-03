@@ -1,24 +1,12 @@
 import { NavigationTypes } from "@/interfaces/app";
-import { ChartMixed, Persons, Box, GearDot, FaceAlien, QrCode } from '@gravity-ui/icons';
+import { ChartMixed, Persons,  GearDot, FaceAlien, QrCode } from '@gravity-ui/icons';
 
 
 export const adminNavigation: NavigationTypes[] = [
     {
-        name: "MFO",
-        icon: ChartMixed,
-        path: '/mfo',
-        childrens: []
-    },
-    {
-        name: "Buyurtmalar",
-        icon: Box,
-        path: '/orders',
-        childrens: []
-    },
-    {
         name: "Anketalar",
         icon: QrCode,
-        path: '/payments',
+        path: '/blanks',
         childrens: []
     },
     {
@@ -26,15 +14,27 @@ export const adminNavigation: NavigationTypes[] = [
         icon: Persons,
         path: '/employes',
         childrens: []
-    }
+    },
+    {
+        name: "MFO",
+        icon: ChartMixed,
+        path: '/mfo',
+        childrens: []
+    },
 ]
 
 
 export const ceoNavigation: NavigationTypes[] = [
     {
-        name: "MFO",
-        icon: ChartMixed,
-        path: '/mfo',
+        name: "Anketalar",
+        icon: QrCode,
+        path: '/blanks',
+        childrens: []
+    },
+    {
+        name: "Xodimlar",
+        icon: Persons,
+        path: '/employes',
         childrens: []
     },
     {
@@ -44,21 +44,9 @@ export const ceoNavigation: NavigationTypes[] = [
         childrens: []
     },
     {
-        name: "Buyurtmalar",
-        icon: Box,
-        path: '/orders',
-        childrens: []
-    },
-    {
-        name: "Anketalar",
-        icon: QrCode,
-        path: '/payments',
-        childrens: []
-    },
-    {
-        name: "Xodimlar",
-        icon: Persons,
-        path: '/employes',
+        name: "MFO",
+        icon: ChartMixed,
+        path: '/mfo',
         childrens: []
     },
     {
