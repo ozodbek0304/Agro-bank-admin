@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
 import toast from 'react-hot-toast';
-import { useCreatePaymentMutation, useUpdateAdminMutation } from '@/store/payments/paymentsApi';
+import {  useUpdateAdminMutation } from '@/store/payments/paymentsApi';
 import { useEffect} from 'react';
 import { setPaymentData } from '@/store/payments/payments';
 import { useGetUsersQuery } from '@/store/employee/employeApi';

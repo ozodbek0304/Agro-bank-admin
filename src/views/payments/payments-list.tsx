@@ -1,9 +1,6 @@
 import ErrorBox from '@/components/elements/ErrorBox';
-import { formatAmount, formatDateTime, formatPhone } from '@/utils/helpers';
-import { Label, Table, TableColumnConfig, withTableActions } from '@gravity-ui/uikit';
-// import { PencilToSquare, TrashBin } from '@gravity-ui/icons';
-// import { useAppDispatch } from '@/store/store';
-// import { setDeleteId } from '@/store/admins/admins';
+import { formatAmount, formatDateTime } from '@/utils/helpers';
+import {  Table, TableColumnConfig, withTableActions } from '@gravity-ui/uikit';
 import TableLoader from '@/components/elements/TableLoader';
 import { useGetPaymentsQuery } from '@/store/payments/paymentsApi';
 import { PaymentItemType } from '@/interfaces/payments';

@@ -2,21 +2,19 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { Button, Modal } from "@gravity-ui/uikit";
 import './style.scss'
 import { setDeleteId } from "@/store/admins/admins";
-import { useDeleteAdminMutation, useGetAdminsQuery } from "@/store/admins/adminsApi";
+import { useDeleteAdminMutation } from "@/store/admins/adminsApi";
 import toast from "react-hot-toast";
 
 const DeleteAdminModal = () => {
     const { deleteId } = useAppSelector(state => state.admins)
     const dispatch = useAppDispatch()
     const [deleteAdmin, { isLoading }] = useDeleteAdminMutation()
-    const { refetch } = useGetAdminsQuery(``)
 
     const closeModal = () => dispatch(setDeleteId(null))
 
     const handleDelete = async () => {
         if (deleteId) {
             await deleteAdmin(deleteId)
-            await refetch()
             toast.success("Adminstrator muvaffaqiyatli o'chirildi")
             closeModal()
         }
