@@ -22,7 +22,7 @@ const AdminsList = () => {
         {
             id: 'id',
             name: "#",
-            width: '5%',
+            width: '7%',
             template(item, index) {
                 item
                 return queryParams.offset + index + 1

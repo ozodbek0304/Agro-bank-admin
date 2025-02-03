@@ -15,7 +15,7 @@ const UserListPage: React.FC = () => {
     return (
         <div>
             <PageHeader title='Xodimlar' >
-                <Button view='outlined-info' size={isMobile ? 's' : 'l'} onClick={() => dispatch(setOpenCreate(true))} >
+                <Button view='outlined-success' size={isMobile ? 's' : 'l'} onClick={() => dispatch(setOpenCreate(true))} >
                     <Icon data={Plus} size={18} />
                     Yangi yaratish
                 </Button>

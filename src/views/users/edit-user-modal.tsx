@@ -179,7 +179,7 @@ const EditUserModal = () => {
                         />
                     
                     
-                                            <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-2'>Saqlash</Button>
+                                            <Button loading={isLoading} size='l' view='outlined-success' type='submit' className='mt-2'>Saqlash</Button>
                     
                                         </form> : <PageLoader loading />}
                 </div>

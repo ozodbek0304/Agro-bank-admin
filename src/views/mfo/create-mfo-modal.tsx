@@ -120,7 +120,7 @@ const CreateMfoModal = () => {
                             view='clear'
                         />
 
-                        <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-2'>Yaratish</Button>
+                        <Button loading={isLoading} size='l' view='outlined-success' type='submit' className='mt-2'>Yaratish</Button>
 
                     </form>
                 </div>

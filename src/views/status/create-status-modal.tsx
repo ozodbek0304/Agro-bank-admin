@@ -4,14 +4,18 @@ import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
 import toast from 'react-hot-toast';
-import { useCreateStatusMutation, useGetStatusQuery } from '@/store/status/statusApi';
+import { useCreateStatusMutation } from '@/store/status/statusApi';
 import { setOpenCreate } from '@/store/status/status';
+import { StatusResponseType } from '@/interfaces/status';
 
+interface Props {
+    data:StatusResponseType,
+    isSuccess: boolean,
+}
 
-const CreateStatusModal = () => {
+const CreateStatusModal = ({data,isSuccess}:Props) => {
     const { openCreate } = useAppSelector(state => state.status)
     const dispatch = useAppDispatch();
-    const {data,isSuccess}= useGetStatusQuery({});
     
      const selectOptions =isSuccess ? data?.results?.map(item => ({
             value: item.id,
@@ -108,7 +112,7 @@ const CreateStatusModal = () => {
                             error={!!formik.errors.status_id && formik.touched.status_id}
                         />
 
-                        <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-2'>Yaratish</Button>
+                        <Button loading={isLoading} size='l' view='outlined-success' type='submit' className='mt-2'>Yaratish</Button>
 
                     </form>
                 </div>

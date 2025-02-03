@@ -6,15 +6,20 @@ import * as Yup from 'yup'
 import PageLoader from '@/components/elements/Loader';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { useGetStatusQuery, useUpdateStatusMutation } from '@/store/status/statusApi';
+import { useUpdateStatusMutation } from '@/store/status/statusApi';
 import { setUserData } from '@/store/status/status';
+import { StatusResponseType } from '@/interfaces/status';
 
 
-const EditStatusModal = () => {
+interface Props {
+    data:StatusResponseType,
+    isSuccess: boolean,
+}
+
+const EditStatusModal = ({data,isSuccess}:Props) => {
     const { userData } = useAppSelector(state => state.status)
     const dispatch = useAppDispatch();
 
-      const {data,isSuccess}= useGetStatusQuery({});
         
     const selectOptions =isSuccess ? data?.results?.map(item => ({
                 value: item.id,
@@ -128,7 +133,7 @@ const EditStatusModal = () => {
                            error={!!formik.errors.status_id && formik.touched.status_id}
                        />
 
-                       <Button loading={isLoading} size='l' view='outlined-info' type='submit' className='mt-2'>Saqlash</Button>
+                       <Button loading={isLoading} size='l' view='outlined-success' type='submit' className='mt-2'>Saqlash</Button>
 
                    </form>: <PageLoader loading />}
                 </div>
