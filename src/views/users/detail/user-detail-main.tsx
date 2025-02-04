@@ -13,6 +13,15 @@ import FilterSearch from "@/views/filter/blank-filter";
 import { updateBlankParams } from "@/store/payments/payments";
 import { Image, Modal } from "antd";
 import { regionsTitle } from "@/views/mfo/mfos-list";
+import toast from "react-hot-toast";
+import { Copy } from "@gravity-ui/icons";
+
+ 
+export  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text)
+        .then(() => toast.success("Havola nusxalandi! 📋"))
+        .catch(err => toast.error("Nusxalashda xatolik: ", err));
+};
 
 const UserDetailMain = () => {
     const { queryParams } = useAppSelector(state => state.payments);
@@ -80,9 +89,15 @@ const UserDetailMain = () => {
             name: "Joylashuv",
             width: '8%',
             template(item) {
-                return <Link to={item.location} target="_blank">
-                    Link
-                </Link>
+                return (
+                    <div className="w-100 d-flex align-items-center gap-2">
+                        <Link to={item.location}
+                            target="_blank">
+                            Link
+                        </Link>
+                        <span className="text-primary" style={{ cursor: "pointer" }} onClick={() => copyToClipboard(item?.location)} ><Copy /></span>
+                    </div>
+                )
             },
         },
         {

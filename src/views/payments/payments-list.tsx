@@ -5,7 +5,7 @@ import TableLoader from '@/components/elements/TableLoader';
 import { useGetPaymentsQuery } from '@/store/payments/paymentsApi';
 import { PaymentItemType } from '@/interfaces/payments';
 import { useAppSelector } from '@/store/store';
-import { PencilToSquare } from '@gravity-ui/icons';
+import { Copy, PencilToSquare } from '@gravity-ui/icons';
 import { useDispatch } from 'react-redux';
 import { setPaymentData } from '@/store/payments/payments';
 import UserPagination from './user-pagination';
@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { Image, Modal } from 'antd';
 import { useState } from 'react';
 import { regionsTitle } from '../mfo/mfos-list';
+import { copyToClipboard } from '../users/detail/user-detail-main';
 
 
 
@@ -81,9 +82,15 @@ const PaymentsList = () => {
             name: "Joylashuv",
             width: '8%',
             template(item) {
-                return <Link to={item.location} target='_blank'>
-                    Link
-                </Link>
+                return (
+                    <div className="w-100 d-flex align-items-center gap-2">
+                        <Link to={item.location}
+                            target="_blank">
+                            Link
+                        </Link>
+                        <span className="text-primary" style={{ cursor: "pointer" }} onClick={() => copyToClipboard(item?.location)} ><Copy /></span>
+                    </div>
+                )
             },
         },
         {
