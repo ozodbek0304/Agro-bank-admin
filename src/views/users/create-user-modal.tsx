@@ -7,20 +7,21 @@ import * as Yup from 'yup'
 import { useCreateUserMutation } from '@/store/employee/employeApi';
 import toast from 'react-hot-toast';
 import { useGetMfoQuery } from '@/store/mfo/mfosApi';
+// import { useState } from 'react';
 
 
 
 const CreateUserModal = () => {
     const { openCreate } = useAppSelector(state => state.user)
     const dispatch = useAppDispatch();
-    const {data,isSuccess}= useGetMfoQuery({});
+    const { data, isSuccess } = useGetMfoQuery({});
+    // const [searchQuery, setSearchQuery] = useState("");
 
-    const selectOptions =isSuccess ? data?.results?.map(item => ({
+    const selectOptions = isSuccess ? data?.results?.map(item => ({
         value: item.id,
         content: item.mfo_code,
-        text:item?.region,
-    })):[];
-    
+        text: item?.region,
+    })) : [];
 
     const [createUser, { isLoading }] = useCreateUserMutation()
 
@@ -47,18 +48,18 @@ const CreateUserModal = () => {
                 closeModal()
                 formik.resetForm()
                 toast.success('Foydalanuvchi muvaffaqiyatli yaratildi')
-            }catch (error: any) {
+            } catch (error: any) {
                 if (error?.data) {
                     const errors = error?.data;
                     if (errors?.error) {
                         toast.error(errors?.error);
-                     }
+                    }
                     const formikErrors: Record<string, string> = {};
-        
+
                     Object.keys(errors).forEach(key => {
                         formikErrors[key] = errors[key];
                     });
-        
+
                     formik.setErrors(formikErrors);
                 } else {
                     toast.error("Xatolik yuz berdi.");
@@ -66,6 +67,7 @@ const CreateUserModal = () => {
             }
         }
     })
+
 
     return (
         <div>
@@ -78,7 +80,7 @@ const CreateUserModal = () => {
                         <TextInput
                             size='l'
                             name='tab_number'
-                             placeholder='Tab Number'
+                            placeholder='Tab Number'
                             type='text'
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -86,26 +88,31 @@ const CreateUserModal = () => {
                             errorMessage={formik.errors.tab_number}
                             error={!!formik.errors.tab_number && formik.touched.tab_number}
                         />
-                         <Select
-                        filterable={true}
-                                                     placeholder={"MFO"}
-                                                    options={selectOptions}
-                                                    renderOption={(op) => <div>
-                                                       {op.content} {" - "} {op.text}
-                                                    </div>}
-                                                    size='l'
-                                                    name='mfo'
-                                                    onBlur={formik.handleBlur}
-                                                    onUpdate={(e) => formik.setFieldValue('mfo', e[0])}
-                                                    value={[formik.values.mfo]}
-                                                    error={!!formik.errors.mfo && formik.touched.mfo}
-                                                    view='clear'
-                                                />
 
-<TextInput
+                        <Select
+                            placeholder={"MFO"}
+                            options={selectOptions}
+                            renderOption={(op) => <div>
+                                <span>{op.content} {" - "} {op.text}</span>
+                            </div>}
+                            size='l'
+                            name='mfo'
+                            onBlur={formik.handleBlur}
+                            onUpdate={(e) => formik.setFieldValue('mfo', e[0])}
+                            value={[formik.values.mfo]}
+                            error={!!formik.errors.mfo && formik.touched.mfo}
+                            view='clear'
+                            filterable
+                            // onFilterChange={(value) => {
+                            //     setSearchQuery(value);
+                            //   }}
+
+                        />
+
+                        <TextInput
                             size='l'
                             name='crm_id'
-                             placeholder='CRM ID'
+                            placeholder='CRM ID'
                             type='text'
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -114,10 +121,10 @@ const CreateUserModal = () => {
                             error={!!formik.errors.crm_id && formik.touched.crm_id}
                         />
 
-<TextInput
+                        <TextInput
                             size='l'
                             name='telegram_id'
-                             placeholder='Telegram ID'
+                            placeholder='Telegram ID'
                             type='text'
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}

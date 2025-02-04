@@ -33,20 +33,114 @@ body,
     width: 100%;
 }
 
-.filter_container{
+.filter_container {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 12px;
     margin-bottom: 20px;
 
-    .filter_input{
-     width: 100%;
+    .filter_input {
+        width: 100%;
     }
-    .filter_select{
+
+    .filter_select {
         border: 1px solid #333;
         border-radius: 8px;
         min-width: 300px;
         width: 100%;
     }
+
+}
+
+
+.ant-picker-dark {
+    background-color: transparent !important;
+    color: white !important;
+}
+
+.ant-picker-dark input {
+    color: white !important;
+}
+
+.ant-picker-dark .ant-picker-range-separator {
+    color: white !important;
+}
+
+.ant-picker-dark .ant-picker-dropdown {
+    background-color: transparent !important;
+}
+
+/* Kalendar umumiy fon */
+.ant-picker-dark .ant-picker-body {
+    background-color: #221D22 !important;
+}
+
+/* Kalendar ichidagi kunlar */
+.ant-picker-dark .ant-picker-cell {
+    color: white !important;
+}
+
+/* Tanlangan kunlar va oralig‘idagi kunlar */
+.ant-picker-dark .ant-picker-cell-in-view.ant-picker-cell-selected,
+.ant-picker-dark .ant-picker-cell-in-view.ant-picker-cell-range-start,
+.ant-picker-dark .ant-picker-cell-in-view.ant-picker-cell-range-end,
+.ant-picker-dark .ant-picker-cell-in-view.ant-picker-cell-in-range {
+    background-color: #3A2F3A !important;
+    color: white !important;
+}
+
+/* Tanlangan kunlar hover qilinganda ham qora bo‘lsin */
+.ant-picker-dark .ant-picker-cell-in-view.ant-picker-cell-in-range:hover {
+    background-color: #4A3F4A !important;
+    color: white !important;
+}
+
+/* BEFORE & AFTER uchun qora fon qo‘shish */
+.ant-picker-dark .ant-picker-cell-in-view.ant-picker-cell-range-start::before,
+.ant-picker-dark .ant-picker-cell-in-view.ant-picker-cell-range-end::before,
+.ant-picker-dark .ant-picker-cell-in-view.ant-picker-cell-in-range::before,
+.ant-picker-dark .ant-picker-cell-in-view.ant-picker-cell-range-start::after,
+.ant-picker-dark .ant-picker-cell-in-view.ant-picker-cell-range-end::after,
+.ant-picker-dark .ant-picker-cell-in-view.ant-picker-cell-in-range::after {
+    background-color: #3A2F3A !important;
+}
+
+/* Kalendar header va footer */
+.ant-picker-dark .ant-picker-header,
+.ant-picker-dark .ant-picker-footer {
+    background-color: #221D22 !important;
+    color: white !important;
+}
+
+.ant-picker-dark .ant-picker-header button,
+.ant-picker-dark .ant-picker-footer button {
+    color: white !important;
+}
+
+/* Oy nomlari va hafta kunlari */
+.ant-picker-dark .ant-picker-content thead tr th {
+    color: white !important;
+}
+
+/* Navigatsiya tugmalari */
+.ant-picker-dark .ant-picker-header-super-prev-btn,
+.ant-picker-dark .ant-picker-header-super-next-btn,
+.ant-picker-dark .ant-picker-header-prev-btn,
+.ant-picker-dark .ant-picker-header-next-btn {
+    color: white !important;
+}
+
+.ant-picker-dark .ant-picker-suffix{
+    color: white !important;
+}
+
+.ant-picker-dark input::placeholder {
+    color: white !important;
+    opacity: 0.6; 
+}
+
+.g-select-control{
+    border: 1px solid #e0dce0 !important;
+    border-radius: 8px;
 }

@@ -25,7 +25,7 @@ const CreateAdminModal = () => {
             full_name: '',
             username: '',
             password: '',
-            region:"",
+            region: "",
         },
         validationSchema: Yup.object({
             full_name: Yup.string().required("Maydonni to'ldiring"),
@@ -44,13 +44,13 @@ const CreateAdminModal = () => {
                     const errors = error?.data;
                     if (errors?.error) {
                         toast.error(errors?.error);
-                     }
+                    }
                     const formikErrors: Record<string, string> = {};
-        
+
                     Object.keys(errors).forEach(key => {
                         formikErrors[key] = errors[key];
                     });
-        
+
                     formik.setErrors(formikErrors);
                 } else {
                     toast.error("Xatolik yuz berdi.");
@@ -78,20 +78,21 @@ const CreateAdminModal = () => {
                             error={!!formik.errors.full_name && formik.touched.full_name}
                         />
                         <Select
-                                                     placeholder={"Viloyat nomi"}
-                                                    options={regionsData}
-                                                    renderOption={(op) => <div>
-                                                        {op.content}
-                                                    </div>}
-                                                    size='l'
-                                                    name='region'
-                                                    onBlur={formik.handleBlur}
-                                                    onUpdate={(e) => formik.setFieldValue('region', e[0])}
-                                                    value={[formik.values.region]}
-                                                    error={!!formik.errors.region && formik.touched.region}
-                                                    view='clear'
-                                                />
-                        
+                            placeholder={"Viloyat nomi"}
+                            options={regionsData}
+                            renderOption={(op) => <div>
+                                {op.content}
+                            </div>}
+                            size='l'
+                            name='region'
+                            onBlur={formik.handleBlur}
+                            onUpdate={(e) => formik.setFieldValue('region', e[0])}
+                            value={[formik.values.region]}
+                            error={!!formik.errors.region && formik.touched.region}
+                            view='clear'
+                            
+                        />
+
 
 
                         <TextInput

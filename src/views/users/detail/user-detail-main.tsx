@@ -115,7 +115,7 @@ const UserDetailMain = () => {
             <div className="mb-4">
 
                 <h5>Anketalar</h5>
-                <FilterSearch updateSearchParams={updateBlankParams}/>
+                <FilterSearch updateSearchParams={updateBlankParams}  dateHidden={true} />
                 <div style={{ width: '100%', overflowX: 'auto' }}>
                     <div style={{ minWidth: '1100px' }}>
                         {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l'
