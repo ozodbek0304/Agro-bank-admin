@@ -9,6 +9,7 @@ import { setUserData } from '@/store/employee/employee';
 import TableLoader from '@/components/elements/TableLoader';
 import UserPagination from './user-pagination';
 import { useNavigate } from 'react-router-dom';
+import { updateBlankParams } from '@/store/payments/payments';
 
 
 const UsersList = () => {
@@ -32,7 +33,7 @@ const UsersList = () => {
         {
             id: 'mfo',
             name: "MFO",
-            width: '18%',
+            width: '15%',
             template(item) {
                 return item?.mfo?.mfo_code
             },
@@ -40,17 +41,22 @@ const UsersList = () => {
         {
             id: 'tab_number',
             name: "Tab Number",
-            width: '18%',
+            width: '12%',
         },
         {
             id: 'crm_id',
             name: "CRM ID",
-            width: '18%',
+            width: '12%',
         },
         {
             id: 'telegram_id',
             name: "Telegram ID",
-            width: '15%',
+            width: '12%',
+        },
+        {
+            id: 'region',
+            name: "Viloyat",
+            width: '18%',
         },
         {
             id: 'created_at',
@@ -84,14 +90,16 @@ const UsersList = () => {
             }
         ];
     };
-
+     
 
     return (
         <div style={{ width: '100%', overflowX: 'auto' }}>
             <div style={{ minWidth: '1000px' }}>
                 {isError ? <ErrorBox /> : isFetching ? <TableLoader /> :
                  <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions}
-                   onRowClick={(item)=>navigate(`/employes/${item?.id}`)}
+                   onRowClick={(item)=>{navigate(`/employes/${item?.id}`)
+                dispatch(updateBlankParams({search:"", employee:item?.id, region:""}))
+                }}
                  />}
                 {!isFetching && <UserPagination total={data?.count} />}
             </div>

@@ -46,11 +46,16 @@ const PaymentsList = () => {
         {
             id: 'employee',
             name: "Xodim",
-            width: '16%',
+            width: '14%',
         },
         {
             id: 'telegram_id',
             name: "Telegram ID",
+            width: '12%',
+        },
+        {
+            id: 'region',
+            name: "Viloyat",
             width: '12%',
         },
         {
@@ -66,9 +71,9 @@ const PaymentsList = () => {
         {
             id: 'payment_amount',
             name: "To'lov summa",
-            width: '15%',
+            width: '12%',
             template(item) {
-                return formatAmount(item.payment_amount)
+                return formatAmount(item.payment_amount || 0)
             },
         },
         {
@@ -83,6 +88,14 @@ const PaymentsList = () => {
             id: 'comment',
             name: "Izoh",
             width: '19%',
+            template(item) {
+                return (<div className='w-100' style={{
+                    whiteSpace:"wrap"
+                }}>
+                    {item?.comment}.
+
+                </div>)
+            },
         },
         {
             id: 'status',

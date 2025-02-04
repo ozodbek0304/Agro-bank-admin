@@ -7,9 +7,8 @@ const initialState: IStatusState = {
     userData: null,
     deleteId: [],
     queryParams: {
-        parent: '',
         limit: Number(localStorage.getItem('statusPageSize')) || 0,
-        offset: 0
+        offset: 0,
     }
 }
 

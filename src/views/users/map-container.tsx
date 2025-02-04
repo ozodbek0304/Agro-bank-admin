@@ -1,74 +1,18 @@
 import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { TextInput } from '@gravity-ui/uikit';
-import { useDebounce } from '@/utils/helpers';
+import { useEffect } from "react";
 
 
 
 interface MapComponentsProps {
-    setCurrentLocation: any;
-    setMapPosition: (position: { lat: number; lng: number }) => void;
+    setMapPosition: (position: { lat: any; lng:any }) => void;
     mapPosition: any
 }
 
 
-const MapComponents: React.FC<MapComponentsProps> = ({ setCurrentLocation, setMapPosition, mapPosition }) => {
+const MapComponents: React.FC<MapComponentsProps> = ({setMapPosition, mapPosition }) => {
 
-    const [inputFokus, setInputFokus] = useState(false);
-    const [inputLoading, setInputLoading] = useState(false);
-    const [search, setSearch] = useState('');
-    const debunce = useDebounce(search, 800)
-    const [locationData, setLocationData] = useState([]);
-    
-
-    const getCurrentLocation = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                async (position) => {
-                    const { latitude, longitude } = position.coords;
-                    const currentPosition = { lat: latitude, lng: longitude };
-                    setCurrentLocation(currentPosition);
-
-                    try {
-                        const response = await axios.get(
-                            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=uz`
-                        );
-                         console.log(response);
-                         
-                        const address = response.data.display_name;
-                        setCurrentLocation(address);
-                    } catch (error) {
-                        console.error('Error getting address:', error);
-                    }
-                },
-                (error) => {
-                    console.error('Error getting the current location:', error);
-                }
-            );
-        } else {
-            console.error('Geolocation is not supported by this browser.');
-        }
-    };
-
-    const locationSearch = async () => {
-        try {
-            setInputLoading(true);
-            const formattedAddress = debunce.replace(/\s+/g, '+');
-            const response = await axios.get(
-                `https://nominatim.openstreetmap.org/search.php?q=${formattedAddress}&format=json&accept-language=uz&countrycodes=uz`
-            );
-            const results = response.data;
-            setLocationData(results);
-        } catch (error: any) {
-            toast.error(error.message);
-        } finally {
-            setInputLoading(false);
-        }
-    };
 
     const legalIcon = new Icon({
         iconUrl:
@@ -100,79 +44,13 @@ const MapComponents: React.FC<MapComponentsProps> = ({ setCurrentLocation, setMa
 
         return mapPosition === null ? null : (
             <Marker position={mapPosition} icon={legalIcon}>
-                <Popup>You are here</Popup>
+                <Popup>Siz turgan joy</Popup>
             </Marker>
         );
     }
 
-    useEffect(() => {
-        getCurrentLocation();
-    }, []);
-
-    useEffect(() => {
-        if (search !== '') {
-            locationSearch();
-        }
-    }, [debunce]);
-
-
     return (
-        <div className="w-100">
-            <div style={{ position: "relative" }}>
-                <TextInput
-                    onFocus={() => setInputFokus(true)}
-                    onBlur={() =>
-                        setTimeout(() => {
-                            setInputFokus(false)
-                        }, 800)
-                    }
-                    onChange={(e) => setSearch(e.target.value)}
-                    className='w-100'
-                    style={{ height: "47px" }}
-                    placeholder="Joylashuvni qidirish"
-                />
-
-                {search !== '' && inputFokus && (
-                    <div
-                        className="bg-white shadow w-100 p-3"
-                        style={{
-                            position: "absolute",
-                            top: "50px",
-                            zIndex: "99999",
-                        }}
-                    >
-                        {!inputLoading ? (
-                            locationData?.length > 0 &&
-                            locationData?.map((item: any) => (
-                                <p
-                                    key={item?.place_id}
-                                    style={{
-                                        cursor: "pointer",
-                                        fontSize: "14px"
-                                    }}
-                                    onClick={() => {
-                                        setMapPosition({
-                                            lat: parseFloat(item?.lat),
-                                            lng: parseFloat(item?.lon),
-                                        });
-                                        setCurrentLocation(item?.display_name);
-                                        setInputFokus(false);
-                                    }}
-                                    className="border-bottom hover"
-                                >
-                                    {item?.display_name}
-                                </p>
-                            ))
-                        ) : (
-                            <div>
-                                <p>Loading...</p>
-                            </div>
-                        )}
-                    </div>
-                )}
-            </div>
-
-            <div className='my-3'>
+        <div className="w-100 my-3">
                 <MapContainer
                     center={mapPosition}
                     zoom={15}
@@ -185,7 +63,6 @@ const MapComponents: React.FC<MapComponentsProps> = ({ setCurrentLocation, setMa
                     />
                     <LocationMarker />
                 </MapContainer>
-            </div>
         </div>
     );
 }

@@ -32,3 +32,21 @@ body,
 .container-fill {
     width: 100%;
 }
+
+.filter_container{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+
+    .filter_input{
+     width: 100%;
+    }
+    .filter_select{
+        border: 1px solid #333;
+        border-radius: 8px;
+        min-width: 300px;
+        width: 100%;
+    }
+}

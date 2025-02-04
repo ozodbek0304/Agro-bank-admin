@@ -7,9 +7,8 @@ const initialState: IAdminsState = {
     adminData: null,
     deleteId: null,
     queryParams: {
-        search: '',
         limit: Number(localStorage.getItem('adminPageSize')) || 10,
-        offset: 0
+        offset: 0,
     }
 }
 

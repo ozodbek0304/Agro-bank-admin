@@ -21,5 +21,6 @@ export interface IAdminsState {
         search?: string
         limit?: number
         offset?: number
+        region?: string,
     }
 }

@@ -5,6 +5,7 @@ import StatusLists from "./status-list";
 import { useGetStatusQuery, useGetStatusSelectQuery } from "@/store/status/statusApi";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { updateStatusParams } from "@/store/status/status";
+import FilterSearch from "../filter/blank-filter";
 
 const SettingsMain = () => {
      const { queryParams } = useAppSelector(state => state.status)
@@ -38,6 +39,7 @@ const SettingsMain = () => {
     firstDisplayedItemsCount={FirstDisplayedItemsCount.One}
     lastDisplayedItemsCount={LastDisplayedItemsCount.One}
 />}
+       <FilterSearch updateSearchParams={updateStatusParams} regionHidden={false}/>
           <StatusLists  data={data}  isFetching={isFetching} isError={isError} />
           <EditStatusModal  />
           <CreateStatusModal data={data}  isSuccess={isSuccess}  />

@@ -12,6 +12,7 @@ export interface PaymentItemType {
     payment_date: Date,
     photo:any,
     location?:string,
+    region?:string
 }
 
 export interface PaymentData {
@@ -27,6 +28,8 @@ export interface IPaymentsState {
         search?: string
         limit?: number
         offset?: number
+        region?: string,
+        employee?: string,
     },
 }
 

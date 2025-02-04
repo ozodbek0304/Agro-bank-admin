@@ -8,7 +8,6 @@ export default function AdminsMain() {
     return (
         <div>
             <AdminsList />
-
             <CreateAdminModal />
             <EditAdminModal />
             <DeleteAdminModal/>

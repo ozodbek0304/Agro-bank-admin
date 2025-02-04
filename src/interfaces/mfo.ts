@@ -18,5 +18,6 @@ export interface IMFOsState {
         search?: string
         limit?: number
         offset?: number
+        region?: string,
     },
 }

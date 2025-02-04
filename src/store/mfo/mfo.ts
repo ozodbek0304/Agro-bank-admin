@@ -6,9 +6,8 @@ const initialState: IMFOsState = {
     openCreate: false,
     adminData: null,
     queryParams: {
-        search: '',
         limit: Number(localStorage.getItem('mfoPageSize')) || 10,
-        offset: 0
+        offset: 0,
     },
 }
 

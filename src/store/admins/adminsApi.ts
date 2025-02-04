@@ -11,9 +11,10 @@ export const adminsApi = createApi({
     tagTypes:["admin-list"],
     endpoints: (builder) => ({
         getAdmins: builder.query<AdminData, UserParamsType>({
-            query: () => ({
+            query: (params) => ({
                 url: 'admin-list/',
                 method: 'get',
+                params
             }),
             providesTags:["admin-list"]
         }),

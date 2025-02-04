@@ -7,9 +7,8 @@ const initialState: IUserState = {
     userData: null,
     deleteId: null,
     queryParams: {
-        search: '',
         limit: Number(localStorage.getItem('userPageSize')) || 10,
-        offset: 0
+        offset: 0,
     }
 }
 

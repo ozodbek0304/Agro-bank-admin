@@ -6,9 +6,8 @@ const initialState: IPaymentsState = {
     paymentData: null,
     deleteId: null,
     queryParams: {
-        search: '',
         limit: Number(localStorage.getItem('blankPageSize')) || 10,
-        offset: 0
+        offset: 0,
     },
 }
 

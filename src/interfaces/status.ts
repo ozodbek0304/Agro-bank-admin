@@ -16,6 +16,7 @@ export interface IStatusState {
         parent?: string
         limit?: number
         offset?: number
+        region?: string,
     }
 }
 

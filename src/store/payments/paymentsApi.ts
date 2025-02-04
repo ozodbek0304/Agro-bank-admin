@@ -11,12 +11,23 @@ export const paymentsApi = createApi({
     tagTypes:["blank-list"],
     endpoints: (builder) => ({
         getPayments: builder.query<PaymentData, UserParamsType>({
-            query: () => ({
+            query: (params) => ({
                 url: 'common/blank/',
                 method: 'get',
+                params
             }),
             providesTags:["blank-list"]
         }),
+
+        getBlankDetails: builder.query<PaymentData, UserParamsType>({
+            query: (params) => ({
+                url: `common/blank/`,
+                method: 'get',
+                params,
+            }),
+            providesTags:["blank-list"]
+        }),
+
         updateAdmin: builder.mutation<PaymentItemType, any>({
             query: (data) => ({
                 url: `common/blank/${data.id}/`,
@@ -28,4 +39,4 @@ export const paymentsApi = createApi({
     })
 })
 
-export const { useGetPaymentsQuery, useUpdateAdminMutation } = paymentsApi
+export const { useGetPaymentsQuery, useUpdateAdminMutation, useGetBlankDetailsQuery } = paymentsApi

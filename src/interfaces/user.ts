@@ -10,6 +10,7 @@ export interface UserItemType {
     telegram_id: string,
     created_at?:Date;
     status:boolean;
+    region:string;
 }
 
 export interface CreateUserDto {
@@ -33,6 +34,7 @@ export interface IUserState {
         search?: string
         limit?: number
         offset?: number
+        region?:string
     }
 }
 
@@ -45,5 +47,6 @@ export interface UsersResponseType {
 export interface UserParamsType {
     search?: string
     limit?: number
-    offset?: number
+    offset?: number,
+    employee?: string,
 }
