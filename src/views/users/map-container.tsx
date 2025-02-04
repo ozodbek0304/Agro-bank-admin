@@ -1,5 +1,6 @@
 import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { Icon } from 'leaflet';
 import { useEffect } from "react";
 
 
@@ -12,6 +13,13 @@ interface MapComponentsProps {
 
 const MapComponents: React.FC<MapComponentsProps> = ({setMapPosition, mapPosition }) => {
 
+
+    const legalIcon = new Icon({
+        iconUrl: "https://cdn-icons-png.flaticon.com/512/1077/1077012.png", 
+        iconSize: [25, 25],
+        iconAnchor: [25, 25],
+        popupAnchor: [0, -50], 
+    });
 
     function LocationMarker() {
         const map = useMapEvents({
@@ -34,7 +42,7 @@ const MapComponents: React.FC<MapComponentsProps> = ({setMapPosition, mapPositio
         }, [mapPosition, map]);
 
         return mapPosition === null ? null : (
-            <Marker position={mapPosition} >
+            <Marker position={mapPosition} icon={legalIcon}>
                 <Popup>Siz turgan joy</Popup>
             </Marker>
         );
