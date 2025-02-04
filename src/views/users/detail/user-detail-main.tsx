@@ -29,8 +29,10 @@ const UserDetailMain = () => {
             name: "#",
             width: '7%',
             template(item, index) {
-                item
-                return queryParams.offset + index + 1
+                return <div className='d-flex align-items-center gap-1'>
+                    <span>{queryParams.offset + index + 1}</span>
+                    {item?.color && <span style={{ minWidth: "10px", minHeight: "10px", backgroundColor: item?.color, borderRadius: "50%", border: "1px solid #333" }}></span>}
+                </div>
             },
         },
         {

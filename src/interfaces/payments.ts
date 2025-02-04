@@ -12,7 +12,8 @@ export interface PaymentItemType {
     payment_date: Date,
     photo:any,
     location?:string,
-    region?:string
+    region?:string,
+    color?:string
 }
 
 export interface PaymentData {
