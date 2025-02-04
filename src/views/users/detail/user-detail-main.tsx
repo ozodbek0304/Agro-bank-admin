@@ -1,7 +1,7 @@
 import { useState } from "react";
 import MapComponents from "../map-container";
 import { useGetBlankDetailsQuery } from "@/store/payments/paymentsApi";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { formatAmount, formatDateTime } from "@/utils/helpers";
 import { Table, TableColumnConfig, withTableActions } from "@gravity-ui/uikit";
 import { useAppSelector } from "@/store/store";
@@ -11,12 +11,16 @@ import UserPagination from "../user-pagination";
 import ErrorBox from "@/components/elements/ErrorBox";
 import FilterSearch from "@/views/filter/blank-filter";
 import { updateBlankParams } from "@/store/payments/payments";
+import { Image, Modal } from "antd";
+import { regionsTitle } from "@/views/mfo/mfos-list";
 
 const UserDetailMain = () => {
     const { queryParams } = useAppSelector(state => state.payments);
     const { data: dataBlank, isLoading: isFetching, isError } = useGetBlankDetailsQuery(queryParams);
     const [mapPosition, setMapPosition] = useState({ lat: '', lng: "" });
-    const MyTable = withTableActions(Table)
+    const MyTable = withTableActions(Table);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [commet, setCommet] = useState('');
 
 
     const columnsBlank: TableColumnConfig<PaymentItemType>[] = [
@@ -36,10 +40,20 @@ const UserDetailMain = () => {
             template(item) {
                 return (
                     <div>
-                        <img src={item?.photo} alt={item?.employee} width={40} height={40} className='rounded' />
+                        <Image preview={{ mask: false }} src={item?.photo} alt={item?.employee} width={40} height={40} className='rounded' />
                     </div>
                 )
             },
+        },
+        {
+            id: 'mfo',
+            name: "MFO",
+            width: '10%',
+        },
+        {
+            id: 'crm_id',
+            name: "CRM ID",
+            width: '10%',
         },
         {
             id: 'employee',
@@ -53,15 +67,18 @@ const UserDetailMain = () => {
         },
         {
             id: 'region',
-            name: "Viloyat",
-            width: '12%',
+            name: 'Viloyat',
+            width: '8%',
+            template: (item) => (
+                <span>{regionsTitle[item?.region]}</span>
+            ),
         },
         {
             id: 'location',
             name: "Joylashuv",
             width: '8%',
             template(item) {
-                return <Link to={item.location}>
+                return <Link to={item.location} target="_blank">
                     Link
                 </Link>
             },
@@ -71,7 +88,7 @@ const UserDetailMain = () => {
             name: "To'lov summa",
             width: '12%',
             template(item) {
-                return formatAmount(item.payment_amount || 0)
+                return item.payment_amount ? formatAmount(item.payment_amount) : 0
             },
         },
         {
@@ -79,20 +96,17 @@ const UserDetailMain = () => {
             name: "To'lov vaqti",
             width: '12%',
             template(item) {
-                return formatDateTime(item.payment_date)
+                return item?.payment_date ? formatDateTime(item.payment_date) : "---"
             },
         },
         {
             id: 'comment',
             name: "Izoh",
-            width: '19%',
+            width: '8%',
             template(item) {
-                return (<div className='w-100' style={{
-                    whiteSpace: "wrap"
-                }}>
-                    {item?.comment}.
-
-                </div>)
+                return (
+                    <span className='text-primary' onClick={() => { setIsModalOpen(true), setCommet(item?.comment) }} style={{ cursor: "pointer" }}>Batafsil</span>
+                )
             },
         },
         {
@@ -106,7 +120,6 @@ const UserDetailMain = () => {
 
     ];
 
-    console.log(mapPosition);
 
 
     return (
@@ -115,7 +128,7 @@ const UserDetailMain = () => {
             <div className="mb-4">
 
                 <h5>Anketalar</h5>
-                <FilterSearch updateSearchParams={updateBlankParams}  dateHidden={true} />
+                <FilterSearch updateSearchParams={updateBlankParams} dateHidden={true} />
                 <div style={{ width: '100%', overflowX: 'auto' }}>
                     <div style={{ minWidth: '1100px' }}>
                         {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l'
@@ -130,6 +143,12 @@ const UserDetailMain = () => {
             {mapPosition?.lat && mapPosition?.lng && <MapComponents
                 setMapPosition={setMapPosition}
                 mapPosition={mapPosition} />}
+
+            <Modal footer={null} title="Batafsil ma'lumot" open={isModalOpen} onCancel={() => setIsModalOpen(false)}>
+                <p>
+                    {commet}
+                </p>
+            </Modal>
         </div>
     );
 }

@@ -1,31 +1,36 @@
 import ErrorBox from '@/components/elements/ErrorBox';
 import { formatAmount, formatDateTime } from '@/utils/helpers';
-import {  Table, TableColumnConfig, withTableActions } from '@gravity-ui/uikit';
+import { Table, TableColumnConfig, withTableActions } from '@gravity-ui/uikit';
 import TableLoader from '@/components/elements/TableLoader';
 import { useGetPaymentsQuery } from '@/store/payments/paymentsApi';
 import { PaymentItemType } from '@/interfaces/payments';
 import { useAppSelector } from '@/store/store';
-import { PencilToSquare, TrashBin } from '@gravity-ui/icons';
+import { PencilToSquare } from '@gravity-ui/icons';
 import { useDispatch } from 'react-redux';
-import { setDeleteId, setPaymentData } from '@/store/payments/payments';
+import { setPaymentData } from '@/store/payments/payments';
 import UserPagination from './user-pagination';
 import { Link } from 'react-router-dom';
+import { Image, Modal } from 'antd';
+import { useState } from 'react';
+import { regionsTitle } from '../mfo/mfos-list';
 
 
 
 
 
 const PaymentsList = () => {
-     const { queryParams } = useAppSelector(state => state.payments)
+    const { queryParams } = useAppSelector(state => state.payments)
     const { data, isFetching, isError } = useGetPaymentsQuery(queryParams)
-    const dispatch= useDispatch();
+    const dispatch = useDispatch();
     const MyTable: any = withTableActions(Table);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [commet, setCommet] = useState('');
 
     const columns: TableColumnConfig<PaymentItemType>[] = [
         {
             id: 'id',
             name: "#",
-            width: '7%',
+            width: '5%',
             template(item, index) {
                 item
                 return queryParams.offset + index + 1
@@ -38,7 +43,7 @@ const PaymentsList = () => {
             template(item) {
                 return (
                     <div>
-                        <img src={item?.photo} alt={item?.employee} width={40} height={40} className='rounded' />
+                        <Image preview={{ mask: false }} src={item?.photo} alt={item?.employee} width={40} height={40} className='rounded' />
                     </div>
                 )
             },
@@ -46,32 +51,45 @@ const PaymentsList = () => {
         {
             id: 'employee',
             name: "Xodim",
-            width: '14%',
+            width: '12%',
         },
         {
             id: 'telegram_id',
             name: "Telegram ID",
-            width: '12%',
+            width: '10%',
         },
         {
             id: 'region',
-            name: "Viloyat",
-            width: '12%',
+            name: 'Viloyat',
+            width: '8%',
+            template: (item) => (
+                <span>{regionsTitle[item?.region]}</span>
+            ),
+        },
+        {
+            id: 'mfo',
+            name: "MFO",
+            width: '10%',
+        },
+        {
+            id: 'crm_id',
+            name: "CRM ID",
+            width: '10%',
         },
         {
             id: 'location',
             name: "Joylashuv",
             width: '8%',
             template(item) {
-                return <Link to={item.location}>
-                   Link
+                return <Link to={item.location} target='_blank'>
+                    Link
                 </Link>
             },
         },
         {
             id: 'payment_amount',
             name: "To'lov summa",
-            width: '12%',
+            width: '10%',
             template(item) {
                 return formatAmount(item.payment_amount || 0)
             },
@@ -79,22 +97,19 @@ const PaymentsList = () => {
         {
             id: 'payment_date',
             name: "To'lov vaqti",
-            width: '12%',
+            width: '10%',
             template(item) {
-                return formatDateTime(item.payment_date)
+                return item?.payment_date ? formatDateTime(item.payment_date) : "---"
             },
         },
         {
             id: 'comment',
             name: "Izoh",
-            width: '19%',
+            width: '8%',
             template(item) {
-                return (<div className='w-100' style={{
-                    whiteSpace:"wrap"
-                }}>
-                    {item?.comment}.
-
-                </div>)
+                return (
+                    <span className='text-primary' onClick={() => { setIsModalOpen(true), setCommet(item?.comment) }} style={{ cursor: "pointer" }}>Batafsil</span>
+                )
             },
         },
         {
@@ -105,7 +120,7 @@ const PaymentsList = () => {
                 return (item.status?.name)
             },
         },
-        
+
     ];
 
     const getRowActions: any = () => {
@@ -114,13 +129,7 @@ const PaymentsList = () => {
                 text: 'Tahrirlash',
                 icon: <PencilToSquare />,
                 handler: (item: PaymentItemType) => dispatch(setPaymentData(item))
-            },
-            {
-                text: "O'chirish",
-                icon: <TrashBin />,
-                theme: 'danger',
-                handler: (item: PaymentItemType) => dispatch(setDeleteId(item.id))
-            },
+            }
         ];
     };
 
@@ -128,8 +137,14 @@ const PaymentsList = () => {
         <div style={{ width: '100%', overflowX: 'auto' }}>
             <div style={{ minWidth: '1100px' }}>
                 {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions} />}
-                {!isFetching && data?.count>10 && <UserPagination total={data?.count} />}
+                {!isFetching && data?.count > 10 && <UserPagination total={data?.count} />}
             </div>
+            <Modal footer={null} title="Batafsil ma'lumot" open={isModalOpen} onCancel={() => setIsModalOpen(false)}>
+                <p>
+                    {commet}
+                </p>
+            </Modal>
+
         </div>
     );
 }

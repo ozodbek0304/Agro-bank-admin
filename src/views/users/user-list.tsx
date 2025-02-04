@@ -10,13 +10,14 @@ import TableLoader from '@/components/elements/TableLoader';
 import UserPagination from './user-pagination';
 import { useNavigate } from 'react-router-dom';
 import { updateBlankParams } from '@/store/payments/payments';
+import { regionsTitle } from '../mfo/mfos-list';
 
 
 const UsersList = () => {
     const { queryParams } = useAppSelector(state => state.user)
     const { data, isFetching, isError } = useGetUsersQuery(queryParams)
     const dispatch = useAppDispatch();
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const MyTable = withTableActions(Table);
 
@@ -55,15 +56,18 @@ const UsersList = () => {
         },
         {
             id: 'region',
-            name: "Viloyat",
+            name: 'Viloyat',
             width: '18%',
+            template: (item) => (
+                <span>{regionsTitle[item?.region]}</span>
+            ),
         },
         {
             id: 'created_at',
             name: "Oxirgi foallik vaqti",
             width: '15%',
             template(item) {
-                return formatDateTime(item.created_at)
+                return item?.created_at ? formatDateTime(item.created_at) : "---"
             },
         },
         {
@@ -72,13 +76,13 @@ const UsersList = () => {
             width: '10%',
             template(item) {
                 return (
-                    item?.status ? 
-                    <span className='text-success'>{"Aktiv" }</span> : 
-                    <span className='text-danger'>{"Aktiv Emas"}</span>
+                    item?.status ?
+                        <span className='text-success'>{"Aktiv"}</span> :
+                        <span className='text-danger'>{"Aktiv Emas"}</span>
                 )
             },
         },
-        
+
     ];
 
     const getRowActions = () => {
@@ -90,17 +94,18 @@ const UsersList = () => {
             }
         ];
     };
-     
+
 
     return (
         <div style={{ width: '100%', overflowX: 'auto' }}>
             <div style={{ minWidth: '1000px' }}>
                 {isError ? <ErrorBox /> : isFetching ? <TableLoader /> :
-                 <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions}
-                   onRowClick={(item)=>{navigate(`/employes/${item?.id}`)
-                dispatch(updateBlankParams({search:"", employee:item?.id, region:""}))
-                }}
-                 />}
+                    <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions}
+                        onRowClick={(item) => {
+                            navigate(`/employes/${item?.id}`)
+                            dispatch(updateBlankParams({ search: "", employee: item?.id, region: "" }))
+                        }}
+                    />}
                 {!isFetching && <UserPagination total={data?.count} />}
             </div>
         </div>

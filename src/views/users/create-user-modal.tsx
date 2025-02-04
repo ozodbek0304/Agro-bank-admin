@@ -7,15 +7,15 @@ import * as Yup from 'yup'
 import { useCreateUserMutation } from '@/store/employee/employeApi';
 import toast from 'react-hot-toast';
 import { useGetMfoQuery } from '@/store/mfo/mfosApi';
-// import { useState } from 'react';
+import { updateMfoParams } from '@/store/mfo/mfo';
 
 
 
 const CreateUserModal = () => {
+    const { queryParams } = useAppSelector(state => state.mfos)
     const { openCreate } = useAppSelector(state => state.user)
     const dispatch = useAppDispatch();
-    const { data, isSuccess } = useGetMfoQuery({});
-    // const [searchQuery, setSearchQuery] = useState("");
+    const { data, isSuccess } = useGetMfoQuery(queryParams);
 
     const selectOptions = isSuccess ? data?.results?.map(item => ({
         value: item.id,
@@ -103,9 +103,9 @@ const CreateUserModal = () => {
                             error={!!formik.errors.mfo && formik.touched.mfo}
                             view='clear'
                             filterable
-                            // onFilterChange={(value) => {
-                            //     setSearchQuery(value);
-                            //   }}
+                            onFilterChange={(value) => {
+                                dispatch(updateMfoParams({ search: value || '' }));
+                            }}
 
                         />
 
