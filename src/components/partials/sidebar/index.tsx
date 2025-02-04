@@ -22,9 +22,9 @@ export default function Sidebar({ }: Props) {
     return (
         <div className={`sidebar ${menuType === 'collepse' ? 'sidebar-close' : ''}`}>
             <div className="sidebar-top">
-                <div>
-                   {menuType !== 'collepse' ? <img src="/logo.png" alt="AGROBANK"  style={{width:"100%", height:"50px", objectFit:"cover", margin:"0 auto"}}/>
-                    : <img src="/title.png" alt="AGROBANK"  style={{width:"100%", height:"40px", objectFit:"cover", margin:"0 auto"}}/> }
+                <div className='w-100 d-flex justify-content-center'>
+                   {menuType !== 'collepse' ? <img src="/logo.svg" alt="AGROBANK"  style={{width:"100%", height:"40px", objectFit:"contain", margin:"0 auto"}}/>
+                    : <img src="/title.svg" alt="AGROBANK"  style={{width:"100%", height:"40px", objectFit:"cover", margin:"0 auto"}}/> }
                 </div>
                 {isMobile && <Button view='flat' size="l" onClick={toggleMenu}>
                     <Icon data={ChevronsLeft} size={22} />
