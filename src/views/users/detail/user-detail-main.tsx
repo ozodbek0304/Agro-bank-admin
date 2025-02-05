@@ -17,10 +17,15 @@ import toast from "react-hot-toast";
 import { Copy } from "@gravity-ui/icons";
 
  
-export  const copyToClipboard = (text: string) => {
+export const copyToClipboard = (text: string) => {
+    if (typeof window === "undefined" || !navigator.clipboard) {
+        toast.error("Clipboard API faqat brauzerda ishlaydi");
+        return;
+    }
+
     navigator.clipboard.writeText(text)
         .then(() => toast.success("Havola nusxalandi! 📋"))
-        .catch(err => toast.error("Nusxalashda xatolik: ", err));
+        .catch(err => toast.error("Nusxalashda xatolik: " + err.message));
 };
 
 const UserDetailMain = () => {
