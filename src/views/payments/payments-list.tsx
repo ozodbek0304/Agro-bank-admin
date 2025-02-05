@@ -82,7 +82,9 @@ const PaymentsList = () => {
             name: "Joylashuv",
             width: '8%',
             template(item) {
-                const copyData = item?.latitude + " , " + item?.longitude
+                const copyData = item?.latitude && item?.longitude
+                    ? `${item.latitude} , ${item.longitude}`
+                    : null;
                 return (
                     <div className="w-100 d-flex align-items-center gap-2">
                         <Link to={item.location}

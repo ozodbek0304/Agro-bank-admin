@@ -16,16 +16,38 @@ import { regionsTitle } from "@/views/mfo/mfos-list";
 import toast from "react-hot-toast";
 import { Copy } from "@gravity-ui/icons";
 
- 
-export const copyToClipboard = (text: any) => {
-    if (typeof window === "undefined" || !navigator.clipboard) {
-        toast.error("Clipboard API faqat brauzerda ishlaydi");
+
+export const copyToClipboard = (text: string) => {
+    if (typeof document === "undefined") {
+        console.error("Clipboard API faqat brauzerda ishlaydi");
         return;
     }
 
-    navigator.clipboard.writeText(text)
-        .then(() => toast.success("Havola nusxalandi! 📋"))
-        .catch(err => toast.error("Nusxalashda xatolik: " + err.message));
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text)
+            .then(() => toast.success("Havola nusxalandi! 📋"))
+            .catch(err => toast.error("Nusxalashda xatolik: " + err.message));
+    } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "absolute";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+
+        try {
+            const successful = document.execCommand("copy");
+            if (successful) {
+                toast.success("Havola nusxalandi! 📋");
+            } else {
+                toast.error("Nusxalashda xatolik!");
+            }
+        } catch (err) {
+            toast.error("Nusxalashda xatolik: " + err);
+        }
+
+        document.body.removeChild(textarea);
+    }
 };
 
 const UserDetailMain = () => {
@@ -88,13 +110,15 @@ const UserDetailMain = () => {
             template: (item) => (
                 <span>{regionsTitle[item?.region]}</span>
             ),
-        },  
+        },
         {
             id: 'location',
             name: "Joylashuv",
             width: '8%',
             template(item) {
-                const copyData = item?.latitude + " , " + item?.longitude
+                const copyData = item?.latitude && item?.longitude
+                    ? `${item.latitude} , ${item.longitude}`
+                    : null;
                 return (
                     <div className="w-100 d-flex align-items-center gap-2">
                         <Link to={item.location}
