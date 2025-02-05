@@ -122,7 +122,7 @@ const PaymentsList = () => {
         {
             id: 'status',
             name: 'Holati',
-            width: '15%',
+            width: 50,
             template(item) {
                 return (item.status?.name)
             },
