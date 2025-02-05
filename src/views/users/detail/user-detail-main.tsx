@@ -83,7 +83,7 @@ const UserDetailMain = () => {
             template: (item) => (
                 <span>{regionsTitle[item?.region]}</span>
             ),
-        },
+        },  
         {
             id: 'location',
             name: "Joylashuv",
