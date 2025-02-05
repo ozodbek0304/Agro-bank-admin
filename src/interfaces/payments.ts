@@ -13,7 +13,8 @@ export interface PaymentItemType {
     photo:any,
     location?:string,
     region?:string,
-    color?:string
+    color?:string,
+    created_at?:Date,
 }
 
 export interface PaymentData {

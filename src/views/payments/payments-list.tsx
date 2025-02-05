@@ -5,7 +5,7 @@ import TableLoader from '@/components/elements/TableLoader';
 import { useGetPaymentsQuery } from '@/store/payments/paymentsApi';
 import { PaymentItemType } from '@/interfaces/payments';
 import { useAppSelector } from '@/store/store';
-import { Copy, PencilToSquare } from '@gravity-ui/icons';
+import { Copy, Eye, PencilToSquare } from '@gravity-ui/icons';
 import { useDispatch } from 'react-redux';
 import { setPaymentData } from '@/store/payments/payments';
 import UserPagination from './user-pagination';
@@ -25,7 +25,8 @@ const PaymentsList = () => {
     const dispatch = useDispatch();
     const MyTable: any = withTableActions(Table);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [commet, setCommet] = useState('');
+    const [selectItem, setSelectItem] = useState(null)
+
 
     const columns: TableColumnConfig<PaymentItemType>[] = [
         {
@@ -40,7 +41,7 @@ const PaymentsList = () => {
         {
             id: 'photo',
             name: "Rasm",
-            width: '5%',
+            width: '10%',
             template(item) {
                 return (
                     <div>
@@ -52,30 +53,17 @@ const PaymentsList = () => {
         {
             id: 'employee',
             name: "Xodim",
-            width: '12%',
+            width: '15%',
         },
         {
             id: 'telegram_id',
             name: "Telegram ID",
-            width: '10%',
-        },
-        {
-            id: 'region',
-            name: 'Viloyat',
-            width: '8%',
-            template: (item) => (
-                <span>{regionsTitle[item?.region]}</span>
-            ),
-        },
-        {
-            id: 'mfo',
-            name: "MFO",
-            width: '10%',
+            width: '15%',
         },
         {
             id: 'crm_id',
             name: "CRM ID",
-            width: '10%',
+            width: '15%',
         },
         {
             id: 'location',
@@ -97,35 +85,17 @@ const PaymentsList = () => {
             },
         },
         {
-            id: 'payment_amount',
-            name: "To'lov summa",
-            width: '10%',
+            id: 'created_at',
+            name: "Yaratilgan vaqti",
+            width: '15%',
             template(item) {
-                return formatAmount(item.payment_amount || 0)
-            },
-        },
-        {
-            id: 'payment_date',
-            name: "To'lov vaqti",
-            width: '10%',
-            template(item) {
-                return item?.payment_date ? formatDateTime(item.payment_date) : "---"
-            },
-        },
-        {
-            id: 'comment',
-            name: "Izoh",
-            width: '8%',
-            template(item) {
-                return (
-                    <span className='text-primary' onClick={() => { setIsModalOpen(true), setCommet(item?.comment) }} style={{ cursor: "pointer" }}>Batafsil</span>
-                )
+                return item?.created_at ? formatDateTime(item.created_at) : "---"
             },
         },
         {
             id: 'status',
             name: 'Holati',
-            width: 50,
+            width: "15%",
             template(item) {
                 return (item.status?.name)
             },
@@ -136,10 +106,15 @@ const PaymentsList = () => {
     const getRowActions: any = () => {
         return [
             {
+                text: "Ko'rish",
+                icon: <Eye />,
+                handler: (item: PaymentItemType) => { setSelectItem(item), setIsModalOpen(true) }
+            },
+            {
                 text: 'Tahrirlash',
                 icon: <PencilToSquare />,
                 handler: (item: PaymentItemType) => dispatch(setPaymentData(item))
-            }
+            },
         ];
     };
 
@@ -150,9 +125,60 @@ const PaymentsList = () => {
                 {!isFetching && data?.count > 10 && <UserPagination total={data?.count} />}
             </div>
             <Modal footer={null} title="Batafsil ma'lumot" open={isModalOpen} onCancel={() => setIsModalOpen(false)}>
-                <p>
-                    {commet}
-                </p>
+                <ul className='pl-1 d-flex flex-column gap-1'>
+                    <li>
+                        <strong>ID:</strong> {selectItem?.id}
+                    </li>
+                    <li>
+                        <strong>Xodim:</strong> {selectItem?.employee}
+                    </li>
+                    <li>
+                        <strong>MFO:</strong> {selectItem?.mfo}
+                    </li>
+                    <li className='d-flex gap-2 align-items-center'>
+                        <strong>Joylashuv:</strong> <div className="w-100 d-flex align-items-center gap-2">
+                            <Link to={selectItem?.location}
+                                target="_blank">
+                                Link
+                            </Link>
+                            <span className="text-primary" style={{ cursor: "pointer" }} onClick={() => {
+                                const copyData = selectItem?.latitude && selectItem?.longitude
+                                    ? `${selectItem.latitude} , ${selectItem.longitude}`
+                                    : null;
+                                copyToClipboard(copyData)
+                            }} ><Copy /></span>
+                        </div>
+                    </li>
+                    <li>
+                        <strong>CRM ID:</strong> {selectItem?.crm_id}
+                    </li>
+                    <li>
+                        <strong>To'lov summasi:</strong> {formatAmount(selectItem?.payment_amount || 0)}
+                    </li>
+                    <li>
+                        <strong>Viloyat:</strong> {regionsTitle[selectItem?.region]}
+                    </li>
+                    <li>
+                        <strong>To'lov vaqti:</strong> {selectItem?.payment_date ? formatDateTime(selectItem.payment_date) : "---"}
+                    </li>
+                    <li>
+                        <strong>Yaratilgan vaqti:</strong> {selectItem?.created_at ? formatDateTime(selectItem.created_at) : "---"}
+                    </li>
+                    <li>
+                        <strong>Kenglik:</strong> {selectItem?.latitude ? selectItem?.latitude : "---"}
+                    </li>
+                    <li>
+                        <strong>Uzunlik:</strong> {selectItem?.longitude ? (selectItem.longitude) : "---"}
+                    </li>
+                    <li>
+                        <strong>Holati:</strong> {selectItem?.status?.name}
+                    </li>
+                    <li>
+                        <strong>Izoh:</strong> {selectItem?.comment}
+                    </li>
+
+
+                </ul>
             </Modal>
 
         </div>

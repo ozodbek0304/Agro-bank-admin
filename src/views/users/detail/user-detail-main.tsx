@@ -14,7 +14,7 @@ import { updateBlankParams } from "@/store/payments/payments";
 import { Image, Modal } from "antd";
 import { regionsTitle } from "@/views/mfo/mfos-list";
 import toast from "react-hot-toast";
-import { Copy } from "@gravity-ui/icons";
+import { Copy, Eye } from "@gravity-ui/icons";
 
 
 export const copyToClipboard = (text: string) => {
@@ -56,25 +56,23 @@ const UserDetailMain = () => {
     const [mapPosition, setMapPosition] = useState({ lat: '', lng: "" });
     const MyTable = withTableActions(Table);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [commet, setCommet] = useState('');
+    const [selectItem, setSelectItem] = useState(null)
 
 
-    const columnsBlank: TableColumnConfig<PaymentItemType>[] = [
+    const columns: TableColumnConfig<PaymentItemType>[] = [
         {
             id: 'id',
             name: "#",
-            width: '7%',
+            width: '5%',
             template(item, index) {
-                return <div className='d-flex align-items-center gap-1'>
-                    <span>{queryParams.offset + index + 1}</span>
-                    {item?.color && <span style={{ minWidth: "10px", minHeight: "10px", backgroundColor: item?.color, borderRadius: "50%", border: "1px solid #333" }}></span>}
-                </div>
+                item
+                return queryParams.offset + index + 1
             },
         },
         {
             id: 'photo',
             name: "Rasm",
-            width: '5%',
+            width: '10%',
             template(item) {
                 return (
                     <div>
@@ -84,32 +82,19 @@ const UserDetailMain = () => {
             },
         },
         {
-            id: 'mfo',
-            name: "MFO",
-            width: '10%',
-        },
-        {
-            id: 'crm_id',
-            name: "CRM ID",
-            width: '10%',
-        },
-        {
             id: 'employee',
             name: "Xodim",
-            width: '14%',
+            width: '15%',
         },
         {
             id: 'telegram_id',
             name: "Telegram ID",
-            width: '12%',
+            width: '15%',
         },
         {
-            id: 'region',
-            name: 'Viloyat',
-            width: '8%',
-            template: (item) => (
-                <span>{regionsTitle[item?.region]}</span>
-            ),
+            id: 'crm_id',
+            name: "CRM ID",
+            width: '15%',
         },
         {
             id: 'location',
@@ -131,35 +116,17 @@ const UserDetailMain = () => {
             },
         },
         {
-            id: 'payment_amount',
-            name: "To'lov summa",
-            width: '12%',
+            id: 'created_at',
+            name: "Yaratilgan vaqti",
+            width: '15%',
             template(item) {
-                return item.payment_amount ? formatAmount(item.payment_amount) : 0
-            },
-        },
-        {
-            id: 'payment_date',
-            name: "To'lov vaqti",
-            width: '12%',
-            template(item) {
-                return item?.payment_date ? formatDateTime(item.payment_date) : "---"
-            },
-        },
-        {
-            id: 'comment',
-            name: "Izoh",
-            width: '8%',
-            template(item) {
-                return (
-                    <span className='text-primary' onClick={() => { setIsModalOpen(true), setCommet(item?.comment) }} style={{ cursor: "pointer" }}>Batafsil</span>
-                )
+                return item?.created_at ? formatDateTime(item.created_at) : "---"
             },
         },
         {
             id: 'status',
             name: 'Holati',
-            width: 50,
+            width: "15%",
             template(item) {
                 return (item.status?.name)
             },
@@ -167,6 +134,15 @@ const UserDetailMain = () => {
 
     ];
 
+    const getRowActions: any = () => {
+        return [
+            {
+                text: "Ko'rish",
+                icon: <Eye />,
+                handler: (item: PaymentItemType) => { setSelectItem(item), setIsModalOpen(true) }
+            },
+        ];
+    };
 
 
     return (
@@ -179,9 +155,9 @@ const UserDetailMain = () => {
                 <div style={{ width: '100%', overflowX: 'auto' }}>
                     <div style={{ minWidth: '1100px' }}>
                         {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l'
-                            data={dataBlank?.results} columns={columnsBlank}
+                            data={dataBlank?.results} columns={columns}
                             onRowClick={(item) => { setMapPosition({ lat: item?.latitude, lng: item?.longitude }) }}
-                            getRowActions={() => []} />}
+                            getRowActions={getRowActions} />}
                         {!isFetching && dataBlank?.count > 10 && <UserPagination total={dataBlank?.count} />}
                     </div>
                 </div>
@@ -192,9 +168,60 @@ const UserDetailMain = () => {
                 mapPosition={mapPosition} />}
 
             <Modal footer={null} title="Batafsil ma'lumot" open={isModalOpen} onCancel={() => setIsModalOpen(false)}>
-                <p>
-                    {commet}
-                </p>
+                <ul className='pl-1 d-flex flex-column gap-1'>
+                    <li>
+                        <strong>ID:</strong> {selectItem?.id}
+                    </li>
+                    <li>
+                        <strong>Xodim:</strong> {selectItem?.employee}
+                    </li>
+                    <li>
+                        <strong>MFO:</strong> {selectItem?.mfo}
+                    </li>
+                    <li className='d-flex gap-2 align-items-center'>
+                        <strong>Joylashuv:</strong> <div className="w-100 d-flex align-items-center gap-2">
+                            <Link to={selectItem?.location}
+                                target="_blank">
+                                Link
+                            </Link>
+                            <span className="text-primary" style={{ cursor: "pointer" }} onClick={() => {
+                                const copyData = selectItem?.latitude && selectItem?.longitude
+                                    ? `${selectItem.latitude} , ${selectItem.longitude}`
+                                    : null;
+                                copyToClipboard(copyData)
+                            }} ><Copy /></span>
+                        </div>
+                    </li>
+                    <li>
+                        <strong>CRM ID:</strong> {selectItem?.crm_id}
+                    </li>
+                    <li>
+                        <strong>To'lov summasi:</strong> {formatAmount(selectItem?.payment_amount || 0)}
+                    </li>
+                    <li>
+                        <strong>Viloyat:</strong> {regionsTitle[selectItem?.region]}
+                    </li>
+                    <li>
+                        <strong>To'lov vaqti:</strong> {selectItem?.payment_date ? formatDateTime(selectItem.payment_date) : "---"}
+                    </li>
+                    <li>
+                        <strong>Yaratilgan vaqti:</strong> {selectItem?.created_at ? formatDateTime(selectItem.created_at) : "---"}
+                    </li>
+                    <li>
+                        <strong>Kenglik:</strong> {selectItem?.latitude ? selectItem?.latitude : "---"}
+                    </li>
+                    <li>
+                        <strong>Uzunlik:</strong> {selectItem?.longitude ? (selectItem.longitude) : "---"}
+                    </li>
+                    <li>
+                        <strong>Holati:</strong> {selectItem?.status?.name}
+                    </li>
+                    <li>
+                        <strong>Izoh:</strong> {selectItem?.comment}
+                    </li>
+
+
+                </ul>
             </Modal>
         </div>
     );
