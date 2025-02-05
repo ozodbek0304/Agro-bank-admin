@@ -15,14 +15,11 @@ export type AppProps = {
 export const SidebarLayout: React.FC<AppProps> = ({ children }) => {
 
     const { theme, menuType } = useAppSelector(state => state.theme)
-    const { role } = useAppSelector(state => state.auth)
     const { pathname } = useLocation()
     const { isMobile } = useResponsive()
 
     if (pathname === '/' || pathname === '/login') {
-        if (role === 'admin') {
-            window.location.href = '/blanks'
-        } else window.location.href = '/blanks'
+       window.location.href = '/blanks'
     }
 
     return (
