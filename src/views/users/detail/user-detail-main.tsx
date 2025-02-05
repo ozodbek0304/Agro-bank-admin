@@ -17,7 +17,7 @@ import toast from "react-hot-toast";
 import { Copy } from "@gravity-ui/icons";
 
  
-export const copyToClipboard = (text: string) => {
+export const copyToClipboard = (text: any) => {
     if (typeof window === "undefined" || !navigator.clipboard) {
         toast.error("Clipboard API faqat brauzerda ishlaydi");
         return;
