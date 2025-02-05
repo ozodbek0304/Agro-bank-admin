@@ -89,13 +89,14 @@ const UserDetailMain = () => {
             name: "Joylashuv",
             width: '8%',
             template(item) {
+                const copyData = item?.latitude + " , " + item?.longitude
                 return (
                     <div className="w-100 d-flex align-items-center gap-2">
                         <Link to={item.location}
                             target="_blank">
                             Link
                         </Link>
-                        <span className="text-primary" style={{ cursor: "pointer" }} onClick={() => copyToClipboard(item?.location)} ><Copy /></span>
+                        <span className="text-primary" style={{ cursor: "pointer" }} onClick={() => copyToClipboard(copyData)} ><Copy /></span>
                     </div>
                 )
             },
