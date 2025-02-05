@@ -80,7 +80,7 @@ const CreateUserModal = () => {
                         <TextInput
                             size='l'
                             name='tab_number'
-                            placeholder='Tab Number'
+                            placeholder='Tab raqami'
                             type='text'
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}

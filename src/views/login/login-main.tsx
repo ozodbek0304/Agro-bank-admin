@@ -10,7 +10,7 @@ const b = block('login-main')
 export default function LoginMain({ }: Props) {
     return (
         <div className={b()}>
-            <img src="/logo.png"  style={{width:"250px", marginBottom:"20px"}} />
+            <img src="/logo.svg"  style={{width:"250px", marginBottom:"20px"}} />
             <LoginForm />
         </div>
     )

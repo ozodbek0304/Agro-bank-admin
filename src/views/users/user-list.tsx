@@ -41,7 +41,7 @@ const UsersList = () => {
         },
         {
             id: 'tab_number',
-            name: "Tab Number",
+            name: "Tab raqami",
             width: '12%',
         },
         {
