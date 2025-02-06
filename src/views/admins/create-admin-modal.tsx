@@ -90,8 +90,9 @@ const CreateAdminModal = () => {
                             value={[formik.values.region]}
                             error={!!formik.errors.region && formik.touched.region}
                             view='clear'
-                            
+
                         />
+                        {formik.errors.region && <span className='m-0 text-danger'>{formik.errors.region}</span>}
 
 
 

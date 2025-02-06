@@ -9,19 +9,19 @@ import { setOpenCreate } from '@/store/status/status';
 import { StatusResponseType } from '@/interfaces/status';
 
 interface Props {
-    data:StatusResponseType,
+    data: StatusResponseType,
     isSuccess: boolean,
 }
 
-const CreateStatusModal = ({data,isSuccess}:Props) => {
+const CreateStatusModal = ({ data, isSuccess }: Props) => {
     const { openCreate } = useAppSelector(state => state.status)
     const dispatch = useAppDispatch();
-    
-     const selectOptions =isSuccess ? data?.results?.map(item => ({
-            value: item.id,
-            content: item.name,
-            text:item?.status_id,
-        })):[];
+
+    const selectOptions = isSuccess ? data?.results?.map(item => ({
+        value: item.id,
+        content: item.name,
+        text: item?.status_id,
+    })) : [];
 
     const [createAdmin, { isLoading }] = useCreateStatusMutation()
 
@@ -41,7 +41,7 @@ const CreateStatusModal = ({data,isSuccess}:Props) => {
         }),
         onSubmit: async (values) => {
             try {
-                await createAdmin({...values }).unwrap();
+                await createAdmin({ ...values }).unwrap();
                 closeModal()
                 toast.success("Holat muvaffaqiyatli yaratildi")
                 formik.resetForm()
@@ -50,13 +50,13 @@ const CreateStatusModal = ({data,isSuccess}:Props) => {
                     const errors = error?.data;
                     if (errors?.error) {
                         toast.error(errors?.error);
-                     }
+                    }
                     const formikErrors: Record<string, string> = {};
-        
+
                     Object.keys(errors).forEach(key => {
                         formikErrors[key] = errors[key];
                     });
-        
+
                     formik.setErrors(formikErrors);
                 } else {
                     toast.error("Xatolik yuz berdi.");
@@ -73,9 +73,9 @@ const CreateStatusModal = ({data,isSuccess}:Props) => {
                         Holat yaratish
                     </h5>
                     <form onSubmit={formik.handleSubmit} className="create-admin-form mt-2 d-flex flex-column gap-2">
-                       
-                    <Select
-                         placeholder={"Holat "}
+
+                        <Select
+                            placeholder={"Holat "}
                             options={selectOptions}
                             renderOption={(op) => <div>
                                 {op.content}
@@ -88,6 +88,7 @@ const CreateStatusModal = ({data,isSuccess}:Props) => {
                             error={!!formik.errors.parent && formik.touched.parent}
                             view='clear'
                         />
+                        {formik.errors.parent && <span className='m-0 text-danger'>{formik.errors.parent}</span>}
 
                         <TextInput
                             placeholder="Holat nomi"

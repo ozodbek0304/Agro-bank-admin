@@ -72,7 +72,7 @@ const EditPaymentModal = () => {
     })
 
 
-    
+
 
     useEffect(() => {
         if (paymentData) {
@@ -108,7 +108,7 @@ const EditPaymentModal = () => {
                             error={!!formik.errors.employee && formik.touched.employee}
                             view='clear'
                         />
-
+                        {formik.errors.employee && <span className='m-0 text-danger'>{formik.errors.employee}</span>}
 
 
                         <TextInput

@@ -119,6 +119,7 @@ const CreateMfoModal = () => {
                             error={!!formik.errors.region && formik.touched.region}
                             view='clear'
                         />
+                        {formik.errors.region && <span className='m-0 text-danger'>{formik.errors.region}</span>}
 
                         <Button loading={isLoading} size='l' view='outlined-success' type='submit' className='mt-2'>Yaratish</Button>
 

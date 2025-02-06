@@ -1,6 +1,6 @@
 import { setAdminData } from '@/store/admins/admins';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { Button, Modal,Select,TextInput } from '@gravity-ui/uikit';
+import { Button, Modal, Select, TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
 import * as Yup from 'yup'
@@ -28,7 +28,7 @@ const EditAdminModal = () => {
             full_name: '',
             username: '',
             password: '',
-            region:''
+            region: ''
         },
         validationSchema: Yup.object({
             full_name: Yup.string().required("Maydonni to'ldiring"),
@@ -38,16 +38,16 @@ const EditAdminModal = () => {
         }),
 
         onSubmit: async (values) => {
-            const data:any = {
-                username:values?.username,
-                 full_name:values?.full_name,
-                 region:values?.region,
-                 ...(values?.password && {
-                    password:values?.password
-                 })
+            const data: any = {
+                username: values?.username,
+                full_name: values?.full_name,
+                region: values?.region,
+                ...(values?.password && {
+                    password: values?.password
+                })
             }
             try {
-                await updateAdmin({ id: adminData?.id, ...data}).unwrap();
+                await updateAdmin({ id: adminData?.id, ...data }).unwrap();
                 closeModal()
                 toast.success("O'zgarishlar muvaffaqiyatli saqlandi")
                 formik.resetForm()
@@ -56,13 +56,13 @@ const EditAdminModal = () => {
                     const errors = error?.data;
                     if (errors?.error) {
                         toast.error(errors?.error);
-                     }
+                    }
                     const formikErrors: Record<string, string> = {};
-        
+
                     Object.keys(errors).forEach(key => {
                         formikErrors[key] = errors[key];
                     });
-        
+
                     formik.setErrors(formikErrors);
                 } else {
                     toast.error("Xatolik yuz berdi.");
@@ -101,20 +101,21 @@ const EditAdminModal = () => {
                             errorMessage={formik.errors.full_name}
                             error={!!formik.errors.full_name && formik.touched.full_name}
                         />
-                         <Select
-                                                                             placeholder={"Viloyat nomi"}
-                                                                            options={regionsData}
-                                                                            renderOption={(op) => <div>
-                                                                                {op.content}
-                                                                            </div>}
-                                                                            size='l'
-                                                                            name='region'
-                                                                            onBlur={formik.handleBlur}
-                                                                            onUpdate={(e) => formik.setFieldValue('region', e[0])}
-                                                                            value={[formik.values.region]}
-                                                                            error={!!formik.errors.region && formik.touched.region}
-                                                                            view='clear'
-                                                                        />
+                        <Select
+                            placeholder={"Viloyat nomi"}
+                            options={regionsData}
+                            renderOption={(op) => <div>
+                                {op.content}
+                            </div>}
+                            size='l'
+                            name='region'
+                            onBlur={formik.handleBlur}
+                            onUpdate={(e) => formik.setFieldValue('region', e[0])}
+                            value={[formik.values.region]}
+                            error={!!formik.errors.region && formik.touched.region}
+                            view='clear'
+                        />
+                        {formik.errors.region && <span className='m-0 text-danger'>{formik.errors.region}</span>}
 
 
                         <TextInput

@@ -136,6 +136,7 @@ const EditUserModal = () => {
                             error={!!formik.errors.mfo && formik.touched.mfo}
                             view='clear'
                         />
+                        {formik.errors.mfo && <span className='m-0 text-danger'>{formik.errors.mfo}</span>}
 
                         <TextInput
                             size='l'
