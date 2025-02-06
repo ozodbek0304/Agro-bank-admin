@@ -23,7 +23,7 @@ export const regionsTitle = {
     qashqadaryo:'Qashqadaryo', 
     jizzax:'Jizzax' ,
     sirdaryo:'Sirdaryo' ,
-    qoraqalpogʻiston:'Qoraqalpogʻiston', 
+    qoraqalpogiston:'Qoraqalpogʻiston', 
     toshkent_city:'Toshkent shahri' ,
 }
 
