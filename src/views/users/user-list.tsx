@@ -103,7 +103,7 @@ const UsersList = () => {
                     <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions}
                         onRowClick={(item) => {
                             navigate(`/employes/${item?.id}`)
-                            dispatch(updateBlankParams({ search: "", employee: item?.id, region: "", mfo: "" }))
+                            dispatch(updateBlankParams({ search: "", employee: item?.id, region: "", }))
                         }}
                     />}
                 {!isFetching && <UserPagination total={data?.count} />}

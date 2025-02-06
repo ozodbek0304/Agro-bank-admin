@@ -40,7 +40,6 @@ const CreateUserModal = () => {
             mfo: Yup.string().required("Maydonni to'ldiring"),
             tab_number: Yup.string().required("Maydonni to'ldiring"),
             crm_id: Yup.string().required("Maydonni to'ldiring"),
-            telegram_id: Yup.string().required("Maydonni to'ldiring"),
         }),
         onSubmit: async (values) => {
             try {

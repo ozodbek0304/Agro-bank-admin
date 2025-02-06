@@ -8,12 +8,12 @@ import { updateStatusParams } from "@/store/status/status";
 import FilterSearch from "../filter/blank-filter";
 
 const SettingsMain = () => {
-     const { queryParams } = useAppSelector(state => state.status)
-     const {data:dataBreadCrumbs, isSuccess:isSuccessBread}= useGetStatusSelectQuery(queryParams);
-     const { data, isFetching, isError , isSuccess} = useGetStatusQuery(queryParams)
-     const dispatch = useAppDispatch();
+  const { queryParams } = useAppSelector(state => state.status)
+  const { data: dataBreadCrumbs, isSuccess: isSuccessBread } = useGetStatusSelectQuery(queryParams);
+  const { data, isFetching, isError, isSuccess } = useGetStatusQuery(queryParams)
+  const dispatch = useAppDispatch();
 
-     const selectOptions = isSuccessBread && dataBreadCrumbs?.length > 0 ? [
+  const selectOptions = isSuccessBread && dataBreadCrumbs?.length > 0 ? [
     {
       text: 'Barchasi',
       action: () => {
@@ -26,25 +26,25 @@ const SettingsMain = () => {
         dispatch(updateStatusParams({ parent: item?.id }));
       }
     }))
-     ] : [];
-
-      
+  ] : [];
 
 
-    return (
-        <div>
-     { selectOptions?.length>0 && <Breadcrumbs
-           className="my-3 text-primary"
-    items={selectOptions}
-    firstDisplayedItemsCount={FirstDisplayedItemsCount.One}
-    lastDisplayedItemsCount={LastDisplayedItemsCount.One}
-/>}
-       <FilterSearch updateSearchParams={updateStatusParams} regionHidden={false}/>
-          <StatusLists  data={data}  isFetching={isFetching} isError={isError} />
-          <EditStatusModal  />
-          <CreateStatusModal data={data}  isSuccess={isSuccess}  />
-        </div>
-    );
+
+
+  return (
+    <div>
+      {selectOptions?.length > 0 && <Breadcrumbs
+        className="my-3 text-primary"
+        items={selectOptions}
+        firstDisplayedItemsCount={FirstDisplayedItemsCount.One}
+        lastDisplayedItemsCount={LastDisplayedItemsCount.One}
+      />}
+      <FilterSearch updateSearchParams={updateStatusParams} regionHidden={false} />
+      <StatusLists data={data} isFetching={isFetching} isError={isError} />
+      <EditStatusModal />
+      <CreateStatusModal data={data} isSuccess={isSuccess} />
+    </div>
+  );
 }
 
 export default SettingsMain;

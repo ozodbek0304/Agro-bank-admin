@@ -6,8 +6,8 @@ import { regionsData } from "../mfo/create-mfo-modal";
 import { DatePicker } from "antd";
 import { useAppSelector } from "@/store/store";
 import dayjs from "dayjs";
-import { useGetMfoQuery } from "@/store/mfo/mfosApi";
-import { updateMfoParams } from "@/store/mfo/mfo";
+import { updateUserParams } from "@/store/employee/employee";
+import { useGetUsersQuery } from "@/store/employee/employeApi";
 const { RangePicker } = DatePicker
 
 
@@ -24,13 +24,14 @@ const FilterSearch = ({ updateSearchParams, searchHidden = true, regionHidden = 
     const [search, setSearch] = useState(null);
     const searchVal = useDebounce(search, 800);
     const [range, setRange] = useState(null);
-    const { queryParams } = useAppSelector(state => state.mfos)
-    const { data, isSuccess } = useGetMfoQuery(queryParams);
+    const { queryParams } = useAppSelector(state => state.user)
+    const { data, isSuccess } = useGetUsersQuery(queryParams);
+    const { role } = useAppSelector(state => state.auth)
 
     const selectOptions = isSuccess ? data?.results?.map(item => ({
         value: item.id,
-        content: item.mfo_code,
-        text: item?.region,
+        content: item.mfo?.mfo_code,
+        text: item?.tab_number,
     })) : [];
 
     useEffect(() => {
@@ -51,6 +52,7 @@ const FilterSearch = ({ updateSearchParams, searchHidden = true, regionHidden = 
     }
 
 
+
     return (
         <div className="filter_container">
             {dateHidden && <RangePicker
@@ -67,24 +69,23 @@ const FilterSearch = ({ updateSearchParams, searchHidden = true, regionHidden = 
                 size="l" placeholder="Qdirish" />}
             {
                 mfoHidden && <Select
-                    placeholder={"MFO"}
+                    placeholder={"Xodimlar"}
                     options={selectOptions}
                     renderOption={(op) => <div>
-                        <span>{op.content} {" - "} {op.text}</span>
+                        <span>{op.content} {"/"} {op.text}</span>
                     </div>}
                     size='l'
-                    name='mfo'
-                    onUpdate={(e) => dispatch(updateSearchParams({ mfo: e?.[0] }))}
+                    onUpdate={(e) => dispatch(updateSearchParams({ employee: e?.[0] }))}
                     view='clear'
                     filterable
                     onFilterChange={(value) => {
-                        dispatch(updateMfoParams({ search: value || '' }));
+                        dispatch(updateUserParams({ search: value || '' }));
                     }}
 
                 />
             }
 
-            {regionHidden && <Select
+            {regionHidden && role !== "admin" && <Select
                 placeholder={"Viloyat nomi"}
                 options={regionsData}
                 renderOption={(op) => <div>

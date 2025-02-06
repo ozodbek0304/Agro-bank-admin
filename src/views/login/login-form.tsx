@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { useHandleLoginMutation } from '@/store/auth/authApi';
 import { LoginProps } from '@/interfaces/auth';
 import { loginSuccess } from '@/store/auth/auth';
+import toast from 'react-hot-toast';
 
 type Props = {};
 
@@ -34,15 +35,27 @@ export default function LoginForm({ }: Props) {
         initialValues,
         validationSchema,
         onSubmit: async ({ username, password }) => {
-            const resp: any = await handleLogin({  username, password })
-            if (resp?.error) {
-                formik.setErrors(resp?.error.data?.detail)
+            const resp: any = await handleLogin({ username, password })
+            if (resp?.error?.data) {
+                const errors = resp?.error?.data;
+                if (errors?.error) {
+                    toast.error(errors?.error);
+                }
+                const formikErrors: Record<string, string> = {};
+                Object.keys(errors).forEach(key => {
+                    formikErrors[key] = errors[key];
+                });
+
+                formik.setErrors(formikErrors);
+
+
             } else {
                 localStorage.setItem('username', username)
                 dispatch(loginSuccess(resp.data));
                 navigation('/');
             }
         },
+
     });
 
     return (

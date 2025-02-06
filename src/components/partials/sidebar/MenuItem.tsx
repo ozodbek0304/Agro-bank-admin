@@ -23,7 +23,7 @@ export default function MenuItem({ menuItem }: { menuItem: NavigationTypes }) {
         }
         navigate(menuItem.path)
         if (menuItem.path === "/blanks") {
-            dispatch(updateBlankParams({ search: "", employee: "", region: "", mfo: "" }))
+            dispatch(updateBlankParams({ search: "", employee: "", region: "", }))
         }
     }
 
