@@ -11,6 +11,7 @@ export interface UserItemType {
     created_at?:Date;
     status:boolean;
     region:string;
+    archived:boolean;
 }
 
 export interface CreateUserDto {

@@ -71,12 +71,12 @@ const UsersList = () => {
             },
         },
         {
-            id: 'status',
+            id: 'archived',
             name: "Holati",
             width: '10%',
             template(item) {
                 return (
-                    item?.status ?
+                    item?.archived ?
                         <span className='text-success'>{"Aktiv"}</span> :
                         <span className='text-danger'>{"Aktiv Emas"}</span>
                 )

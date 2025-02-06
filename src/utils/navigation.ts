@@ -1,11 +1,11 @@
 import { NavigationTypes } from "@/interfaces/app";
-import { ChartMixed, FaceAlien, GearDot, Persons, QrCode } from '@gravity-ui/icons';
+import {  FaceAlien, FileText, GearDot, PersonNutHex, Persons } from '@gravity-ui/icons';
 
 
 export const adminNavigation: NavigationTypes[] = [
     {
         name: "Anketalar",
-        icon: QrCode,
+        icon: FileText,
         path: '/blanks',
         childrens: []
     },
@@ -21,7 +21,7 @@ export const adminNavigation: NavigationTypes[] = [
 export const ceoNavigation: NavigationTypes[] = [
     {
         name: "Anketalar",
-        icon: QrCode,
+        icon: FileText,
         path: '/blanks',
         childrens: []
     },
@@ -38,8 +38,8 @@ export const ceoNavigation: NavigationTypes[] = [
         childrens: []
     },
     {
-        name: "MFO",
-        icon: ChartMixed,
+        name: "Mfo",
+        icon: PersonNutHex,
         path: '/mfo',
         childrens: []
     },
