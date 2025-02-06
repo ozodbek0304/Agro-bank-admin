@@ -7,7 +7,7 @@ import FilterSearch from "../filter/blank-filter";
 export default function PaymentsMain() {
     return (
         <div>
-            <FilterSearch updateSearchParams={updateBlankParams}/>
+            <FilterSearch updateSearchParams={updateBlankParams} mfoHidden />
             <PaymentsList />
             <EditPaymentModal />
         </div>

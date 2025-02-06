@@ -153,7 +153,7 @@ const UserDetailMain = () => {
             <div className="mb-4">
 
                 <h5>Anketalar</h5>
-                <FilterSearch updateSearchParams={updateBlankParams} dateHidden={true} />
+                <FilterSearch updateSearchParams={updateBlankParams} dateHidden={true} mfoHidden />
                 <div style={{ width: '100%', overflowX: 'auto' }}>
                     <div style={{ minWidth: '1100px' }}>
                         {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l'
@@ -171,16 +171,13 @@ const UserDetailMain = () => {
 
             <Modal footer={null} title="Batafsil ma'lumot" open={isModalOpen} onCancel={() => setIsModalOpen(false)}>
                 <ul className='pl-1 d-flex flex-column gap-1'>
-                    <li>
-                        <strong>ID:</strong> {selectItem?.id}
-                    </li>
-                    <li>
+                    {selectItem?.employee && <li>
                         <strong>Xodim:</strong> {selectItem?.employee}
-                    </li>
-                    <li>
+                    </li>}
+                    {selectItem?.mfo && <li>
                         <strong>MFO:</strong> {selectItem?.mfo}
-                    </li>
-                    <li className='d-flex gap-2 align-items-center'>
+                    </li>}
+                    {selectItem?.location && <li className='d-flex gap-2 align-items-center'>
                         <strong>Joylashuv:</strong> <div className="w-100 d-flex align-items-center gap-2">
                             <Link to={selectItem?.location}
                                 target="_blank">
@@ -193,34 +190,34 @@ const UserDetailMain = () => {
                                 copyToClipboard(copyData)
                             }} ><Copy /></span>
                         </div>
-                    </li>
-                    <li>
+                    </li>}
+                    {selectItem?.crm_id && <li>
                         <strong>CRM ID:</strong> {selectItem?.crm_id}
-                    </li>
-                    <li>
-                        <strong>To'lov summasi:</strong> {formatAmount(selectItem?.payment_amount || 0)}
-                    </li>
-                    <li>
+                    </li>}
+                    {selectItem?.payment_amount && <li>
+                        <strong>To'lov summasi:</strong> {formatAmount(selectItem?.payment_amount)}
+                    </li>}
+                    {selectItem?.region && <li>
                         <strong>Viloyat:</strong> {regionsTitle[selectItem?.region]}
-                    </li>
-                    <li>
-                        <strong>To'lov vaqti:</strong> {selectItem?.payment_date ? formatDateTime(selectItem.payment_date) : "---"}
-                    </li>
-                    <li>
-                        <strong>Yaratilgan vaqti:</strong> {selectItem?.created_at ? formatDateTime(selectItem.created_at) : "---"}
-                    </li>
-                    <li>
-                        <strong>Kenglik:</strong> {selectItem?.latitude ? selectItem?.latitude : "---"}
-                    </li>
-                    <li>
-                        <strong>Uzunlik:</strong> {selectItem?.longitude ? (selectItem.longitude) : "---"}
-                    </li>
-                    <li>
+                    </li>}
+                    {selectItem?.payment_date && <li>
+                        <strong>To'lov vaqti:</strong> {formatDateTime(selectItem.payment_date)}
+                    </li>}
+                    {selectItem?.created_at && <li>
+                        <strong>Yaratilgan vaqti:</strong> {formatDateTime(selectItem.created_at)}
+                    </li>}
+                    {selectItem?.latitude && <li>
+                        <strong>Kenglik:</strong> {selectItem?.latitude}
+                    </li>}
+                    {selectItem?.longitude && <li>
+                        <strong>Uzunlik:</strong> {selectItem?.longitude}
+                    </li>}
+                    {selectItem?.status?.name && <li>
                         <strong>Holati:</strong> {selectItem?.status?.name}
-                    </li>
-                    <li>
+                    </li>}
+                    {selectItem?.comment && <li>
                         <strong>Izoh:</strong> {selectItem?.comment}
-                    </li>
+                    </li>}
 
 
                 </ul>

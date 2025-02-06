@@ -1,4 +1,5 @@
 import { NavigationTypes } from "@/interfaces/app"
+import { updateBlankParams } from "@/store/payments/payments"
 import { useAppDispatch, useAppSelector } from "@/store/store"
 import { collepseMenu } from "@/store/theme"
 import useResponsive from "@/utils/useResponsive"
@@ -21,7 +22,12 @@ export default function MenuItem({ menuItem }: { menuItem: NavigationTypes }) {
             dispatch(collepseMenu())
         }
         navigate(menuItem.path)
+        if (menuItem.path === "/blanks") {
+            dispatch(updateBlankParams({ search: "", employee: "", region: "", mfo: "" }))
+        }
     }
+
+
 
     const isActive: boolean = location.pathname === menuItem.path || menuItem.path.split('/').includes(location.pathname?.split('/')?.[1])
 
