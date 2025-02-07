@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from '@/store/store';
 import { Button, Modal, Select, TextArea, TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
-import * as Yup from 'yup'
 import toast from 'react-hot-toast';
 import { useUpdateAdminMutation } from '@/store/payments/paymentsApi';
 import { useEffect } from 'react';
