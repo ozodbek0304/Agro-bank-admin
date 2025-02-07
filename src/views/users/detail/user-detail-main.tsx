@@ -63,7 +63,7 @@ const UserDetailMain = () => {
         {
             id: 'id',
             name: "#",
-            width: '7%',
+            width: '5%',
             template(item, index) {
                 return <div className='d-flex align-items-center gap-1'>
                     <span>{queryParams.offset + index + 1}</span>
@@ -72,9 +72,14 @@ const UserDetailMain = () => {
             },
         },
         {
+            id: 'blank_id',
+            name: "Anketa ID",
+            width: '10%',
+        },
+        {
             id: 'photo',
             name: "Rasm",
-            width: '10%',
+            width: '7%',
             template(item) {
                 return (
                     <div>
@@ -86,7 +91,7 @@ const UserDetailMain = () => {
         {
             id: 'employee',
             name: "Xodim",
-            width: '15%',
+            width: '13%',
         },
         {
             id: 'telegram_id',
@@ -96,7 +101,7 @@ const UserDetailMain = () => {
         {
             id: 'crm_id',
             name: "CRM ID",
-            width: '15%',
+            width: '10%',
         },
         {
             id: 'location',
@@ -128,9 +133,9 @@ const UserDetailMain = () => {
         {
             id: 'status',
             name: 'Holati',
-            width: "15%",
+            width: "20%",
             template(item) {
-                return (item.status?.name)
+                return (<div style={{ whiteSpace: "wrap" }}>{item.status?.parent} {item.status?.parent ? "/" : ""} {item.status?.name}</div>)
             },
         },
 
@@ -171,6 +176,9 @@ const UserDetailMain = () => {
 
             <Modal footer={null} title="Batafsil ma'lumot" open={isModalOpen} onCancel={() => setIsModalOpen(false)}>
                 <ul className='pl-1 d-flex flex-column gap-1'>
+                    {selectItem?.blank_id && <li>
+                        <strong>Anketa ID:</strong> {selectItem?.blank_id}
+                    </li>}
                     {selectItem?.employee && <li>
                         <strong>Xodim:</strong> {selectItem?.employee}
                     </li>}
@@ -213,7 +221,7 @@ const UserDetailMain = () => {
                         <strong>Uzunlik:</strong> {selectItem?.longitude}
                     </li>}
                     {selectItem?.status?.name && <li>
-                        <strong>Holati:</strong> {selectItem?.status?.name}
+                        <strong>Holati:</strong> {selectItem.status?.parent} {selectItem.status?.parent ? "/" : ""} {selectItem.status?.name}
                     </li>}
                     {selectItem?.comment && <li>
                         <strong>Izoh:</strong> {selectItem?.comment}

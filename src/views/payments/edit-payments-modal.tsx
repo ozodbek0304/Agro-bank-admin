@@ -37,13 +37,6 @@ const EditPaymentModal = () => {
             comment: '',
             employee: '',
         },
-        validationSchema: Yup.object({
-            latitude: Yup.string().required("Maydonni to'ldiring"),
-            payment_amount: Yup.string().required("Maydonni to'ldiring"),
-            longitude: Yup.string().required("Maydonni to'ldiring"),
-            comment: Yup.string().required("Maydonni to'ldiring"),
-            employee: Yup.string().required("Maydonni to'ldiring"),
-        }),
 
         onSubmit: async (values) => {
             try {

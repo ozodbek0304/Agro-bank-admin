@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from '@/store/store';
 import { Button, Modal, Select, TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
-import * as Yup from 'yup'
 import { useUpdateAdminMutation } from '@/store/admins/adminsApi';
 import PasswordInput from '@/components/elements/passwordInput';
 import PageLoader from '@/components/elements/Loader';
@@ -30,12 +29,6 @@ const EditAdminModal = () => {
             password: '',
             region: ''
         },
-        validationSchema: Yup.object({
-            full_name: Yup.string().required("Maydonni to'ldiring"),
-            username: Yup.string().required("Maydonni to'ldiring"),
-            region: Yup.string().required("Maydonni to'ldiring"),
-            password: Yup.string(),
-        }),
 
         onSubmit: async (values) => {
             const data: any = {

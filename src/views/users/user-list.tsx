@@ -41,7 +41,7 @@ const UsersList = () => {
         },
         {
             id: 'tab_number',
-            name: "Tab Number",
+            name: "Tab raqami",
             width: '12%',
         },
         {
@@ -76,7 +76,7 @@ const UsersList = () => {
             width: '10%',
             template(item) {
                 return (
-                    item?.archived ?
+                    !item?.archived ?
                         <span className='text-success'>{"Aktiv"}</span> :
                         <span className='text-danger'>{"Aktiv Emas"}</span>
                 )

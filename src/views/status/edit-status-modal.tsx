@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from '@/store/store';
 import { Button, Modal,TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
-import * as Yup from 'yup'
 import PageLoader from '@/components/elements/Loader';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
@@ -28,10 +27,6 @@ const EditStatusModal = () => {
                   name: '',
                   status_id: '',
               },
-              validationSchema: Yup.object({
-                  name: Yup.string().required("Maydonni to'ldiring"),
-                  status_id: Yup.string().required("Maydonni to'ldiring"),
-              }),
         onSubmit: async (values) => {
             try {
                 await updateAdmin({ id: userData?.id, ...values}).unwrap();

@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from '@/store/store';
 import { Button, Modal, Select, TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
-import * as Yup from 'yup'
 import PageLoader from '@/components/elements/Loader';
 import { useEffect } from 'react';
 import { useUpdateUserMutation } from '@/store/employee/employeApi';
@@ -38,12 +37,6 @@ const EditUserModal = () => {
             telegram_id: '',
             archived: "",
         },
-        validationSchema: Yup.object({
-            mfo: Yup.string().required("Maydonni to'ldiring"),
-            tab_number: Yup.string().required("Maydonni to'ldiring"),
-            crm_id: Yup.string().required("Maydonni to'ldiring"),
-        }),
-
         onSubmit: async (values) => {
             const formData = new FormData()
             if (values?.mfo) {
@@ -93,7 +86,7 @@ const EditUserModal = () => {
             formik.setFieldValue('tab_number', userData?.tab_number)
             formik.setFieldValue('crm_id', userData?.crm_id)
             formik.setFieldValue('telegram_id', userData?.telegram_id)
-            formik.setFieldValue('archived', userData?.archived)
+            formik.setFieldValue('archived', userData?.archived === true ? "true" : "false")
         }
     }, [userData]);
 
@@ -163,8 +156,8 @@ const EditUserModal = () => {
 
                         <Select
                             options={[
-                                { value: 'true', content: "Aktiv" },
-                                { value: 'false', content: 'Aktiv Emas' },
+                                { value: 'false', content: "Aktiv" },
+                                { value: 'true', content: 'Aktiv Emas' },
                             ]}
                             renderOption={(op) => <div>
                                 {op.content}
@@ -173,7 +166,7 @@ const EditUserModal = () => {
                             name='archived'
                             onBlur={formik.handleBlur}
                             onUpdate={(e) => formik.setFieldValue('archived', e[0])}
-                            value={[formik.values.archived ? "Aktiv" : "Aktiv Emas"]}
+                            value={[formik.values.archived === "true" ? "Aktiv Emas" : "Aktiv"]}
                             error={!!formik.errors.archived && formik.touched.archived}
                             view='clear'
                         />

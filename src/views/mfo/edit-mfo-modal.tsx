@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from '@/store/store';
 import { Button, Modal, Select, TextInput } from '@gravity-ui/uikit';
 import { useFormik } from 'formik';
 import './style.scss'
-import * as Yup from 'yup'
 import PageLoader from '@/components/elements/Loader';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
@@ -28,11 +27,6 @@ const EditMfoModal = () => {
             branch_name: '',
             region: ''
         },
-        validationSchema: Yup.object({
-            mfo_code: Yup.string().required("Maydonni to'ldiring"),
-            branch_name: Yup.string().required("Maydonni to'ldiring"),
-            region: Yup.string().required("Maydonni to'ldiring"),
-        }),
         onSubmit: async (values) => {
 
             try {
