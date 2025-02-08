@@ -13,6 +13,22 @@ interface Props {
     isSuccess: boolean,
 }
 
+export const selectChoic = [
+    {
+        value: 'in_one_month',
+        content: 'Bir oy ichida sana tanlay oladi',
+    },
+    {
+        value: 'ten_day_in_month',
+        content: '1 oy ichida 10 kun kirta oladi va pul miqdori',
+    },
+    {
+        value: 'ten_day_in_month_and_not_money',
+        content: "1 oy ichida 10 kun kirita oladi va pul miqdori yo'q",
+    }
+]
+
+
 const CreateStatusModal = ({ data, isSuccess }: Props) => {
     const { openCreate } = useAppSelector(state => state.status)
     const dispatch = useAppDispatch();
@@ -22,6 +38,7 @@ const CreateStatusModal = ({ data, isSuccess }: Props) => {
         content: item.name,
         text: item?.status_id,
     })) : [];
+
 
     const [createAdmin, { isLoading }] = useCreateStatusMutation()
 
@@ -33,7 +50,8 @@ const CreateStatusModal = ({ data, isSuccess }: Props) => {
         initialValues: {
             name: '',
             status_id: '',
-            parent: ''
+            parent: '',
+            requirement: ''
         },
         validationSchema: Yup.object({
             name: Yup.string().required("Maydonni to'ldiring"),
@@ -63,7 +81,8 @@ const CreateStatusModal = ({ data, isSuccess }: Props) => {
                 }
             }
         }
-    })
+    });
+
 
     return (
         <div>
@@ -74,6 +93,21 @@ const CreateStatusModal = ({ data, isSuccess }: Props) => {
                     </h5>
                     <form onSubmit={formik.handleSubmit} className="create-admin-form mt-2 d-flex flex-column gap-2">
 
+                        {data?.results?.some((item) => item?.children !== true) && <Select
+                            placeholder={"Majburiy qismlar"}
+                            options={selectChoic}
+                            renderOption={(op) => <div>
+                                {op.content}
+                            </div>}
+                            size='l'
+                            name='requirement'
+                            onBlur={formik.handleBlur}
+                            onUpdate={(e) => formik.setFieldValue('requirement', e[0])}
+                            value={[formik.values.requirement]}
+                            error={!!formik.errors.requirement && formik.touched.requirement}
+                            view='clear'
+                        />}
+                        {formik.errors.requirement && <span className='m-0 text-danger'>{formik.errors.requirement}</span>}
                         <Select
                             placeholder={"Holat "}
                             options={selectOptions}
@@ -103,6 +137,7 @@ const CreateStatusModal = ({ data, isSuccess }: Props) => {
 
 
                         <TextInput
+                            type='number'
                             placeholder="Holat ID"
                             size='l'
                             name='status_id'

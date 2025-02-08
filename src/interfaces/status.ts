@@ -1,10 +1,11 @@
 export interface StatusItemType {
     id?: any
-    name:string;
-    status_id:string;
-    parent?:string;
-    children?:any[];
-    level:number;
+    name: string;
+    status_id: string;
+    parent?: string;
+    children?: boolean;
+    level: number;
+    requirement?: string;
 }
 
 
