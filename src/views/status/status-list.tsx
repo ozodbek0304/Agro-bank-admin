@@ -24,6 +24,7 @@ const StatusLists = ({ data, isError, isFetching }: Props) => {
     const { queryParams } = useAppSelector(state => state.status)
     const dispatch = useAppDispatch();
     const MyTable: any = withTableActions(Table);
+    const { role } = useAppSelector(state => state.auth)
 
     const columns: TableColumnConfig<StatusItemType>[] = [
         {
@@ -64,11 +65,11 @@ const StatusLists = ({ data, isError, isFetching }: Props) => {
 
     const getRowActions: any = () => {
         return [
-            {
+            ...(role === "admin" ? [{
                 text: 'Tahrirlash',
                 icon: <PencilToSquare />,
                 handler: (item: StatusItemType) => dispatch(setUserData(item))
-            },
+            },] : [])
         ];
     };
 

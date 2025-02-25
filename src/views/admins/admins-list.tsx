@@ -12,8 +12,9 @@ import UserPagination from './user-pagination';
 
 
 const AdminsList = () => {
-     const { queryParams } = useAppSelector(state => state.admins)
+    const { queryParams } = useAppSelector(state => state.admins)
     const { data, isFetching, isError } = useGetAdminsQuery(queryParams)
+    const { role } = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
 
     const MyTable: any = withTableActions(Table);
@@ -39,38 +40,44 @@ const AdminsList = () => {
             width: '30%',
         },
         {
-                    id: 'created_at',
-                    name: "Yaratilgan sanasi",
-                    width: '19%',
-                    template(item) {
-                        return formatDateTime(item.created_at)
-                    },
-                },
-          {
-                   id: 'region',
-                   name: 'Viloyat',
-                   width: '30%',
-                   template: (item) =>(
-                    <span>{regionsTitle[item?.region]}</span>
-                   ),
-               }
+            id: 'created_at',
+            name: "Yaratilgan sanasi",
+            width: '19%',
+            template(item) {
+                return formatDateTime(item.created_at)
+            },
+        },
+        {
+            id: 'region',
+            name: 'Viloyat',
+            width: '30%',
+            template: (item) => (
+                <span>{regionsTitle[item?.region]}</span>
+            ),
+        }
     ];
 
-     
+
 
     const getRowActions: any = () => {
         return [
-            {
-                text: 'Tahrirlash',
-                icon: <PencilToSquare />,
-                handler: (item: AdminItemType) => dispatch(setAdminData(item))
-            },
-            {
-                text: "O'chirish",
-                icon: <TrashBin />,
-                theme: 'danger',
-                handler: (item: AdminItemType) => dispatch(setDeleteId(item.id))
-            },
+            ...(
+                role === "admin"
+                    ? [{
+                        text: 'Tahrirlash',
+                        icon: <PencilToSquare />,
+                        handler: (item: AdminItemType) => dispatch(setAdminData(item))
+                    },
+
+                    {
+                        text: "O'chirish",
+                        icon: <TrashBin />,
+                        theme: 'danger',
+                        handler: (item: AdminItemType) => dispatch(setDeleteId(item.id))
+                    },
+                    ]
+                    : []
+            ),
         ];
     };
 
@@ -78,7 +85,7 @@ const AdminsList = () => {
         <div style={{ width: '100%', overflowX: 'auto' }}>
             <div style={{ minWidth: '660px' }}>
                 {isError ? <ErrorBox /> : isFetching ? <TableLoader /> : <MyTable rowActionsSize='l' data={data?.results} columns={columns} getRowActions={getRowActions} />}
-                {!isFetching && data?.count>10 && <UserPagination total={data?.count} />}
+                {!isFetching && data?.count > 10 && <UserPagination total={data?.count} />}
             </div>
         </div>
     );

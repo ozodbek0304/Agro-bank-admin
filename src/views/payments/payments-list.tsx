@@ -22,6 +22,7 @@ import { copyToClipboard } from '../users/detail/user-detail-main';
 const PaymentsList = () => {
     const { queryParams } = useAppSelector(state => state.payments)
     const { data, isFetching, isError } = useGetPaymentsQuery(queryParams)
+    const { role } = useAppSelector(state => state.auth)
     const dispatch = useDispatch();
     const MyTable: any = withTableActions(Table);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -117,11 +118,11 @@ const PaymentsList = () => {
                 icon: <Eye />,
                 handler: (item: PaymentItemType) => { setSelectItem(item), setIsModalOpen(true) }
             },
-            {
+            ...(role === "admin" ? [{
                 text: 'Tahrirlash',
                 icon: <PencilToSquare />,
                 handler: (item: PaymentItemType) => dispatch(setPaymentData(item))
-            },
+            },] : [])
         ];
     };
 

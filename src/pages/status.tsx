@@ -13,13 +13,14 @@ const SettingsPage: React.FC = () => {
     const dispatch = useAppDispatch()
     const { isMobile } = useResponsive();
     const { queryParams } = useAppSelector(state => state.status)
-      const {data:dataBreadCrumbs, isSuccess:isSuccessBread}= useGetStatusSelectQuery(queryParams);
+    const { role } = useAppSelector(state => state.auth)
+    const { data: dataBreadCrumbs, isSuccess: isSuccessBread } = useGetStatusSelectQuery(queryParams);
 
 
     return (
         <div>
-                <PageHeader title='Holatlar' >
-                {isSuccessBread && dataBreadCrumbs?.length<3 && <Button view='outlined-success' size={isMobile ? 's' : 'l'} onClick={() => dispatch(setOpenCreate(true))} >
+            <PageHeader title='Holatlar' >
+                {isSuccessBread && dataBreadCrumbs?.length < 3 && role === "admin" && <Button view='outlined-success' size={isMobile ? 's' : 'l'} onClick={() => dispatch(setOpenCreate(true))} >
                     <Icon data={Plus} size={18} />
                     Yangi yaratish
                 </Button>}

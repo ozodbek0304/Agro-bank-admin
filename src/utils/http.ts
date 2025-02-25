@@ -2,7 +2,7 @@ import { logoutSuccess } from "@/store/auth/auth";
 import { store } from "@/store/store";
 import axios from "axios";
 
-const baseURL = "http://172.16.20.178:8000/api/v1"
+const baseURL = "https://bank.soffhub.uz/api/v1"
 
 const unAuthorizeCode = [403]
 

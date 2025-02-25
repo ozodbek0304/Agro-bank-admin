@@ -16,6 +16,7 @@ import { regionsTitle } from '../mfo/mfos-list';
 const UsersList = () => {
     const { queryParams } = useAppSelector(state => state.user)
     const { data, isFetching, isError } = useGetUsersQuery(queryParams)
+    const { role } = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -87,11 +88,11 @@ const UsersList = () => {
 
     const getRowActions = () => {
         return [
-            {
+            ...(role === "admin" ? [{
                 text: 'Tahrirlash',
                 icon: <PencilToSquare />,
                 handler: (item: UserItemType) => dispatch(setUserData(item))
-            }
+            }] : [])
         ];
     };
 
