@@ -2,7 +2,7 @@ import { logoutSuccess } from "@/store/auth/auth";
 import { store } from "@/store/store";
 import axios from "axios";
 
-const baseURL = import.meta.env.MODE === 'development' ? import.meta.env.VITE_TESTAPI_BASE_URL : import.meta.env.VITE_API_BASE_URL
+const baseURL = "http://172.16.20.178:8000/api/v1"
 
 const unAuthorizeCode = [403]
 
