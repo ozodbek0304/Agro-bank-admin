@@ -8,7 +8,7 @@ export default function Menu({ }: Props) {
 
     const { role } = useAppSelector(state => state.auth)
 
-    const navItems = role === 'admin' ? [...adminNavigation] : [...ceoNavigation]
+    const navItems = (role === 'admin' || role === "checker") ? [...adminNavigation] : [...ceoNavigation]
 
     return (
         <div className='menu'>

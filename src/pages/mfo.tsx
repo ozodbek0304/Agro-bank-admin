@@ -16,7 +16,7 @@ const MFOPages: React.FC = () => {
     return (
         <div>
             <PageHeader title='MFO' >
-                {role === "admin" && <Button view='outlined-success' size={isMobile ? 's' : 'l'} onClick={() => dispatch(setOpenCreate(true))} >
+                {role !== "checker" && <Button view='outlined-success' size={isMobile ? 's' : 'l'} onClick={() => dispatch(setOpenCreate(true))} >
                     <Icon data={Plus} size={18} />
                     Yangi yaratish
                 </Button>}

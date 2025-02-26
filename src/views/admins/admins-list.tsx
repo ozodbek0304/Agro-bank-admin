@@ -62,7 +62,7 @@ const AdminsList = () => {
     const getRowActions: any = () => {
         return [
             ...(
-                role === "admin"
+                role !== "checker"
                     ? [{
                         text: 'Tahrirlash',
                         icon: <PencilToSquare />,

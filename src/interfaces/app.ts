@@ -14,7 +14,7 @@ export interface NavigationTypes {
 export interface AppAuthTypes {
     isLogin: boolean
     token: string | null
-    role: 'admin' | 'superuser'
+    role: 'admin' | 'superuser'| "checker"
 }
 
 

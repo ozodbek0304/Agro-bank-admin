@@ -65,7 +65,7 @@ const StatusLists = ({ data, isError, isFetching }: Props) => {
 
     const getRowActions: any = () => {
         return [
-            ...(role === "admin" ? [{
+            ...(role !== "checker" ? [{
                 text: 'Tahrirlash',
                 icon: <PencilToSquare />,
                 handler: (item: StatusItemType) => dispatch(setUserData(item))

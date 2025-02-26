@@ -118,7 +118,7 @@ const PaymentsList = () => {
                 icon: <Eye />,
                 handler: (item: PaymentItemType) => { setSelectItem(item), setIsModalOpen(true) }
             },
-            ...(role === "admin" ? [{
+            ...(role !== "checker" ? [{
                 text: 'Tahrirlash',
                 icon: <PencilToSquare />,
                 handler: (item: PaymentItemType) => dispatch(setPaymentData(item))

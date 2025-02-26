@@ -68,7 +68,7 @@ const MfoLists = () => {
 
     const getRowActions: any = () => {
         return [
-            ...(role === "admin" ? [{
+            ...(role !== "checker" ? [{
                 text: 'Tahrirlash',
                 icon: <PencilToSquare />,
                 handler: (item: MfoItemType) => dispatch(setAdminData(item))

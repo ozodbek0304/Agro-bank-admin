@@ -88,7 +88,7 @@ const UsersList = () => {
 
     const getRowActions = () => {
         return [
-            ...(role === "admin" ? [{
+            ...(role !== "checker" ? [{
                 text: 'Tahrirlash',
                 icon: <PencilToSquare />,
                 handler: (item: UserItemType) => dispatch(setUserData(item))

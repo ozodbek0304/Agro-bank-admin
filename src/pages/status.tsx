@@ -20,7 +20,7 @@ const SettingsPage: React.FC = () => {
     return (
         <div>
             <PageHeader title='Holatlar' >
-                {isSuccessBread && dataBreadCrumbs?.length < 3 && role === "admin" && <Button view='outlined-success' size={isMobile ? 's' : 'l'} onClick={() => dispatch(setOpenCreate(true))} >
+                {isSuccessBread && dataBreadCrumbs?.length < 3 && role !== "checker" && <Button view='outlined-success' size={isMobile ? 's' : 'l'} onClick={() => dispatch(setOpenCreate(true))} >
                     <Icon data={Plus} size={18} />
                     Yangi yaratish
                 </Button>}
