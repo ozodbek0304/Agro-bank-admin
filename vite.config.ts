@@ -22,5 +22,8 @@ export default defineConfig({
     server: {
         host: true,
         port: 3737
-    }
+    },
+    preview: {
+        allowedHosts: ["admin.agro-net.uz"]
+      }
 });
