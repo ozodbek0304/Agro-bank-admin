@@ -2,7 +2,7 @@ import { logoutSuccess } from "@/store/auth/auth";
 import { store } from "@/store/store";
 import axios from "axios";
 
-const baseURL = "https://back.agro-net.uz/api/v1"
+const baseURL = "https://hard.agro-net.uz/api/v1"
 
 const unAuthorizeCode = [403]
 
